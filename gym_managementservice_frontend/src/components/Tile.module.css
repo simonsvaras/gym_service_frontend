@@ -1,0 +1,19 @@
+/* src/components/Tile.css */
+
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;       /* zruší podtržení odkazu */
+    color: #000000;                 /* textová barva */
+    background-color: #ec2626;   /* světle šedé pozadí */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 45vh;
+    height: 25vh;
+    transition: background-color 0.2s ease;
+}
+
+.tile:hover {
+    background-color: #ddd;      /* efekt po najetí myší */
+}

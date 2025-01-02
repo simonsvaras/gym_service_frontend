@@ -1,48 +1,16 @@
 /* HomePage.css */
-
-/* Kontejner celé stránky */
 .homepage-container {
-    display: flex;            /* Flexbox layout */
-    flex-direction: column;   /* Uspořádání prvků pod sebe */
-    align-items: center;      /* Horizontální zarovnání do středu */
-    justify-content: center;  /* Vertikální zarovnání do středu (pokud je výška daná) */
-    min-height: 100vh;        /* Zabírá celou výšku okna */
-    background-color: #f5f5f5; /* Světle šedé pozadí */
-}
-
-/* Nadpis */
-.homepage-title {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Podnadpis nebo odstavec */
-.homepage-subtitle {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #555;
-}
-
-/* Kontejner pro tlačítka */
-.homepage-buttons {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* prostor mezi tlačítky */
+    align-items: center;      /* Horizontální centrování */
+    justify-content: center;  /* Vertikální centrování */
+    min-height: 100vh;        /* Celá výška stránky */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Samotná tlačítka */
-.homepage-buttons button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #007bff; /* modrá barva */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* Hover efekt na tlačítka */
-.homepage-buttons button:hover {
-    background-color: #0056b3;
+.homepage-container h1 {
+    margin-bottom: 40px; /* Oddělení nadpisu od TilesSet */
+    text-align: center;  /* Centrovaný text */
 }

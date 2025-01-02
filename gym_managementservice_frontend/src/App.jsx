@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PageOne from './pages/RegisterUser.jsx';
 import PageTwo from './pages/ChargeSubscription.jsx';
+import RegisterUser from "./pages/RegisterUser.jsx";
+import ChargeSubscription from "./pages/ChargeSubscription.jsx";
 
 
 function App() {
@@ -16,8 +18,8 @@ function App() {
                 <Route path="/" element={<HomePage />} />
 
                 {/* 2) Další cesty -> PageOne, PageTwo, atd. */}
-                <Route path="/page1" element={<PageOne />} />
-                <Route path="/page2" element={<PageTwo />} />
+                <Route path="/page1" element={<RegisterUser />} />
+                <Route path="/page2" element={<ChargeSubscription />} />
             </Routes>
         </Router>
     );

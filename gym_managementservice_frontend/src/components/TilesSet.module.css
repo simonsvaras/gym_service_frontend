@@ -1,0 +1,10 @@
+/* src/components/TilesSet.css */
+.tilesSetContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 sloupce */
+    grid-template-rows: repeat(2, auto); /* 2 řady */
+    gap: 20px;
+    padding: 20px;
+    max-width: 100%;
+    justify-content: center; /* Centrovaní gridu horizontálně */
+}
