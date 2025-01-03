@@ -1,0 +1,8 @@
+/* src/components/RegistreUser.module.css */
+.registerUserContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Zajišťuje, že obsah je vertikálně centrován */
+    background-color: #242424; /* Přizpůsob dle potřeby */
+}

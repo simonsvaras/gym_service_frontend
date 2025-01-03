@@ -6,7 +6,7 @@ import styles from './TilesSet.module.css';
 function TilesSet() {
     return (
         <div className={styles.tilesSetContainer}>
-            <Tile title="Registrovat uživatele" link="/page1" />
+            <Tile title="Registrovat uživatele" link="/RegisterUser" />
             <Tile title="Dobít předplatné" link="/page2" />
             <Tile title="Page 3" link="/page3" />
             <Tile title="Page 4" link="/page4" />

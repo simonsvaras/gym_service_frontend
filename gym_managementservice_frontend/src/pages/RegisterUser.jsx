@@ -1,10 +1,11 @@
 import React from 'react';
+import RegistrationForm from "../components/RegistrationForm.jsx";
+import styles from './RegistreUser.module.css';
 
 function RegisterUser() {
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>Page 1</h2>
-            <p>Tady bude obsah pro Page 1</p>
+        <div className={styles.registerUserContainer}>
+            <RegistrationForm />
         </div>
     );
 }
