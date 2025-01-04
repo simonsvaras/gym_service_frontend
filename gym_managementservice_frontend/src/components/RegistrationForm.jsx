@@ -15,7 +15,7 @@ const RegistrationForm = () => {
             const response = await api.post('/users', data); // Použij relativní URL
             setMessage('Registrace úspěšná!');
         } catch (error) {
-            setMessage('Chyba při registraci.');
+            setMessage(error.response.data.error);
             console.error('Registrace chyba:', error);
         }
     };
@@ -27,23 +27,23 @@ const RegistrationForm = () => {
             {message && <p className={styles.message}>{message}</p>}
 
             <div className={styles.formGroup}>
-                <label htmlFor="firstName">Jméno</label>
+                <label htmlFor="firstname">Jméno</label>
                 <input
-                    id="firstName"
+                    id="firstname"
                     type="text"
-                    {...register('firstName', { required: 'Jméno je povinné' })}
+                    {...register('firstname', { required: 'Jméno je povinné' })}
                 />
                 {errors.firstName && <p className={styles.error}>{errors.firstName.message}</p>}
             </div>
 
             <div className={styles.formGroup}>
-                <label htmlFor="lastName">Příjmení</label>
+                <label htmlFor="lastname">Příjmení</label>
                 <input
-                    id="lastName"
+                    id="lastname"
                     type="text"
-                    {...register('lastName', { required: 'Příjmení je povinné' })}
+                    {...register('lastname', { required: 'Příjmení je povinné' })}
                 />
-                {errors.lastName && <p className={styles.error}>{errors.lastName.message}</p>}
+                {errors.lastname && <p className={styles.error}>{errors.lastname.message}</p>}
             </div>
 
             <div className={styles.formGroup}>
@@ -63,13 +63,13 @@ const RegistrationForm = () => {
             </div>
 
             <div className={styles.formGroup}>
-                <label htmlFor="dob">Datum narození</label>
+                <label htmlFor="birthdate">Datum narození</label>
                 <input
-                    id="dob"
+                    id="birthdate"
                     type="date"
-                    {...register('dob', { required: 'Datum narození je povinné' })}
+                    {...register('birthdate', { required: 'Datum narození je povinné' })}
                 />
-                {errors.dob && <p className={styles.error}>{errors.dob.message}</p>}
+                {errors.birthdate && <p className={styles.error}>{errors.birthdate.message}</p>}
             </div>
 
             <SimpleButton text="Registrovat" type="submit" />
