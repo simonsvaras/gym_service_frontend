@@ -1,0 +1,46 @@
+/* src/components/UserButton.module.css */
+.userButton {
+    background-color: #646cff;
+    border: none;
+    border-radius: 8px; /* Zvýšení zaoblení pro modernější vzhled */
+    color: #fff;
+    padding: 0.8rem 1.2rem; /* Větší padding pro lepší klikatelnost */
+    text-align: left;
+    cursor: pointer;
+    transition:
+            background-color 0.3s ease,
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    width: 100%;
+    margin: 0 auto; /* Centrum tlačítka */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userButton:hover {
+    background-color: #535bf2;
+    transform: translateY(-2px) scale(1.02); /* Lehké posunutí a zvětšení */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Intenzivnější stín */
+}
+
+.userButton:active {
+    transform: translateY(0) scale(1); /* Návrat do původní polohy */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Návrat do původního stínu */
+}
+
+.userButton span {
+    transition: color 0.3s ease;
+}
+
+.userButton:hover span {
+    color: #e0e0e0; /* Změna barvy textu při hover */
+}
+
+@media (max-width: 600px) {
+    .userButton {
+        padding: 0.6rem 1rem;
+        font-size: 14px;
+    }
+}

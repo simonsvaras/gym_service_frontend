@@ -15,16 +15,11 @@
 
 
 .mainContainer {
-    /* Rezerva pro header, aby se obsah neschovával za fixní horní lištu */
-    margin-top: 60px;
+    margin-top: 80px;
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    /* Minimální výška = celá výška prohlížeče - výška headeru */
+    align-items: flex-start;
     min-height: calc(100vh - 60px);
-
-    /* Pokud je obsah větší, umožníme scroll */
     overflow-y: auto;
 
     width: 100%;
@@ -38,7 +33,6 @@
     width: 100%;
 }
 
-/* Vlastní styly pro jednotlivé toasty */
 .toast {
     font-size: 16px;
     padding: 1.5rem;

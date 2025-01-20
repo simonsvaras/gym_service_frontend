@@ -1,0 +1,111 @@
+/* SearchUser.module.css */
+
+.searchUserContainer {
+    min-height: 100%;
+    width: 25%;
+    min-width: 200px;
+    max-width: 450px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header{
+    width: 100%;
+}
+
+.header h2 {
+    margin-bottom: 1rem; /* Zvýšení prostoru pod nadpisem */
+    text-align: center;
+    color: #000000; /* Bílé písmo pro lepší čitelnost */
+    font-size: 2rem; /* Větší velikost písma */
+}
+
+.searchBox {
+    position: relative;
+    width: 100%;
+}
+
+.searchBox input {
+    width: 80%;
+    height: 3rem;
+    padding: 0.75rem 1.5rem 0.75rem 3rem; /* Vnitřní odsazení pro prostor pro ikonu */
+    border: 1px solid #646cff;
+    border-radius: 8px; /* Zvýšení zaoblení pro modernější vzhled */
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    outline: none; /* Odstranění defaultního outline */
+}
+
+
+.searchBox input::placeholder {
+    color: #b0b0b0;
+    transition: opacity 0.3s ease;
+}
+
+.searchBox input:focus {
+    border-color: #535bf2;
+    box-shadow: 0 0 10px rgba(99, 123, 255, 0.5);
+    background-color: #3a3a3a;
+}
+
+.searchBox input:focus::placeholder {
+    opacity: 0.7;
+}
+
+.searchIcon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: #b0b0b0;
+    font-size: 1.2rem;
+    pointer-events: none; /* Zajišťuje, že ikona neblokuje interakci s inputem */
+    transition: color 0.3s ease;
+}
+
+.searchBox input:focus + .searchIcon {
+    color: #ffffff;
+}
+
+.loader {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #888;
+}
+
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 600px) {
+    .searchBox input {
+        height: 2.5rem;
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
+    }
+
+    .searchIcon {
+        left: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .loader {
+        right: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .header h2 {
+        font-size: 1.5rem;
+    }
+}
+

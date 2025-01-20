@@ -7,8 +7,8 @@ function TilesSet() {
     return (
         <div className={styles.tilesSetContainer}>
             <Tile title="Registrovat uživatele" link="/RegisterUser" />
-            <Tile title="Dobít předplatné" link="/page2" />
-            <Tile title="Page 3" link="/page3" />
+            <Tile title="Dobít předplatné" link="/ChargeUser" />
+            <Tile title="Najít uživatele" link="/SearchUser" />
             <Tile title="Page 4" link="/page4" />
             <Tile title="Page 5" link="/page5" />
             <Tile title="Page 6" link="/page6" />

@@ -10,6 +10,8 @@ import ChargeSubscription from './pages/ChargeSubscription';
 
 import Header from './components/Header';
 import styles from './App.module.css';
+import SearchUser from "./pages/SearchUser.jsx";
+import UserDetail from "./pages/UserDetail.jsx";
 
 function App() {
     return (
@@ -36,8 +38,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/RegisterUser" element={<RegisterUser />} />
-                    <Route path="/page2" element={<ChargeSubscription />} />
+                    <Route path="/ChargeUser" element={<ChargeSubscription />} />
+                    <Route path="/searchUser" element={<SearchUser />} />
                     {/* ...další cesty... */}
+
+                    <Route path="/users/:id" element={<UserDetail />} />
                 </Routes>
             </div>
         </Router>
