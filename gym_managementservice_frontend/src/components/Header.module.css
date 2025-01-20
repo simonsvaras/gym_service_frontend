@@ -1,0 +1,24 @@
+/* src/components/Header.module.css */
+.headerContainer {
+    position: fixed;   /* Fixně k hornímu okraji stránky */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem 1rem;
+
+    background-color: #333;
+    border-bottom: 2px solid #646cff;
+    z-index: 999;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 15em
+;
+}

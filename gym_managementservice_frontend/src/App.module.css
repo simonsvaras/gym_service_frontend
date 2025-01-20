@@ -1,0 +1,33 @@
+/* src/App.module.css */
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* Horizontální centrování */
+  justify-content: center;  /* Vertikální centrování */
+  min-height: 100vh;        /* Celá výška viewportu */
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: #242424; /* Zachování pozadí */
+  color: rgba(255, 255, 255, 0.90); /* Zachování textové barvy */
+}
+
+
+.mainContainer {
+    /* Rezerva pro header, aby se obsah neschovával za fixní horní lištu */
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Minimální výška = celá výška prohlížeče - výška headeru */
+    min-height: calc(100vh - 60px);
+
+    /* Pokud je obsah větší, umožníme scroll */
+    overflow-y: auto;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
