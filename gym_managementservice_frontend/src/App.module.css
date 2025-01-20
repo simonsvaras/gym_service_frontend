@@ -31,3 +31,31 @@
     box-sizing: border-box;
 }
 
+/* Vlastní styly pro ToastContainer */
+.toastContainer {
+    /* Přesuneme toasty pod header (60px výška headeru + 10px odsazení) */
+    top: 90px !important;
+    width: 100%;
+}
+
+/* Vlastní styly pro jednotlivé toasty */
+.toast {
+    font-size: 16px;
+    padding: 1.5rem;
+    min-width: 400px;
+}
+
+
+/* Příklady responsivních úprav */
+@media (max-width: 600px) {
+    .toastContainer {
+        top: 70px !important;
+    }
+
+    .toast {
+        font-size: 14px;
+        padding: 0.8rem 1.2rem;
+        min-width: 250px;
+    }
+}
+

@@ -1,5 +1,7 @@
+// src/components/RegistrationForm.jsx
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import styles from './RegistrationForm.module.css';
 import SimpleButton from './SimpleButton';
@@ -13,19 +15,8 @@ import UploadProfilePhoto from './UploadProfilePhoto';
  * @component
  */
 const RegistrationForm = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [message, setMessage] = useState('');
-
-    /**
-     * Stav určený k určení, zda registrace uživatele byla úspěšná.
-     * @type {boolean}
-     */
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
-
-    /**
-     * Stav pro ukládání ID nově vytvořeného uživatele získaného z API.
-     * @type {number|null}
-     */
     const [newUserId, setNewUserId] = useState(null);
 
     /**
@@ -37,13 +28,17 @@ const RegistrationForm = () => {
     const onSubmit = async (data) => {
         try {
             const response = await api.post('/users', data); // Relativní URL pro API endpoint
-            // Pokud server vrátí ID nově vytvořeného uživatele, uložíme ho do newUserId
+
+            // Uložení ID nově vytvořeného uživatele
             setNewUserId(response.data.id);
 
-            setMessage('Registrace úspěšná!');
+            // Nastavení stavu úspěšné registrace a zobrazení úspěšného toastu
             setRegistrationSuccess(true);
+            toast.success('Registrace úspěšná!');
         } catch (error) {
-            setMessage(error.response?.data?.error || 'Došlo k chybě při registraci.');
+
+            // Zobrazení chybového toastu s relevantní zprávou
+            toast.error(`Chyba při registraci: ${error.response?.data?.error || 'Došlo k chybě při registraci.'}`);
             console.error('Chyba při registraci:', error);
         }
     };
@@ -52,18 +47,15 @@ const RegistrationForm = () => {
     if (registrationSuccess) {
         return (
             <div>
-                <h2>{message}</h2>
                 <UploadProfilePhoto userId={newUserId} />
             </div>
         );
     }
 
-    // Jinak vykreslujeme původní registrační formulář
+    // Jinak vykreslujeme registrační formulář
     return (
         <form className={styles.registrationForm} onSubmit={handleSubmit(onSubmit)}>
             <h2>Registrace</h2>
-
-            {message && <p className={styles.message}>{message}</p>}
 
             <div className={styles.formGroup}>
                 <label htmlFor="firstname">Jméno</label>

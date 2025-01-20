@@ -1,5 +1,6 @@
 // src/components/UploadProfilePhoto.jsx
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify'; // Importujte toast z react-toastify
 import api from '../services/api.js';
 
 import styles from './UploadProfilePhoto.module.css';
@@ -15,7 +16,6 @@ import SimpleButton from './SimpleButton';
 const UploadProfilePhoto = ({ userId }) => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
-    const [uploadMessage, setUploadMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     /**
@@ -54,7 +54,7 @@ const UploadProfilePhoto = ({ userId }) => {
      */
     const handleUpload = async () => {
         if (!file) {
-            setUploadMessage('Nejdříve vyber soubor.');
+            toast.warning('Nejdříve vyber soubor.');
             return;
         }
 
@@ -64,14 +64,20 @@ const UploadProfilePhoto = ({ userId }) => {
         formData.append('profilePicture', file);
 
         try {
-            await api.post(`/users/${userId}/uploadProfilePicture`, formData, {
+            const response = await api.post(`/users/${userId}/uploadProfilePicture`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            setUploadMessage('Fotka úspěšně nahrána!');
+
+            // Zpracování varovného stavu, pokud API vrátí varování
+            if (response.data.warning) {
+                toast.warning(response.data.warning);
+            } else {
+                toast.success('Fotka úspěšně nahrána!');
+            }
         } catch (error) {
-            setUploadMessage('Nahrání fotky se nezdařilo: ' + (error.response?.data?.error || error.message));
+            toast.error('Nahrání fotky se nezdařilo: ' + (error.response?.data?.error || error.message));
             console.error('Chyba při nahrávání fotky:', error);
         } finally {
             setIsLoading(false);
@@ -108,10 +114,6 @@ const UploadProfilePhoto = ({ userId }) => {
                 type="button"
                 disabled={isLoading} // Zabránění vícenásobnému kliknutí během nahrávání
             />
-
-            {uploadMessage && (
-                <p className={styles.uploadMessage}>{uploadMessage}</p>
-            )}
         </div>
     );
 };
