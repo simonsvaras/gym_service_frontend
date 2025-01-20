@@ -58,10 +58,10 @@ function SearchUser() {
                 )}
                 {users.map((user) => (
                     <UserButton
-                        key={user.id}
+                        key={user.userID}
                         firstname={user.firstname}
                         lastname={user.lastname}
-                        onClick={() => handleUserClick(user.id)}
+                        onClick={() => handleUserClick(user.userID)}
                     />
                 ))}
             </div>
