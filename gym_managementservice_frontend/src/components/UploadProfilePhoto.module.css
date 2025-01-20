@@ -1,0 +1,42 @@
+/* src/components/UploadProfilePhoto.module.css */
+
+.uploadContainer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #1a1a1a;
+    border-radius: 8px;
+    color: #fff;
+    width: 100%;
+    max-width: 400px; /* případně uprav podle svých potřeb */
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#photoUpload {
+    margin-bottom: 0.5rem;
+}
+
+.previewContainer {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.previewImage {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #646cff;
+    border-radius: 8px;
+}
+
+.uploadMessage {
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+}

@@ -2,9 +2,14 @@
 import React from 'react';
 import styles from './SimpleButton.module.css';
 
-function SimpleButton({ text, onClick, type = 'button' }) {
+function SimpleButton({ text, onClick, type = 'button', disabled = false }) {
     return (
-        <button className={styles.button} onClick={onClick} type={type}>
+        <button
+            className={styles.button}
+            onClick={onClick}
+            type={type}
+            disabled={disabled}
+        >
             {text}
         </button>
     );
