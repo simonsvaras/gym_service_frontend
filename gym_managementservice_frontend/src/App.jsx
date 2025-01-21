@@ -12,6 +12,7 @@ import Header from './components/Header';
 import styles from './App.module.css';
 import SearchUser from "./pages/SearchUser.jsx";
 import UserDetail from "./pages/UserDetail.jsx";
+import ClosurePage from "./pages/ClosurePage.jsx";
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/RegisterUser" element={<RegisterUser />} />
                     <Route path="/ChargeUser" element={<ChargeSubscription />} />
                     <Route path="/searchUser" element={<SearchUser />} />
+                    <Route path="/closure" element={<ClosurePage />} />
                     {/* ...další cesty... */}
 
                     <Route path="/users/:id" element={<UserDetail />} />

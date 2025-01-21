@@ -9,7 +9,7 @@ function TilesSet() {
             <Tile title="Registrovat uživatele" link="/RegisterUser" />
             <Tile title="Dobít předplatné" link="/ChargeUser" />
             <Tile title="Najít uživatele" link="/SearchUser" />
-            <Tile title="Page 4" link="/page4" />
+            <Tile title="Uzávěrka" link="/closure" />
             <Tile title="Page 5" link="/page5" />
             <Tile title="Page 6" link="/page6" />
             <Tile title="Page 7" link="/page7" />
