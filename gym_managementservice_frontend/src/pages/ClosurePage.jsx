@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import PropTypes from 'prop-types';
 import styles from './ClosurePage.module.css';
 import TransactionHistoryTable from '../components/TransactionHistoryTable';
 import EntryHistoryTable from '../components/EntryHistoryTable';
@@ -7,6 +8,9 @@ import EntryHistoryTable from '../components/EntryHistoryTable';
 /**
  * Komponenta ClosurePage zajišťuje zobrazení uzávěrky gymu.
  * Umožňuje uživatelům vybrat časový rozsah a zobrazit historii vstupů a transakcí.
+ *
+ * @component
+ * @returns {JSX.Element} Stránka uzávěrky s formulářem a tabulkami historie.
  */
 function ClosurePage() {
     // Stavy pro ukládání hodnot formuláře a načtených dat
@@ -17,15 +21,19 @@ function ClosurePage() {
     const [loading, setLoading] = useState(false);        // Indikátor načítání
     const [error, setError] = useState('');               // Chybová zpráva
 
-    // Výpočet celkové ceny ze všech transakcí
-    const totalPrice = transactions.reduce((acc, tx) => acc + (tx.amount || 0), 0);
-
-    // Výpočet celkového počtu vstupů
+    /**
+     * Vypočítá celkový počet vstupů.
+     * @type {number}
+     */
     const totalEntries = entries.length;
 
     /**
      * Funkce pro načtení dat z API na základě vybraného časového rozsahu.
      * Používá Promise.all pro paralelní načítání vstupů a transakcí.
+     *
+     * @async
+     * @function handleFetchData
+     * @returns {Promise<void>} Načte data a aktualizuje stavy.
      */
     const handleFetchData = async () => {
         // Validace vstupů
@@ -60,8 +68,9 @@ function ClosurePage() {
 
     /**
      * Pomocná funkce pro formátování ISO řetězce na čitelný formát.
+     *
      * @param {string} isoString - ISO formátovaný řetězec data a času.
-     * @returns {string} - Formátované datum a čas ve formátu DD.MM.RRRR HH:MM.
+     * @returns {string} Formátované datum a čas ve formátu DD.MM.RRRR HH:MM.
      */
     const formatDate = (isoString) => {
         const date = new Date(isoString);
@@ -96,7 +105,7 @@ function ClosurePage() {
                 />
 
                 <button onClick={handleFetchData} disabled={loading}>
-                    {loading ? 'Načítám...' : 'Fetch data'}
+                    {loading ? 'Načítám...' : 'Načíst data'}
                 </button>
             </div>
 
@@ -109,18 +118,24 @@ function ClosurePage() {
                 <TransactionHistoryTable
                     transactions={transactions}
                     formatDate={formatDate}
-                    totalPrice={totalPrice}
+                    columns={['date', 'userName', 'purchaseType', 'amount']}
+                    showTotal={true} // Zobrazení součtu celkové ceny
                 />
 
                 {/* Tabulka vstupů */}
                 <EntryHistoryTable
                     entries={entries}
                     formatDate={formatDate}
-                    totalEntries={totalEntries}
+                    columns={['date', 'userName', 'subscriptionType']}
+                    showTotal={true} // Zobrazení celkového počtu vstupů
                 />
             </div>
         </div>
     );
 }
+
+ClosurePage.propTypes = {
+    // V této komponentě nejsou přímo přijímány props, ale můžete je přidat zde, pokud bude potřeba
+};
 
 export default ClosurePage;
