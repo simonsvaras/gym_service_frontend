@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import styles from './UserDetail.module.css';
+import UserInfoBox from '../components/UserInfoBox'; // Import nové komponenty
 
 function UserDetail() {
     const { id } = useParams();
@@ -45,34 +46,23 @@ function UserDetail() {
         return new Date(dateString).toLocaleDateString('cs-CZ', options);
     };
 
+    const hasActiveSubscription = user.activeSubscription; // Předpokládáme, že API vrací boolean
+    const latestSubscription = user.latestSubscription || null; // Předpokládáme, že API vrací objekt nebo null
+    const isExpiredSubscription = latestSubscription && new Date(latestSubscription.endDate) < new Date();
+
     return (
         <div className={styles.userDetailContainer}>
-            {/* Levá část: foto a základní info */}
-            <div className={styles.leftSide}>
-                <div className={styles.basicInfoSection}>
-                    <div className={styles.photoContainer}>
-                        {user.profileImageUrl ? (
-                            <img
-                                src={user.profileImageUrl}
-                                alt={`${user.firstname} ${user.lastname}`}
-                                className={styles.profilePhoto}
-                            />
-                        ) : (
-                            <div className={styles.placeholderPhoto}>Bez fotky</div>
-                        )}
-                    </div>
-
-                    <div className={styles.userInfo}>
-                        <h2>{user.firstname} {user.lastname}</h2>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Datum narození:</strong> {formatDate(user.birthdate)}</p>
-                        <p>
-                            <strong>Předplatné:</strong>{' '}
-                            {user.activeSubscription ? 'Aktivní' : 'Neaktivní'}
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {/* Levá část: foto a základní info - Použití nové komponenty UserInfoBox */}
+            <UserInfoBox
+                firstname={user.firstname}
+                lastname={user.lastname}
+                email={user.email}
+                birthdate={user.birthdate}
+                profilePhoto={user.profileImageUrl || null}
+                hasActiveSubscription={hasActiveSubscription}
+                latestSubscription={latestSubscription}
+                isExpiredSubscription={isExpiredSubscription}
+            />
 
             {/* Pravá část: historie vstupů a transakcí */}
             <div className={styles.rightSide}>

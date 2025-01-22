@@ -1,4 +1,4 @@
-/* ChargeSubscription.module.css */
+/* src/pages/ChargeSubscription.module.css */
 
 .chargeContainer {
     width: 70%;
@@ -25,79 +25,93 @@ h2 {
 .mainContent {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
-    align-items: flex-start;
-}
-
-/* -------------- INFO O UŽIVATELI -------------- */
-.userInfoBox {
-    display: flex;
-    flex-direction: row;
     gap: 5rem;
-    width: 60%; /* Zaujme 60% šířky kontejneru */
-    background-color: #2a2a2a;
-    padding: 1rem;
-    border-radius: 8px;
+    align-items: flex-start;
+    align-content: space-around;
+    justify-content: space-evenly
 }
 
-.photoContainer {
-    width: 10rem;
-    height: 10rem;
-    position: relative;
-}
-
-.profilePhoto {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 2px solid #646cff;
-    border-radius: 50%;
-}
-
-.placeholderPhoto {
-    width: 100%;
-    height: 100%;
-    border: 2px dashed #646cff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #646cff;
-}
-
-.infoContainer {
+/* Levá část: UserInfoBox a Checkbox */
+.leftColumn {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 0.3rem;
+    align-items: center;
+    gap: 1rem;
+    width: 45%; /* Zaujme 60% šířky kontejneru */
 }
 
-.studentSwitch {
-    margin-top: 0.5rem;
+/* Container pro checkbox a slider */
+.studentCheckboxContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1rem;
 }
 
-/* Nové styly pro informace o platnosti předplatného */
-.activeDate {
-    color: #28a745; /* zelená */
-    margin-top: 0.5rem;
+/* Stylování labelu jako přepínače */
+.studentCheckboxLabel {
+    display: inline-block;
+    position: relative;
+    width: 60px; /* Šířka slideru */
+    height: 34px; /* Výška slideru */
+    cursor: pointer;
+    margin-right: 1rem; /* Vzdálenost mezi sliderem a textem */
 }
 
-.expiredDate {
-    color: #ff6b6b; /* červená */
-    margin-top: 0.5rem;
+/* Skrytí checkboxu */
+.studentCheckbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.noSubscription {
-    color: #ff6b6b; /* červená */
-    margin-top: 0.5rem;
+/* Styl pro slider (pozadí) */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: background-color 0.4s;
 }
 
-/* -------------- AKCE: PŘEDPLATNÉ + JEDNORÁZOVKY -------------- */
+/* Styl pro kolečko slideru */
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.4s;
+}
+
+/* Změna pozadí slideru, když je checkbox zaškrtnutý */
+.studentCheckbox:checked + .slider {
+    background-color: #28a745;
+}
+
+/* Posunutí kolečka slideru, když je checkbox zaškrtnutý */
+.studentCheckbox:checked + .slider::before {
+    transform: translateX(26px);
+}
+
+/* Text vedle slideru */
+.labelText {
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* Pravý blok: akce */
 .actionsColumn {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    width: 40%; /* Zaujme 40% šířky kontejneru */
+    width: 45%;
 }
 
 /* Styl pro jednotlivé sekce akcí */
@@ -121,15 +135,6 @@ h2 {
 
 .subscriptionButtons button {
     width: 100%;
-}
-
-/* Odstranění původního select a jeho stylů, pokud ještě existuje */
-.subscriptionSection select {
-    display: none;
-}
-
-.oneTimeSection select {
-    display: none;
 }
 
 .oneTimeSection h4 {
@@ -178,11 +183,35 @@ h2 {
         flex-direction: column;
     }
 
-    .userInfoBox, .actionsColumn {
+    .leftColumn, .actionsColumn {
         width: 100%;
     }
 
     .subscriptionButtons {
         grid-template-columns: 1fr; /* Při menší šířce jedna kolona */
+    }
+
+    .labelText {
+        margin-left: 1.5rem;
+    }
+
+    .studentCheckboxLabel {
+        width: 50px;
+        height: 28px;
+    }
+
+    .slider::before {
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+    }
+
+    .studentCheckbox:checked + .slider::before {
+        transform: translateX(22px);
+    }
+
+    .labelText {
+        margin-left: 1rem;
     }
 }
