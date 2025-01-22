@@ -113,6 +113,7 @@ function UserDetail() {
             </div>
 
             <div className={styles.rightSide}>
+                <div className={styles.entryTable}>
                 {checkInHistory && checkInHistory.length > 0 ? (
                     <EntryHistoryTable
                         entries={checkInHistory}
@@ -123,7 +124,9 @@ function UserDetail() {
                 ) : (
                     <p className={styles.noData}>Žádné záznamy o vstupech.</p>
                 )}
+                </div>
 
+                <div className={styles.transactionTable}>
                 {transactions && transactions.length > 0 ? (
                     <TransactionHistoryTable
                         transactions={transactions}
@@ -134,6 +137,7 @@ function UserDetail() {
                 ) : (
                     <p className={styles.noData}>Žádné transakce.</p>
                 )}
+                </div>
             </div>
         </div>
     );

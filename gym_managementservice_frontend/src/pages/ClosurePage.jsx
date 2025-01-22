@@ -114,6 +114,7 @@ function ClosurePage() {
 
             {/* Kontejner pro dvě tabulky vedle sebe */}
             <div className={styles.tablesRow}>
+                <div className={styles.transactionTable}>
                 {/* Tabulka transakcí */}
                 <TransactionHistoryTable
                     transactions={transactions}
@@ -121,7 +122,9 @@ function ClosurePage() {
                     columns={['date', 'userName', 'purchaseType', 'amount']}
                     showTotal={true} // Zobrazení součtu celkové ceny
                 />
+                </div>
 
+                <div className={styles.entryTable}>
                 {/* Tabulka vstupů */}
                 <EntryHistoryTable
                     entries={entries}
@@ -129,6 +132,7 @@ function ClosurePage() {
                     columns={['date', 'userName', 'subscriptionType']}
                     showTotal={true} // Zobrazení celkového počtu vstupů
                 />
+                </div>
             </div>
         </div>
     );
