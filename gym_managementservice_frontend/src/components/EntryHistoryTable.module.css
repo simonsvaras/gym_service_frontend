@@ -1,19 +1,42 @@
+/* src/components/EntryHistoryTable.module.css */
+
 .tableWrapper {
     flex: 1;
     background-color: #2a2a2a;
     padding: 1rem;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    max-height: 400px; /* Nastavte požadovanou maximální výšku */
 }
 
 .tableWrapper h3 {
     margin-top: 0;
 }
 
-/* OBECNÉ STYLING PRO TABULKY */
+.tableContainer {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 0.5rem;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #3a3a3a;
+    z-index: 2;
+}
+
+.table tfoot td {
+    position: sticky;
+    bottom: 0;
+    background-color: #3a3a3a;
+    z-index: 2;
 }
 
 .table th,
@@ -24,15 +47,15 @@
 }
 
 .table th {
-    background-color: #3a3a3a;
+    /* Další styly pro hlavičku */
 }
 
-.table tfoot tr td {
+.table tfoot td {
     font-weight: bold;
-    background-color: #3a3a3a;
 }
 
 .noData {
     font-style: italic;
     color: #bbb;
+    text-align: center;
 }
