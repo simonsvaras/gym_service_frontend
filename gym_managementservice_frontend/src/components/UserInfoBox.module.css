@@ -1,0 +1,59 @@
+/* src/components/UserInfoBox.module.css */
+
+.userInfoBox {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    background-color: #2a2a2a;
+    padding: 1rem;
+    margin-left: 1rem;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.photoContainer {
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+}
+
+.profilePhoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid #646cff;
+    border-radius: 50%;
+}
+
+.placeholderPhoto {
+    width: 100%;
+    height: 100%;
+    border: 2px dashed #646cff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #646cff;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.activeDate {
+    color: #28a745; /* zelená */
+    margin-top: 0.5rem;
+}
+
+.expiredDate {
+    color: #ff6b6b; /* červená */
+    margin-top: 0.5rem;
+}
+
+.noSubscription {
+    color: #ff6b6b; /* červená */
+    margin-top: 0.5rem;
+}

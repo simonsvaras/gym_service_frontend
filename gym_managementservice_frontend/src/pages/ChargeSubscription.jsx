@@ -1,10 +1,11 @@
-// ChargeSubscription.jsx
+// src/pages/ChargeSubscription.jsx
 import React, { useEffect, useState, useMemo } from 'react';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import styles from './ChargeSubscription.module.css';
 import SimpleButton from '../components/SimpleButton';
 import SimpleModal from '../components/SimpleModal'; // Aktualizovaný import
+import UserInfoBox from '../components/UserInfoBox'; // Import nové komponenty
 
 function ChargeSubscription() {
     const userId = 1; // V reálu se může čerpat odjinud
@@ -198,6 +199,8 @@ function ChargeSubscription() {
                 });
 
                 toast.success(`Předplatné dobito, cena: ${modalPrice} Kč`);
+                // Možná chcete přenačíst data zde
+                // fetchAllData(); // Pokud je fetchAllData definována mimo useEffect
             } catch (err) {
                 console.error(err);
                 setError('Chyba při dobíjení předplatného.');
@@ -265,53 +268,31 @@ function ChargeSubscription() {
                 <p>Žádná data k zobrazení.</p>
             ) : (
                 <div className={styles.mainContent}>
-                    {/* Levý blok: info o uživateli */}
-                    <div className={styles.userInfoBox}>
-                        <div className={styles.photoContainer}>
-                            {user.profilePhoto ? (
-                                <img
-                                    src={`/profile-photos/${user.profilePhoto}`}
-                                    alt={`${user.firstname} ${user.lastname}`}
-                                    className={styles.profilePhoto}
+                    {/* Levý blok: info o uživateli - Použití nové komponenty UserInfoBox */}
+                    <div className={styles.leftColumn}>
+                        <UserInfoBox
+                            firstname={user.firstname}
+                            lastname={user.lastname}
+                            email={user.email}
+                            birthdate={user.birthdate}
+                            profilePhoto={user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null}
+                            hasActiveSubscription={hasActiveSubscription}
+                            latestSubscription={latestSubscription}
+                            isExpiredSubscription={latestSubscription && new Date(latestSubscription.endDate) < new Date()}
+                        />
+
+                        {/* Checkbox 'Je student?' pod UserInfoBox */}
+                        <div className={styles.studentCheckboxContainer}>
+                            <label className={styles.studentCheckboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    checked={isStudent}
+                                    onChange={(e) => setIsStudent(e.target.checked)}
+                                    className={styles.studentCheckbox}
                                 />
-                            ) : (
-                                <div className={styles.placeholderPhoto}>Bez fotky</div>
-                            )}
-                        </div>
-
-                        <div className={styles.infoContainer}>
-                            <h3>
-                                {user.firstname} {user.lastname}
-                            </h3>
-                            <p>Email: {user.email}</p>
-                            <p>Datum narození: {user.birthdate}</p>
-                            <p>Předplatné aktivní: {hasActiveSubscription ? 'Ano' : 'Ne'}</p>
-
-                            {}
-                            {hasActiveSubscription && latestSubscription ? (
-                                <p className={styles.activeDate}>
-                                    Platí do: {formatDate(new Date(latestSubscription.endDate))}
-                                </p>
-                            ) : latestSubscription && new Date(latestSubscription.endDate) < new Date() ? (
-                                <p className={styles.expiredDate}>
-                                    Platnost předplatného vypršela dne: {formatDate(new Date(latestSubscription.endDate))}
-                                </p>
-                            ) : (
-                                <p className={styles.noSubscription}>Žádné aktivní předplatné.</p>
-                            )}
-
-                            <p>Jednorázové vstupy: {oneTimeCount}</p>
-
-                            <div className={styles.studentSwitch}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={isStudent}
-                                        onChange={(e) => setIsStudent(e.target.checked)}
-                                    />
-                                    Je student?
-                                </label>
-                            </div>
+                                <span className={styles.slider}></span>
+                            </label>
+                            <span className={styles.labelText}>Je student?</span>
                         </div>
                     </div>
 
