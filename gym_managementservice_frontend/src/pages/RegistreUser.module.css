@@ -1,5 +1,6 @@
 /* src/components/RegistreUser.module.css */
 .registerUserContainer {
+    margin-top: 100px;
     width: 100%;
     border-radius: 8px;
     padding: 20px;

@@ -1,0 +1,188 @@
+/* ChargeSubscription.module.css */
+
+.chargeContainer {
+    width: 70%;
+    min-width: 600px;
+    margin: 7rem auto 0; /* Horizontální centrování */
+    padding: 1.5rem;
+    color: #fff;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.error {
+    color: #ff6b6b;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+/* Wrapper pro hlavní obsah: uživatelské info a akce */
+.mainContent {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* -------------- INFO O UŽIVATELI -------------- */
+.userInfoBox {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    width: 60%; /* Zaujme 60% šířky kontejneru */
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.photoContainer {
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+}
+
+.profilePhoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid #646cff;
+    border-radius: 50%;
+}
+
+.placeholderPhoto {
+    width: 100%;
+    height: 100%;
+    border: 2px dashed #646cff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #646cff;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.studentSwitch {
+    margin-top: 0.5rem;
+}
+
+/* Nové styly pro informace o platnosti předplatného */
+.activeDate {
+    color: #28a745; /* zelená */
+    margin-top: 0.5rem;
+}
+
+.expiredDate {
+    color: #ff6b6b; /* červená */
+    margin-top: 0.5rem;
+}
+
+.noSubscription {
+    color: #ff6b6b; /* červená */
+    margin-top: 0.5rem;
+}
+
+/* -------------- AKCE: PŘEDPLATNÉ + JEDNORÁZOVKY -------------- */
+.actionsColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 40%; /* Zaujme 40% šířky kontejneru */
+}
+
+/* Styl pro jednotlivé sekce akcí */
+.subscriptionSection, .oneTimeSection {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.subscriptionSection h4,
+.oneTimeSection h4 {
+    margin-top: 0;
+}
+
+.subscriptionButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.subscriptionButtons button {
+    width: 100%;
+}
+
+/* Odstranění původního select a jeho stylů, pokud ještě existuje */
+.subscriptionSection select {
+    display: none;
+}
+
+.oneTimeSection select {
+    display: none;
+}
+
+.oneTimeSection h4 {
+    margin-top: 0;
+}
+
+.oneTimeSection p {
+    margin: 0.5rem 0;
+}
+
+/* +− tlačítka */
+.counter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.counter button {
+    background-color: #646cff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.counter button:hover {
+    background-color: #535bf2;
+}
+
+.counter span {
+    font-size: 1.2rem;
+    width: 30px;
+    text-align: center;
+}
+
+/* -------------- MODÁLNÍ OKNO ODSTRANĚNO -------------- */
+/* Styly pro modální okno byly přesunuty do SimpleModal.module.css */
+
+/* Přidání responzivity pro menší obrazovky */
+@media (max-width: 800px) {
+    .mainContent {
+        flex-direction: column;
+    }
+
+    .userInfoBox, .actionsColumn {
+        width: 100%;
+    }
+
+    .subscriptionButtons {
+        grid-template-columns: 1fr; /* Při menší šířce jedna kolona */
+    }
+}

@@ -1,6 +1,7 @@
 /* src/pages/UserDetail.module.css */
 
 .userDetailContainer {
+    margin-top: 100px;
     width: 80%;
     height: 80%;
     display: flex;
@@ -8,7 +9,6 @@
     gap: 2rem;
     color: #fff;
     min-width: 400px; /* Můžeš zvětšit/zmenšit dle libosti */
-    margin: 20px auto;
     padding: 1rem;
     background-color: #1a1a1a;
     border-radius: 8px;
