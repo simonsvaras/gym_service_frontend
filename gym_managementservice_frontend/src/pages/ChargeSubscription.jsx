@@ -271,6 +271,7 @@ function ChargeSubscription() {
                     {/* Levý blok: info o uživateli - Použití nové komponenty UserInfoBox */}
                     <div className={styles.leftColumn}>
                         <UserInfoBox
+                            id={userId}
                             firstname={user.firstname}
                             lastname={user.lastname}
                             email={user.email}

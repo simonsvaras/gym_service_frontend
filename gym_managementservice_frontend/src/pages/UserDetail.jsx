@@ -6,34 +6,21 @@ import styles from './UserDetail.module.css';
 import UserInfoBox from '../components/UserInfoBox';
 import TransactionHistoryTable from '../components/TransactionHistoryTable';
 import EntryHistoryTable from '../components/EntryHistoryTable';
-import SimpleButton from '../components/SimpleButton'; // Import SimpleButton
+import SimpleButton from '../components/SimpleButton';
 
-/**
- * Komponenta UserDetail zobrazuje detaily uživatele, včetně historie transakcí a vstupů.
- *
- * @component
- * @returns {JSX.Element} Stránka detailu uživatele s informacemi a historií.
- */
 function UserDetail() {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [checkInHistory, setCheckInHistory] = useState([]);
-    const [loading, setLoading] = useState(true); // Nastaveno na true, dokud se všechna data nenačtou
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        /**
-         * Funkce pro načtení dat uživatele, transakcí a historie vstupů z API.
-         *
-         * @async
-         * @function fetchUserData
-         * @returns {Promise<void>} Načte data a aktualizuje stavy.
-         */
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                // Paralelní načítání dat
+                // Paralelně načítáme data o uživateli, transakcích a vstupech
                 const [userResponse, transactionsResponse, entriesResponse] = await Promise.all([
                     api.get(`/users/${id}`),
                     api.get(`/transaction-history/user/${id}`),
@@ -68,14 +55,11 @@ function UserDetail() {
 
     /**
      * Pomocná funkce pro formátování ISO řetězce na čitelný formát.
-     *
-     * @param {string} isoString - ISO formátovaný řetězec data a času.
-     * @returns {string} Formátované datum a čas ve formátu DD.MM.RRRR HH:MM.
      */
     const formatDate = (isoString) => {
         const date = new Date(isoString);
         const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Měsíce jsou indexovány od 0
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -86,31 +70,38 @@ function UserDetail() {
     const latestSubscription = user.latestSubscription || null;
     const isExpiredSubscription = latestSubscription && new Date(latestSubscription.endDate) < new Date();
 
-    // Získání posledního vstupu a transakce
-    const lastEntryDate = checkInHistory.length > 0 ? formatDate(checkInHistory[checkInHistory.length - 1].entryDate) : 'Nenalezeno';
-    const lastTransactionDate = transactions.length > 0 ? formatDate(transactions[transactions.length - 1].transactionDate) : 'Nenalezeno';
+    // Poslední vstup / transakce
+    const lastEntryDate = checkInHistory.length > 0
+        ? formatDate(checkInHistory[checkInHistory.length - 1].entryDate)
+        : 'Nenalezeno';
 
+    const lastTransactionDate = transactions.length > 0
+        ? formatDate(transactions[transactions.length - 1].transactionDate)
+        : 'Nenalezeno';
+
+    const profilePhoto = user.profilePhoto
+        ? user.profilePhoto
+        : null; // Když není fotka, zobrazí se placeholder
 
     return (
         <div className={styles.userDetailContainer}>
-            {/* Levá část: foto a základní info - Použití nové komponenty UserInfoBox */}
             <div className={styles.leftSide}>
                 <UserInfoBox
+                    id={parseInt(id, 10)}
                     firstname={user.firstname}
                     lastname={user.lastname}
                     email={user.email}
                     birthdate={user.birthdate}
-                    profilePhoto={user.profileImageUrl || null}
+                    profilePhoto={profilePhoto}
                     hasActiveSubscription={hasActiveSubscription}
                     latestSubscription={latestSubscription}
                     isExpiredSubscription={isExpiredSubscription}
                 />
 
-                {/* Přidané prvky: Tlačítko a informace */}
                 <div className={styles.additionalInfo}>
                     <SimpleButton
                         text="Přiřadit kartu"
-                        onClick={() => {}} // Momentálně žádná akce
+                        onClick={() => {}}
                     />
                     <div className={styles.infoItem}>
                         <strong>Poslední vstup:</strong> {lastEntryDate}
@@ -121,35 +112,33 @@ function UserDetail() {
                 </div>
             </div>
 
-            {/* Pravá část: historie vstupů a transakcí */}
             <div className={styles.rightSide}>
-                    {checkInHistory && checkInHistory.length > 0 ? (
-                        <EntryHistoryTable
-                            entries={checkInHistory}
-                            formatDate={formatDate}
-                            columns={['date']}
-                            showTotal={true} // Zobrazení celkového počtu vstupů
-                        />
-                    ) : (
-                        <p className={styles.noData}>Žádné záznamy o vstupech.</p>
-                    )}
-                    {transactions && transactions.length > 0 ? (
-                        <TransactionHistoryTable
-                            transactions={transactions}
-                            formatDate={formatDate}
-                            columns={['date', 'purchaseType', 'amount']}
-                            showTotal={true} // Nezobrazujeme součet
-                        />
-                    ) : (
-                        <p className={styles.noData}>Žádné transakce.</p>
-                    )}
+                {checkInHistory && checkInHistory.length > 0 ? (
+                    <EntryHistoryTable
+                        entries={checkInHistory}
+                        formatDate={formatDate}
+                        columns={['date']}
+                        showTotal={true}
+                    />
+                ) : (
+                    <p className={styles.noData}>Žádné záznamy o vstupech.</p>
+                )}
+
+                {transactions && transactions.length > 0 ? (
+                    <TransactionHistoryTable
+                        transactions={transactions}
+                        formatDate={formatDate}
+                        columns={['date', 'purchaseType', 'amount']}
+                        showTotal={true}
+                    />
+                ) : (
+                    <p className={styles.noData}>Žádné transakce.</p>
+                )}
             </div>
         </div>
     );
 }
 
-UserDetail.propTypes = {
-    // V této komponentě nejsou přímo přijímány props, ale můžete je přidat zde, pokud bude potřeba
-};
+UserDetail.propTypes = {};
 
 export default UserDetail;

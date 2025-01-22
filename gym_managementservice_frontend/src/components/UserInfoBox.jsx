@@ -1,8 +1,8 @@
-// src/components/UserInfoBox.jsx
 import React from 'react';
 import styles from './UserInfoBox.module.css';
 
 function UserInfoBox({
+                         id,
                          firstname,
                          lastname,
                          email,
@@ -10,7 +10,7 @@ function UserInfoBox({
                          profilePhoto,
                          hasActiveSubscription,
                          latestSubscription,
-                         isExpiredSubscription, // Nový prop pro expirované předplatné
+                         isExpiredSubscription,
                      }) {
     const formatDate = (dateObj) => {
         if (!dateObj) return '-';
@@ -21,12 +21,17 @@ function UserInfoBox({
         });
     };
 
+    // Sestavení URL pro profilovou fotku pomocí .env proměnné
+    const profilePhotoUrl = profilePhoto
+        ? `http://localhost:8080/api/users/${id}/profilePhoto`
+        : null;
+
     return (
         <div className={styles.userInfoBox}>
             <div className={styles.photoContainer}>
                 {profilePhoto ? (
                     <img
-                        src={profilePhoto}
+                        src={profilePhotoUrl}
                         alt={`${firstname} ${lastname}`}
                         className={styles.profilePhoto}
                     />
@@ -43,7 +48,7 @@ function UserInfoBox({
                 <p><strong>Datum narození:</strong> {formatDate(new Date(birthdate))}</p>
                 <p><strong>Předplatné aktivní:</strong> {hasActiveSubscription ? 'Ano' : 'Ne'}</p>
 
-                {/* Informace o platnosti předplatného */}
+                {/* Info o datech předplatného */}
                 {hasActiveSubscription && latestSubscription ? (
                     <p className={styles.activeDate}>
                         <strong>Platí do:</strong> {formatDate(new Date(latestSubscription.endDate))}
