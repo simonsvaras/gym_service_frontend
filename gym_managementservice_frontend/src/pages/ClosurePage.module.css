@@ -1,4 +1,3 @@
-/* src/pages/ClosurePage.module.css */
 .closureContainer {
     width: 80%;
     margin-top: 100px;
@@ -23,48 +22,9 @@ h2 {
 
 /* -------------- NÁVŠTĚVNOST + TRANSAKCE VE DVOU SLOUPCÍCH -------------- */
 .tablesRow {
-    display: flex;          /* Dva sloupce vedle sebe */
-    gap: 2rem;              /* Mezery mezi sloupci */
-    justify-content: space-around; /* Můžeš upravit dle libosti */
-}
-
-.tableWrapper {
-    flex: 1;
-    background-color: #2a2a2a;
-    padding: 1rem;
-    border-radius: 8px;
-}
-
-.tableWrapper h3 {
-    margin-top: 0;
-}
-
-/* -------------- OBECNÉ STYLING PRO TABULKY -------------- */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-}
-
-.table th,
-.table td {
-    border: 1px solid #646cff;
-    padding: 0.5rem;
-    text-align: left;
-}
-
-.table th {
-    background-color: #3a3a3a;
-}
-
-.table tfoot tr td {
-    font-weight: bold;
-    background-color: #3a3a3a;
-}
-
-.noData {
-    font-style: italic;
-    color: #bbb;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-around;
 }
 
 /* -------------- TLAČÍTKA, INPUTS -------------- */

@@ -1,7 +1,8 @@
-// src/pages/ClosurePage.jsx
 import React, { useState } from 'react';
 import api from '../services/api';
 import styles from './ClosurePage.module.css';
+import TransactionHistoryTable from '../components/TransactionHistoryTable';
+import EntryHistoryTable from '../components/EntryHistoryTable';
 
 /**
  * Komponenta ClosurePage zajišťuje zobrazení uzávěrky gymu.
@@ -105,83 +106,18 @@ function ClosurePage() {
             {/* Kontejner pro dvě tabulky vedle sebe */}
             <div className={styles.tablesRow}>
                 {/* Tabulka transakcí */}
-                <div className={styles.tableWrapper}>
-                    <h3>Historie transakcí</h3>
-                    {transactions.length > 0 ? (
-                        <table className={styles.table}>
-                            <thead>
-                            <tr>
-                                <th>Datum/čas</th>
-                                <th>Jméno uživatele</th>
-                                <th>Položka</th>
-                                <th>Cena</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {transactions.map((tx, index) => (
-                                <tr key={index}>
-                                    <td>{formatDate(tx.transactionDate)}</td>
-                                    {/*
-                                            Použití více operátorů || může vést k nechtěnému chování.
-                                            Lepší je použít ternární operátor pro jasnější logiku.
-                                        */}
-                                    <td>
-                                        {tx.firstName && tx.lastName
-                                            ? `${tx.firstName} ${tx.lastName}`
-                                            : tx.userId}
-                                    </td>
-                                    <td>{tx.purchaseType /* nebo tx.itemName */}</td>
-                                    <td>{tx.amount} Kč</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colSpan="3"><strong>Celkem</strong></td>
-                                <td><strong>{totalPrice} Kč</strong></td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    ) : (
-                        <p className={styles.noData}>Žádné transakce v tomto období.</p>
-                    )}
-                </div>
+                <TransactionHistoryTable
+                    transactions={transactions}
+                    formatDate={formatDate}
+                    totalPrice={totalPrice}
+                />
 
                 {/* Tabulka vstupů */}
-                <div className={styles.tableWrapper}>
-                    <h3>Historie vstupů</h3>
-                    {entries.length > 0 ? (
-                        <table className={styles.table}>
-                            <thead>
-                            <tr>
-                                <th>Datum/čas</th>
-                                <th>Jméno uživatele</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {entries.map((en, index) => (
-                                <tr key={index}>
-                                    <td>{formatDate(en.entryDate)}</td>
-                                    <td>
-                                        {en.firstName && en.lastName
-                                            ? `${en.firstName} ${en.lastName}`
-                                            : en.userID}
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colSpan="2">
-                                    <strong>Celkový počet vstupů: {totalEntries}</strong>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    ) : (
-                        <p className={styles.noData}>Žádné vstupy v tomto období.</p>
-                    )}
-                </div>
+                <EntryHistoryTable
+                    entries={entries}
+                    formatDate={formatDate}
+                    totalEntries={totalEntries}
+                />
             </div>
         </div>
     );
