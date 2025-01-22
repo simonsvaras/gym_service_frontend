@@ -7,7 +7,7 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    max-height: 400px; /* Nastavte požadovanou maximální výšku */
+    height: 50%;
 }
 
 .tableWrapper h3 {

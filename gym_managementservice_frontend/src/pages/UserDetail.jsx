@@ -6,6 +6,7 @@ import styles from './UserDetail.module.css';
 import UserInfoBox from '../components/UserInfoBox';
 import TransactionHistoryTable from '../components/TransactionHistoryTable';
 import EntryHistoryTable from '../components/EntryHistoryTable';
+import SimpleButton from '../components/SimpleButton'; // Import SimpleButton
 
 /**
  * Komponenta UserDetail zobrazuje detaily uživatele, včetně historie transakcí a vstupů.
@@ -81,10 +82,14 @@ function UserDetail() {
         return `${day}.${month}.${year} ${hours}:${minutes}`;
     };
 
-
     const hasActiveSubscription = user.activeSubscription;
     const latestSubscription = user.latestSubscription || null;
     const isExpiredSubscription = latestSubscription && new Date(latestSubscription.endDate) < new Date();
+
+    // Získání posledního vstupu a transakce
+    const lastEntryDate = checkInHistory.length > 0 ? formatDate(checkInHistory[checkInHistory.length - 1].entryDate) : 'Nenalezeno';
+    const lastTransactionDate = transactions.length > 0 ? formatDate(transactions[transactions.length - 1].transactionDate) : 'Nenalezeno';
+
 
     return (
         <div className={styles.userDetailContainer}>
@@ -100,11 +105,24 @@ function UserDetail() {
                     latestSubscription={latestSubscription}
                     isExpiredSubscription={isExpiredSubscription}
                 />
+
+                {/* Přidané prvky: Tlačítko a informace */}
+                <div className={styles.additionalInfo}>
+                    <SimpleButton
+                        text="Přiřadit kartu"
+                        onClick={() => {}} // Momentálně žádná akce
+                    />
+                    <div className={styles.infoItem}>
+                        <strong>Poslední vstup:</strong> {lastEntryDate}
+                    </div>
+                    <div className={styles.infoItem}>
+                        <strong>Poslední transakce:</strong> {lastTransactionDate}
+                    </div>
+                </div>
             </div>
 
             {/* Pravá část: historie vstupů a transakcí */}
             <div className={styles.rightSide}>
-                <div className={styles.historySection}>
                     {checkInHistory && checkInHistory.length > 0 ? (
                         <EntryHistoryTable
                             entries={checkInHistory}
@@ -115,9 +133,6 @@ function UserDetail() {
                     ) : (
                         <p className={styles.noData}>Žádné záznamy o vstupech.</p>
                     )}
-                </div>
-
-                <div className={styles.historySection}>
                     {transactions && transactions.length > 0 ? (
                         <TransactionHistoryTable
                             transactions={transactions}
@@ -128,7 +143,6 @@ function UserDetail() {
                     ) : (
                         <p className={styles.noData}>Žádné transakce.</p>
                     )}
-                </div>
             </div>
         </div>
     );
