@@ -1,14 +1,33 @@
 /* src/components/SimpleButton.module.css */
 .button {
+    display: flex; /* Použití flexboxu pro zarovnání obsahu */
+    align-items: center; /* Vertikální zarovnání ikon a textu */
+    justify-content: center; /* Horizontální zarovnání */
     padding: 0.6rem 1rem;
     background-color: #646cff;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 16px; /* Zajišťuje konzistentní velikost písma */
 }
 
 .button:hover {
-    background-color: #0056b3; /* tmavší odstín při hoveru */
+    background-color: #0056b3; /* Tmavší odstín při hoveru */
+}
+
+.button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.icon {
+    margin-right: 8px; /* Vzdálenost mezi ikonou a textem */
+    font-size: 2em; /* Velikost ikony */
+}
+
+/* Pokud tlačítko neobsahuje text, odstraní se margin-right u ikony */
+.button.noText .icon {
+    margin-right: 0;
 }
