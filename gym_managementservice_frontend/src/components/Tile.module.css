@@ -1,19 +1,74 @@
-/* src/components/Tile.css */
-
+/* src/components/Tile.module.css */
 .tile {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;       /* zruší podtržení odkazu */
-    color: #000000;                 /* textová barva */
-    background-color: #ec2626;   /* světle šedé pozadí */
+    text-decoration: none;
+    color: #000;
+    /* Původní background-color odstraníme (nebo ponecháme jako fallback v JS).
+       background-color: #ec2626; */
     border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 45vh;
-    height: 25vh;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
     transition: background-color 0.2s ease;
+    font-size: 1.3em;
 }
 
 .tile:hover {
-    background-color: #ddd;      /* efekt po najetí myší */
+    background-color: #b20000;
+    opacity: 0.9;
+}
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Umístění ikony vedle textu vlevo */
+.icon-left {
+    flex-direction: row;
+}
+
+/* Umístění ikony vedle textu vpravo */
+.icon-right {
+    flex-direction: row-reverse;
+}
+
+/* Umístění ikony nad textem */
+.icon-top {
+    flex-direction: column;
+}
+
+/* Umístění ikony pod textem */
+.icon-bottom {
+    flex-direction: column-reverse;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Vzdálenost mezi ikonou a titulkem podle pozice */
+.icon-left .icon {
+    margin-right: 8px;
+}
+
+.icon-right .icon {
+    margin-left: 8px;
+}
+
+.icon-top .icon {
+    margin-bottom: 8px;
+}
+
+.icon-bottom .icon {
+    margin-top: 8px;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.2em;
 }
