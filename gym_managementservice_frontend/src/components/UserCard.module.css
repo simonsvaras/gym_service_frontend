@@ -1,0 +1,72 @@
+.userCard {
+    display: flex;
+    background-color: var(--backgroud-color);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 100px;
+    height: 7em;
+    cursor: pointer; /* Změní kurzor na "ruku" */
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    color: var(--component-background);
+}
+
+/* Efekt při hover */
+.userCard:hover {
+    background-color: var(--button-background-darker);
+    color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.leftSide {
+    flex: 0 0 auto;
+    width: 100px; /* pevná šířka pro fotku */
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profilePhoto {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.profilePlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px;
+}
+
+.rightSide {
+    flex: 1;
+    padding: 10px;
+}
+
+.userName {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+}
+
+.subscriptionInfo {
+    margin: 4px 0;
+}
+
+.subscriptionInfo:hover {
+    color: var(--backgroud-color);
+}
+
+
+.lastEntry {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+.lastEntry:hover {
+    color: var(--backgroud-color);
+}

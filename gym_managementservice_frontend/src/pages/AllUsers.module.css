@@ -1,0 +1,33 @@
+.allUsersContainer {
+    margin-top: 11vh;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    max-width: 95vw;
+}
+
+.pageTitle {
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* Kontejner, který bude držet karty ve 3 sloupcích */
+.cardsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2em;
+    background-color: var(--main-content-background);
+    padding: 2em;
+    border-radius: 10px;
+    max-height: 70vw;
+    overflow: auto;
+}
+
+/* Příklad pro chybový text */
+.errorText {
+    color: red;
+    font-weight: bold;
+}

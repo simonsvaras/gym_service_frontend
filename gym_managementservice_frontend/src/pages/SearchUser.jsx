@@ -42,7 +42,7 @@ function SearchUser() {
     };
 
     const showAllUsers = () => {
-        setVisibleUsers(users.length);
+        navigate('/users/allUsers');
     };
 
     const findByCard = () => {

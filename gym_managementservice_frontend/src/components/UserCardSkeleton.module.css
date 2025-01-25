@@ -1,0 +1,53 @@
+.skeletonCard {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 100px;
+    margin: 0; /* V případě potřeby */
+}
+
+.skeletonLeft {
+    width: 100px;
+    background-color: #eee;
+}
+
+.skeletonRight {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeletonLine {
+    width: 80%;
+    height: 12px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+/* Kratší linka, aby to bylo trochu pestřejší */
+.skeletonLineShort {
+    width: 60%;
+    height: 12px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+@keyframes pulse {
+    0% {
+        background-color: #eee;
+    }
+    50% {
+        background-color: #f5f5f5;
+    }
+    100% {
+        background-color: #eee;
+    }
+}
+
+.skeletonLine,
+.skeletonLineShort,
+.skeletonLeft {
+    animation: pulse 1.5s infinite ease-in-out;
+}

@@ -146,3 +146,4 @@ function UserDetail() {
 UserDetail.propTypes = {};
 
 export default UserDetail;
+
