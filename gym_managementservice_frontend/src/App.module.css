@@ -20,7 +20,7 @@
     align-items: flex-start;
     min-height: calc(100vh);
     overflow-y: auto;
-    background-color: #f7f0f0;
+    background-color: var(--backgroud-color);
     width: 100%;
     box-sizing: border-box;
 }

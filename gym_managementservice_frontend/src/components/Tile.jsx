@@ -6,7 +6,7 @@ import styles from './Tile.module.css';
 function Tile({ title, link, className, color, icon, iconPosition = 'left', iconSize = '6em' }) {
     // Nastavíme inline styl s barvou pozadí
     const tileStyle = {
-        backgroundColor: color || '#f7f0f0', // fallback když není prop color
+        backgroundColor: color || '#f7f0f0',
     };
 
     // Dynamické třídy pro umístění ikony

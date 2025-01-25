@@ -9,7 +9,7 @@
     height: 60vh;
     width: 85vw;
     border-radius: 10px;
-    background-color: #484349;
+    background-color: var(--component-background);
     /* Každý řádek v uvozovkách reprezentuje jeden řádek gridu.
        Uvnitř řádku jmenujeme "areas" pro 4 sloupce. */
     grid-template-areas:

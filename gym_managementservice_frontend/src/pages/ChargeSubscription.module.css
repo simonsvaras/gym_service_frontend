@@ -6,7 +6,7 @@
     margin: 7rem auto 0; /* Horizontální centrování */
     padding: 1.5rem;
     color: #fff;
-    background-color: #1a1a1a;
+    background-color: var(--main-content-background);
     border-radius: 8px;
 }
 
@@ -116,7 +116,7 @@ h2 {
 
 /* Styl pro jednotlivé sekce akcí */
 .subscriptionSection, .oneTimeSection {
-    background-color: #2a2a2a;
+    background-color: var(--component-background);
     padding: 1rem;
     border-radius: 8px;
 }

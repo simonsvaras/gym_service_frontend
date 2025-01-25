@@ -50,7 +50,7 @@ function TilesSet() {
                 iconSize="3em"
             />
             <Tile
-                title="Page 6"
+                title="Dobít ručně"
                 link="/page6"
                 className={styles.tile6}
             />

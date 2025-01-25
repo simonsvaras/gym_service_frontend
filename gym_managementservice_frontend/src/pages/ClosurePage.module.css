@@ -61,9 +61,7 @@ h2 {
     gap: 1rem;
 }
 
-.formRow button:hover {
-    background-color: #535bf2;
-}
+
 
 .errorMsg {
     color: #ff6b6b;

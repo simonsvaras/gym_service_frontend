@@ -4,21 +4,20 @@
     align-items: center; /* Vertikální zarovnání ikon a textu */
     justify-content: center; /* Horizontální zarovnání */
     padding: 0.6rem 1rem;
-    background-color: #646cff;
+    background-color: var(--button-background);
     color: #fff;
-    border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-size: 16px; /* Zajišťuje konzistentní velikost písma */
+    font-size: 16px;
 }
 
 .button:hover {
-    background-color: #0056b3; /* Tmavší odstín při hoveru */
+    background-color: var(--button-background-hover); /* Tmavší odstín při hoveru */
 }
 
 .button:disabled {
-    background-color: #cccccc;
+    background-color: var(--button-background-disabled);
     cursor: not-allowed;
 }
 
