@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * @file UserDetail.jsx
+ * Stránka s detailem uživatele: zobrazuje informace, transakce a historii vstupů.
+ */
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../services/api';
+import { toast } from 'react-toastify';  // Použijeme pro chybové hlášky
 import PropTypes from 'prop-types';
 import styles from './UserDetail.module.css';
+
+import useUserData from '../hooks/useUserData';
+import useUserTransactions from '../hooks/useUserTransactions';
+import useEntryHistory from '../hooks/useEntryHistory';
+import { formatDate } from '../utils/dateUtils';
+
 import UserInfoBox from '../components/UserInfoBox';
 import TransactionHistoryTable from '../components/TransactionHistoryTable';
 import EntryHistoryTable from '../components/EntryHistoryTable';
@@ -10,78 +20,70 @@ import SimpleButton from '../components/SimpleButton';
 
 function UserDetail() {
     const { id } = useParams();
-    const [user, setUser] = useState(null);
-    const [transactions, setTransactions] = useState([]);
-    const [checkInHistory, setCheckInHistory] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
 
+    // 1) Data o uživateli
+    const {
+        user,
+        loading: loadingUser,
+        error: errorUser
+    } = useUserData(id);
+
+    // 2) Transakce
+    const {
+        transactions,
+        loading: loadingTransactions,
+        error: errorTransactions
+    } = useUserTransactions(id);
+
+    // 3) Historie vstupů
+    const {
+        checkInHistory,
+        loading: loadingEntries,
+        error: errorEntries
+    } = useEntryHistory(id);
+
+    // Sloučíme loading a error stavy do jedné proměnné
+    const loading = loadingUser || loadingTransactions || loadingEntries;
+    const error = errorUser || errorTransactions || errorEntries;
+
+    // Když se objeví error, zobrazíme toastify notifikaci
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                setLoading(true);
-                // Paralelně načítáme data o uživateli, transakcích a vstupech
-                const [userResponse, transactionsResponse, entriesResponse] = await Promise.all([
-                    api.get(`/users/${id}`),
-                    api.get(`/transaction-history/user/${id}`),
-                    api.get(`/entry-history/user/${id}`)
-                ]);
+        if (error) {
+            toast.error(error);
+        }
+    }, [error]);
 
-                setUser(userResponse.data);
-                setTransactions(transactionsResponse.data);
-                setCheckInHistory(entriesResponse.data);
-            } catch (err) {
-                console.error('Chyba při načítání dat:', err);
-                setError('Nepodařilo se načíst data uživatele.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserData();
-    }, [id]);
-
+    // Pokud se načítá, ukážeme "Načítám..."
     if (loading) {
         return <p className={styles.loadingText}>Načítám uživatele...</p>;
     }
 
+    // Pokud máme error, můžeme vrátit prázdný fragment (toast je již zobrazen)
     if (error) {
-        return <p className={styles.errorText}>{error}</p>;
+        return null;
     }
 
+    // Pokud chybí uživatel, nic nezobrazujeme (fallback)
     if (!user) {
         return null;
     }
 
-    /**
-     * Pomocná funkce pro formátování ISO řetězce na čitelný formát.
-     */
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${day}.${month}.${year} ${hours}:${minutes}`;
-    };
-
+    // Logika ohledně subscription (mock z props user)
     const hasActiveSubscription = user.activeSubscription;
     const latestSubscription = user.latestSubscription || null;
-    const isExpiredSubscription = latestSubscription && new Date(latestSubscription.endDate) < new Date();
+    const isExpiredSubscription =
+        latestSubscription && new Date(latestSubscription.endDate) < new Date();
 
     // Poslední vstup / transakce
-    const lastEntryDate = checkInHistory.length > 0
+    const lastEntryDate = (checkInHistory?.length > 0)
         ? formatDate(checkInHistory[checkInHistory.length - 1].entryDate)
         : 'Nenalezeno';
 
-    const lastTransactionDate = transactions.length > 0
+    const lastTransactionDate = (transactions?.length > 0)
         ? formatDate(transactions[transactions.length - 1].transactionDate)
         : 'Nenalezeno';
 
-    const profilePhoto = user.profilePhoto
-        ? user.profilePhoto
-        : null; // Když není fotka, zobrazí se placeholder
+    const profilePhoto = user.profilePhoto || null;
 
     return (
         <div className={styles.userDetailContainer}>
@@ -113,37 +115,40 @@ function UserDetail() {
             </div>
 
             <div className={styles.rightSide}>
+                {/* Tabulka vstupů */}
                 <div className={styles.entryTable}>
-                {checkInHistory && checkInHistory.length > 0 ? (
-                    <EntryHistoryTable
-                        entries={checkInHistory}
-                        formatDate={formatDate}
-                        columns={['date']}
-                        showTotal={true}
-                    />
-                ) : (
-                    <p className={styles.noData}>Žádné záznamy o vstupech.</p>
-                )}
+                    {(checkInHistory && checkInHistory.length > 0) ? (
+                        <EntryHistoryTable
+                            entries={checkInHistory}
+                            formatDate={formatDate}
+                            columns={['date']}
+                            showTotal={true}
+                        />
+                    ) : (
+                        <p className={styles.noData}>Žádné záznamy o vstupech.</p>
+                    )}
                 </div>
 
+                {/* Tabulka transakcí */}
                 <div className={styles.transactionTable}>
-                {transactions && transactions.length > 0 ? (
-                    <TransactionHistoryTable
-                        transactions={transactions}
-                        formatDate={formatDate}
-                        columns={['date', 'purchaseType', 'amount']}
-                        showTotal={true}
-                    />
-                ) : (
-                    <p className={styles.noData}>Žádné transakce.</p>
-                )}
+                    {(transactions && transactions.length > 0) ? (
+                        <TransactionHistoryTable
+                            transactions={transactions}
+                            formatDate={formatDate}
+                            columns={['date', 'purchaseType', 'amount']}
+                            showTotal={true}
+                        />
+                    ) : (
+                        <p className={styles.noData}>Žádné transakce.</p>
+                    )}
                 </div>
             </div>
         </div>
     );
 }
 
-UserDetail.propTypes = {};
+UserDetail.propTypes = {
+    // sem doplňte propTypes dle potřeby
+};
 
 export default UserDetail;
-

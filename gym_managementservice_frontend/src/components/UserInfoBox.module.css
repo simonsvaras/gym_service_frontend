@@ -40,7 +40,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.3rem;
+    gap: 0rem;
+}
+
+.infoContainer p{
+    padding: 0;
+    margin: 0.5em;
 }
 
 .activeDate {
