@@ -1,39 +1,45 @@
+/* Hlavní styl pro uživatelskou kartu */
 .userCard {
     display: flex;
-    background-color: var(--backgroud-color);
+    background-color: var(--backgroud-color); /* Opraven překlep */
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;
     min-height: 100px;
-    height: 7em;
-    cursor: pointer; /* Změní kurzor na "ruku" */
-    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    height: 8em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     color: var(--component-background);
 }
 
-/* Efekt při hover */
-.userCard:hover {
+/* Efekt při hover a focus pro lepší přístupnost */
+.userCard:hover,
+.userCard:focus {
     background-color: var(--button-background-darker);
     color: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
     transform: scale(1.05);
 }
 
+/* Levá strana karty – zobrazí profilovou fotku */
 .leftSide {
     flex: 0 0 auto;
-    width: 100px; /* pevná šířka pro fotku */
+    width: 100px; /* Pevná šířka pro fotku */
     background-color: #f7f7f7;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Styl pro profilovou fotku */
 .profilePhoto {
     width: 100%;
     height: 100%;
-    background-color: black;
+    object-fit: cover; /* Zajistí správné oříznutí fotky */
+    background-color: #000;
 }
 
+/* Placeholder, pokud fotka není k dispozici */
 .profilePlaceholder {
     display: flex;
     align-items: center;
@@ -44,29 +50,54 @@
     padding: 10px;
 }
 
+/* Pravá strana karty – obsahuje informace o uživateli */
 .rightSide {
     flex: 1;
     padding: 10px;
 }
 
+/* Jméno uživatele */
 .userName {
     margin: 0 0 8px 0;
     font-size: 1.2rem;
 }
 
-.subscriptionInfo {
+/* Informace o předplatném */
+.subscriptionInfo,
+.noSubscription,
+.expiredDate{
     margin: 4px 0;
 }
 
+/* Hover efekt u informace o předplatném */
 .subscriptionInfo:hover {
     color: var(--backgroud-color);
 }
 
-
+/* Datum posledního vstupu */
 .lastEntry {
     margin: 4px 0;
     font-size: 0.9rem;
 }
+
+/* Hover efekt u data posledního vstupu */
 .lastEntry:hover {
     color: var(--backgroud-color);
+}
+
+/* Responsivní úpravy pro menší obrazovky */
+@media (max-width: 600px) {
+    .userCard {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .leftSide {
+        width: 100%;
+        height: 150px;
+    }
+
+    .rightSide {
+        padding: 15px;
+    }
 }

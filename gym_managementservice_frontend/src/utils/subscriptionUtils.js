@@ -11,9 +11,10 @@
 export function getActiveSubscription(subsArray = []) {
     const now = new Date();
     return subsArray.find((sub) => {
-        const start = new Date(sub.startDate);
-        const end   = new Date(sub.endDate);
-        return start <= now && now <= end && sub.isActive;
+        //const start = new Date(sub.startDate);
+        //const end   = new Date(sub.endDate);
+        //return start <= now && now <= end && sub.isActive;
+        return sub.isActive;
     }) || null;
 }
 

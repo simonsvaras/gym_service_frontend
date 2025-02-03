@@ -11,6 +11,9 @@ import styles from './UserDetail.module.css';
 import useUserData from '../hooks/useUserData';
 import useUserTransactions from '../hooks/useUserTransactions';
 import useEntryHistory from '../hooks/useEntryHistory';
+// Nový import:
+import useOneTimeEntries from '../hooks/useOneTimeEntries.js';
+
 import { formatDate } from '../utils/dateUtils';
 
 import UserInfoBox from '../components/UserInfoBox';
@@ -42,9 +45,17 @@ function UserDetail() {
         error: errorEntries
     } = useEntryHistory(id);
 
+    // 4) Jednorázové vstupy
+    const {
+        entries: oneTimeEntries,   // celé pole dat (pokud bys ho potřeboval)
+        oneTimeCount,              // počet nevyužitých jednorázových vstupů
+        loading: loadingOneTime,
+        error: errorOneTime
+    } = useOneTimeEntries(id);
+
     // Sloučíme loading a error stavy do jedné proměnné
-    const loading = loadingUser || loadingTransactions || loadingEntries;
-    const error = errorUser || errorTransactions || errorEntries;
+    const loading = loadingUser || loadingTransactions || loadingEntries || loadingOneTime;
+    const error = errorUser || errorTransactions || errorEntries || errorOneTime;
 
     // Když se objeví error, zobrazíme toastify notifikaci
     useEffect(() => {
@@ -98,6 +109,8 @@ function UserDetail() {
                     hasActiveSubscription={hasActiveSubscription}
                     latestSubscription={latestSubscription}
                     isExpiredSubscription={isExpiredSubscription}
+                    // Nově přidáváme počet nevyužitých jednorázových vstupů
+                    oneTimeCount={oneTimeCount}
                 />
 
                 <div className={styles.additionalInfo}>
