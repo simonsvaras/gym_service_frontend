@@ -68,6 +68,19 @@
 .expiredDate{
     margin: 4px 0;
 }
+/* Styl pro informaci, že předplatné vypršelo */
+.expiredDate {
+    color: #d9534f; /* červená barva pro varování */
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Styl pro informaci, že není žádné aktivní předplatné */
+.noSubscription {
+    color: #999; /* decentní šedá barva */
+    font-size: 0.9rem;
+    font-style: italic;
+}
 
 /* Hover efekt u informace o předplatném */
 .subscriptionInfo:hover {

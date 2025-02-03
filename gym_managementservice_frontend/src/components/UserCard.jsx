@@ -106,7 +106,7 @@ function UserCard({ user }) {
                         </p>
                     ) : (
                         <p className={styles.expiredDate}>
-                            Předplatné vypršelo dne: <strong>{formatDate(activeSubscription.endDate)}</strong>
+                            Předplatné vypršelo: <strong>{formatDate(activeSubscription.endDate)}</strong>
                         </p>
                     )
                 ) : (
