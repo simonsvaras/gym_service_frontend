@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     max-width: 95vw;
+    overflow: hidden;
 }
 
 .pageTitle {
@@ -16,14 +17,26 @@
 
 /* Kontejner, který bude držet karty ve 3 sloupcích */
 .cardsContainer {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2em;
     background-color: var(--main-content-background);
     padding: 2em;
     border-radius: 10px;
-    max-height: 70vw;
-    overflow: auto;
+    max-height: 60vh;
+    flex: 1;
+    border: 1em black;
+}
+
+.cardsContainerIntra{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+    max-height: 38vh;
+    overflow-y: auto;
+    z-index: 10;
+    width: 100%;
+    align-items: center;
+    padding: 1em;
+    /* Animace spuštěná při načtení komponenty */
+    animation: appear 1s linear forwards;
 }
 
 /* Příklad pro chybový text */
@@ -31,3 +44,21 @@
     color: red;
     font-weight: bold;
 }
+
+
+
+/* Stylování scroll baru pro prohlížeče založené na WebKit (Chrome, Safari) */
+
+.cardsContainerIntra::-webkit-scrollbar {
+    width: 1em;
+}
+
+.cardsContainerIntra::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.cardsContainerIntra::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--button-background-hover);
+}
+

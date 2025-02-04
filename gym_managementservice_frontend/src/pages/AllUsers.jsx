@@ -17,15 +17,19 @@ function AllUsers() {
             <h1 className={styles.pageTitle}>Všichni uživatelé</h1>
             {loading ? (
                 <div className={styles.cardsContainer}>
-                    {[...Array(6)].map((_, index) => (
-                        <UserCardSkeleton key={index} />
-                    ))}
+                    <div className={styles.cardsContainerIntra}>
+                        {[...Array(6)].map((_, index) => (
+                            <UserCardSkeleton key={index} />
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div className={styles.cardsContainer}>
-                    {users.map((user) => (
-                        <UserCard key={user.userID} user={user} />
-                    ))}
+                    <div className={styles.cardsContainerIntra}>
+                        {users.map((user) => (
+                            <UserCard key={user.userID} user={user} />
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

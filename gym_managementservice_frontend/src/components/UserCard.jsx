@@ -1,5 +1,5 @@
 // src/components/UserCard.jsx
-import React, { useMemo, useCallback } from 'react';
+import React, {useMemo, useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import styles from './UserCard.module.css';
@@ -17,12 +17,6 @@ const BASE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
  * @component
  * @param {Object} props - Vstupní vlastnosti komponenty.
  * @param {Object} props.user - Objekt obsahující informace o uživateli.
- * @param {string|number} props.user.userID - Unikátní identifikátor uživatele.
- * @param {string} props.user.firstname - Křestní jméno uživatele.
- * @param {string} props.user.lastname - Příjmení uživatele.
- * @param {string} [props.user.profilePhotoPath] - Cesta k profilové fotce uživatele.
- * @param {Array} [props.user.subscriptions] - Seznam předplatných uživatele.
- * @param {string} [props.user.lastEntryDate] - Datum posledního vstupu uživatele.
  * @returns {JSX.Element} Vykreslená komponenta uživatelské karty.
  */
 function UserCard({ user }) {
@@ -48,8 +42,10 @@ function UserCard({ user }) {
     /**
      * Memoizace aktivního předplatného získaného pomocí pomocné funkce.
      */
-    const activeSubscription = useMemo(() => getActiveSubscription(subscriptions), [subscriptions]);
-
+    const activeSubscription = useMemo(
+        () => getActiveSubscription(subscriptions),
+        [subscriptions]
+    );
     /**
      * Kontrola, zda je aktivní předplatné vypršelo.
      * Pokud předplatné neexistuje, vrací null.
@@ -64,9 +60,36 @@ function UserCard({ user }) {
      */
     const photoUrl = profilePhotoPath ? `${BASE_API_URL}${profilePhotoPath}` : null;
 
+
+    // Ref a stav pro sledování viditelnosti karty
+    const cardRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // Pokud je karta viditelná (více než 10 % viditelnosti), nastavíme stav
+                setIsVisible(entry.isIntersecting);
+            },
+            {
+                threshold: 0.1,
+            }
+        );
+        if (cardRef.current) {
+            observer.observe(cardRef.current);
+        }
+        return () => {
+            if (cardRef.current) {
+                observer.unobserve(cardRef.current);
+            }
+        };
+    }, []);
+
+
     return (
         <div
-            className={styles.userCard}
+            ref={cardRef}
+            className={`${styles.userCard} ${isVisible ? styles.fadeIn : styles.fadeOut}`}
             onClick={handleClick}
             role="button"
             tabIndex={0}
