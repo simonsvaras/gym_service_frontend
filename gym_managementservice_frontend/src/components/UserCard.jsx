@@ -7,7 +7,7 @@ import { getActiveSubscription } from '../utils/subscriptionUtils.js';
 import { formatDate } from '../utils/dateUtils.js';
 
 // Základní URL získaná z environmentální proměnné (Vite) nebo fallback hodnota.
-const BASE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const BASE_API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
 /**
  * Komponenta UserCard

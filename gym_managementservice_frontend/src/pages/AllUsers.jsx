@@ -1,37 +1,152 @@
-// src/pages/AllUsers.jsx
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import UserCard from '../components/UserCard';
 import UserCardSkeleton from '../components/UserCardSkeleton.jsx';
+import SimpleButton from '../components/SimpleButton';
 import styles from './AllUsers.module.css';
-import useUserDetails from '../hooks/useUserDetails';
+import useFilteredUsers from '../hooks/useFilteredUsers';
 
+/**
+ * Komponenta AllUsers zobrazuje všechny uživatele a umožňuje jejich filtrování.
+ * Uživatel může zadat datumový interval, minimální počet vstupů nebo vybrat stav předplatného.
+ */
 function AllUsers() {
-    const { users, loading, error } = useUserDetails();
+    // Stavové proměnné pro jednotlivé filtry
+    const [entryStart, setEntryStart] = useState('');
+    const [entryEnd, setEntryEnd] = useState('');
+    const [minEntryCount, setMinEntryCount] = useState('');
+    const [subscriptionStatus, setSubscriptionStatus] = useState('');
 
-    if (error) {
-        return <p className={styles.errorText}>{error}</p>;
-    }
+    // Memoizace objektu filtrů, aby se jeho reference neměnila při každém renderu
+    const filters = useMemo(() => ({
+        entryStart: entryStart || undefined,
+        entryEnd: entryEnd || undefined,
+        minEntryCount: minEntryCount ? Number(minEntryCount) : undefined,
+        subscriptionStatus: subscriptionStatus || undefined,
+    }), [entryStart, entryEnd, minEntryCount, subscriptionStatus]);
+
+    // Použití hooku pro načítání uživatelů dle zadaných filtrů
+    const { users, loading, error } = useFilteredUsers(filters);
+
+    /**
+     * Funkce pro nastavení filtru "Dnes". Nastaví datum začátku a konce tak, aby odpovídalo aktuálnímu dni.
+     */
+    const applyTodayFilter = () => {
+        const today = new Date();
+        const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+        setEntryStart(start.toISOString());
+        setEntryEnd(end.toISOString());
+    };
+
+    /**
+     * Funkce pro nastavení filtru "Tento týden". Nastaví datum tak, aby pokrylo aktuální týden.
+     * Předpokládáme, že týden začíná v pondělí.
+     */
+    const applyThisWeekFilter = () => {
+        const today = new Date();
+        // Získáme datum prvního dne v týdnu (pondělí)
+        const firstDay = new Date(today);
+        const day = firstDay.getDay();
+        const diff = day === 0 ? -6 : 1 - day;
+        firstDay.setDate(firstDay.getDate() + diff);
+        firstDay.setHours(0, 0, 0, 0);
+
+        // Datum posledního dne v týdnu (neděle)
+        const lastDay = new Date(firstDay);
+        lastDay.setDate(firstDay.getDate() + 6);
+        lastDay.setHours(23, 59, 59, 999);
+
+        setEntryStart(firstDay.toISOString());
+        setEntryEnd(lastDay.toISOString());
+    };
 
     return (
         <div className={styles.allUsersContainer}>
             <h1 className={styles.pageTitle}>Všichni uživatelé</h1>
-            {loading ? (
-                <div className={styles.cardsContainer}>
-                    <div className={styles.cardsContainerIntra}>
-                        {[...Array(6)].map((_, index) => (
-                            <UserCardSkeleton key={index} />
-                        ))}
+            <div className={styles.dataContainer}>
+                {/* Filtrační panel */}
+                <div className={styles.filtersContainer}>
+                    <h2>Filtry:</h2>
+                    {/* Filtrace podle vstupů */}
+                    <div className={styles.entryFilterContainer}>
+                        <div>
+                            <label htmlFor="entryStart">Datum a čas OD:</label>
+                            <input
+                                type="datetime-local"
+                                id="entryStart"
+                                value={entryStart ? entryStart.substring(0, 16) : ''}
+                                onChange={(e) => {
+                                    const date = new Date(e.target.value);
+                                    setEntryStart(date.toISOString());
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="entryEnd">Datum a čas DO:</label>
+                            <input
+                                type="datetime-local"
+                                id="entryEnd"
+                                value={entryEnd ? entryEnd.substring(0, 16) : ''}
+                                onChange={(e) => {
+                                    const date = new Date(e.target.value);
+                                    setEntryEnd(date.toISOString());
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="minEntryCount">Minimální počet vstupů:</label>
+                            <input
+                                type="number"
+                                id="minEntryCount"
+                                value={minEntryCount}
+                                onChange={(e) => setMinEntryCount(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <SimpleButton text="Dnes" onClick={applyTodayFilter} />
+                            <SimpleButton text="Tento týden" onClick={applyThisWeekFilter} />
+                        </div>
+                    </div>
+                    {/* Filtrace podle předplatného */}
+                    <div className={styles.subscriptionFilterContainer}>
+                        <div>
+                            <label htmlFor="subscriptionStatus">Stav předplatného:</label>
+                            <select
+                                id="subscriptionStatus"
+                                value={subscriptionStatus}
+                                onChange={(e) => setSubscriptionStatus(e.target.value)}
+                            >
+                                <option value="">Všechny</option>
+                                <option value="active">Platné</option>
+                                <option value="inactive">Neplatné</option>
+                                <option value="expiring">Končí brzy</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            ) : (
-                <div className={styles.cardsContainer}>
-                    <div className={styles.cardsContainerIntra}>
-                        {users.map((user) => (
-                            <UserCard key={user.userID} user={user} />
-                        ))}
+
+                {/* Výpis chybové hlášky */}
+                {error && <p className={styles.errorText}>{error}</p>}
+
+                {/* Výpis karet */}
+                {loading ? (
+                    <div className={styles.cardsContainer}>
+                        <div className={styles.cardsContainerIntra}>
+                            {[...Array(6)].map((_, index) => (
+                                <UserCardSkeleton key={index} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
+                ) : (
+                    <div className={styles.cardsContainer}>
+                        <div className={styles.cardsContainerIntra}>
+                            {users.map((user) => (
+                                <UserCard key={user.userID} user={user} />
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

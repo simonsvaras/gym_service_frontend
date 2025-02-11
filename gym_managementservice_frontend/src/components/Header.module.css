@@ -2,16 +2,19 @@
 .headerContainer {
     position: fixed;   /* Fixně k hornímu okraji stránky */
     top: 0;
-    left: 0;
-    right: 0;
+
+    width: fit-content; /* Šířka se přizpůsobí obsahu */
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0.5rem 1rem;
-
     background-color: #333;
-    border-bottom: 2px solid #646cff;
+    border-bottom: 3px solid var(--button-background-hover);
+
+    border-bottom-right-radius: 10px;
+    border-right: 3px solid var(--button-background-hover);
+
     z-index: 999;
 }
 

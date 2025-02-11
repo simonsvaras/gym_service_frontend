@@ -1,5 +1,5 @@
 .allUsersContainer {
-    margin-top: 11vh;
+    margin-top: 1vh;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -15,34 +15,99 @@
     font-weight: bold;
 }
 
+.dataContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1em;
+}
+
 /* Kontejner, který bude držet karty ve 3 sloupcích */
 .cardsContainer {
     background-color: var(--main-content-background);
     padding: 2em;
     border-radius: 10px;
-    max-height: 60vh;
+    min-height: 50vh;
+    max-height: 70vh;
+    width: 100%;
     flex: 1;
     border: 1em black;
 }
 
 .cardsContainerIntra{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1em;
-    max-height: 38vh;
+    max-height: 58vh;
     overflow-y: auto;
     z-index: 10;
-    width: 100%;
     align-items: center;
     padding: 1em;
     /* Animace spuštěná při načtení komponenty */
     animation: appear 1s linear forwards;
 }
 
+.filterSection h2 {
+    font-size: 1.5rem;
+}
+
+.filtersContainer {
+    background-color: var(--main-content-background);
+    color: var(--backgroud-color);
+    width: 20%;
+    padding: 1em;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.entryFilterContainer{
+    display: flex;
+    gap: 0.1em;
+    flex-direction: column;
+}
+
+.filterSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+
+
+.buttonGroup {
+    display: flex;
+    gap: 0.5em;
+}
+
+.reloadButton {
+    align-self: center;
+    padding: 0.5em 1em;
+    font-size: 1rem;
+    background-color: var(--button-background);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reloadButton:hover {
+    background-color: var(--button-background-hover);
+}
+
 /* Příklad pro chybový text */
 .errorText {
     color: red;
     font-weight: bold;
+}
+
+.activeButton {
+    background-color: var(--button-active-background); /* definuj si vlastní barvu */
+    color: var(--backgroud-color);
 }
 
 
@@ -61,4 +126,5 @@
     border-radius: 10px;
     background: var(--button-background-hover);
 }
+
 
