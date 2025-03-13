@@ -4,6 +4,7 @@ import UserCardSkeleton from '../components/UserCardSkeleton.jsx';
 import SimpleButton from '../components/SimpleButton';
 import styles from './AllUsers.module.css';
 import useFilteredUsers from '../hooks/useFilteredUsers';
+import CustomDateRangePicker from '../components/CustomDateRangePicker';
 
 /**
  * Komponenta AllUsers zobrazuje všechny uživatele a umožňuje jejich filtrování.
@@ -67,31 +68,17 @@ function AllUsers() {
                 {/* Filtrační panel */}
                 <div className={styles.filtersContainer}>
                     <h2>Filtry:</h2>
-                    {/* Filtrace podle vstupů */}
                     <div className={styles.entryFilterContainer}>
-                        <div>
-                            <label htmlFor="entryStart">Datum a čas OD:</label>
-                            <input
-                                type="datetime-local"
-                                id="entryStart"
-                                value={entryStart ? entryStart.substring(0, 16) : ''}
-                                onChange={(e) => {
-                                    const date = new Date(e.target.value);
-                                    setEntryStart(date.toISOString());
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="entryEnd">Datum a čas DO:</label>
-                            <input
-                                type="datetime-local"
-                                id="entryEnd"
-                                value={entryEnd ? entryEnd.substring(0, 16) : ''}
-                                onChange={(e) => {
-                                    const date = new Date(e.target.value);
-                                    setEntryEnd(date.toISOString());
-                                }}
-                            />
+                        <CustomDateRangePicker
+                            title="Vyberte časový interval"
+                            entryStart={entryStart}
+                            entryEnd={entryEnd}
+                            setEntryStart={setEntryStart}
+                            setEntryEnd={setEntryEnd}
+                        />
+                        <div className={styles.buttonGroup}>
+                            <SimpleButton text="Dnes" onClick={applyTodayFilter}/>
+                            <SimpleButton text="Tento týden" onClick={applyThisWeekFilter}/>
                         </div>
                         <div>
                             <label htmlFor="minEntryCount">Minimální počet vstupů:</label>
@@ -102,12 +89,8 @@ function AllUsers() {
                                 onChange={(e) => setMinEntryCount(e.target.value)}
                             />
                         </div>
-                        <div>
-                            <SimpleButton text="Dnes" onClick={applyTodayFilter} />
-                            <SimpleButton text="Tento týden" onClick={applyThisWeekFilter} />
-                        </div>
+
                     </div>
-                    {/* Filtrace podle předplatného */}
                     <div className={styles.subscriptionFilterContainer}>
                         <div>
                             <label htmlFor="subscriptionStatus">Stav předplatného:</label>
