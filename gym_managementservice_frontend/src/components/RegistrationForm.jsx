@@ -1,110 +1,116 @@
-// src/components/RegistrationForm.jsx
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
 
 import styles from './RegistrationForm.module.css';
 import SimpleButton from './SimpleButton';
 import api from "../services/api.js";
-
 import UploadProfilePhoto from './UploadProfilePhoto';
 
-/**
- * Komponenta představující registrační formulář pro uživatele.
- *
- * @component
- */
 const RegistrationForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
     const [newUserId, setNewUserId] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    /**
-     * Funkce pro zpracování odeslání registračního formuláře.
-     *
-     * @async
-     * @param {Object} data - Data z formuláře odeslaná uživatelem.
-     */
     const onSubmit = async (data) => {
+        setLoading(true);
         try {
-            const response = await api.post('/users', data); // Relativní URL pro API endpoint
-
-            // Uložení ID nově vytvořeného uživatele
+            const response = await api.post('/users', data);
             setNewUserId(response.data.id);
-
-            // Nastavení stavu úspěšné registrace a zobrazení úspěšného toastu
             setRegistrationSuccess(true);
             toast.success('Registrace úspěšná!');
         } catch (error) {
-
-            // Zobrazení chybového toastu s relevantní zprávou
             toast.error(`Chyba při registraci: ${error.response?.data?.error || 'Došlo k chybě při registraci.'}`);
             console.error('Chyba při registraci:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Pokud registrace proběhla úspěšně, zobrazíme komponentu pro nahrání profilové fotografie
-    if (registrationSuccess) {
-        return (
-            <div>
-                <UploadProfilePhoto userId={newUserId} />
-            </div>
-        );
-    }
-
-    // Jinak vykreslujeme registrační formulář
     return (
-        <form className={styles.registrationForm} onSubmit={handleSubmit(onSubmit)}>
-            <h2>Registrace</h2>
+        <div className={styles.registrationContainer}>
+            {/* Registrační formulář */}
+            <CSSTransition
+                in={!registrationSuccess}
+                timeout={300}
+                classNames="fade"
+                unmountOnExit
+            >
+                <form className={styles.registrationForm} onSubmit={handleSubmit(onSubmit)}>
+                    <h2>Registrace</h2>
 
-            <div className={styles.formGroup}>
-                <label htmlFor="firstname">Jméno</label>
-                <input
-                    id="firstname"
-                    type="text"
-                    {...register('firstname', { required: 'Jméno je povinné' })}
-                />
-                {errors.firstname && <p className={styles.error}>{errors.firstname.message}</p>}
-            </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="firstname">Jméno</label>
+                        <input
+                            id="firstname"
+                            type="text"
+                            placeholder="Zadejte své jméno"
+                            {...register('firstname', { required: 'Jméno je povinné' })}
+                        />
+                        {errors.firstname && <p className={styles.error}>{errors.firstname.message}</p>}
+                    </div>
 
-            <div className={styles.formGroup}>
-                <label htmlFor="lastname">Příjmení</label>
-                <input
-                    id="lastname"
-                    type="text"
-                    {...register('lastname', { required: 'Příjmení je povinné' })}
-                />
-                {errors.lastname && <p className={styles.error}>{errors.lastname.message}</p>}
-            </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="lastname">Příjmení</label>
+                        <input
+                            id="lastname"
+                            type="text"
+                            placeholder="Zadejte své příjmení"
+                            {...register('lastname', { required: 'Příjmení je povinné' })}
+                        />
+                        {errors.lastname && <p className={styles.error}>{errors.lastname.message}</p>}
+                    </div>
 
-            <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    {...register('email', {
-                        required: 'Email je povinný',
-                        pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: 'Neplatný formát emailu'
-                        }
-                    })}
-                />
-                {errors.email && <p className={styles.error}>{errors.email.message}</p>}
-            </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="např. uzivatel@domena.cz"
+                            {...register('email', {
+                                required: 'Email je povinný',
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: 'Neplatný formát emailu'
+                                }
+                            })}
+                        />
+                        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+                    </div>
 
-            <div className={styles.formGroup}>
-                <label htmlFor="birthdate">Datum narození</label>
-                <input
-                    id="birthdate"
-                    type="date"
-                    {...register('birthdate', { required: 'Datum narození je povinné' })}
-                />
-                {errors.birthdate && <p className={styles.error}>{errors.birthdate.message}</p>}
-            </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="birthdate">Datum narození</label>
+                        <input
+                            id="birthdate"
+                            type="date"
+                            {...register('birthdate', { required: 'Datum narození je povinné' })}
+                        />
+                        {errors.birthdate && <p className={styles.error}>{errors.birthdate.message}</p>}
+                    </div>
 
-            <SimpleButton text="Registrovat" type="submit" />
-        </form>
+                    <SimpleButton
+                        text={loading ? 'Probíhá registrace...' : 'Registrovat'}
+                        type="submit"
+                        disabled={loading}
+                    />
+                </form>
+            </CSSTransition>
+
+            {/* Úspěšná registrace + nahrání profilové fotografie */}
+            <CSSTransition
+                in={registrationSuccess}
+                timeout={3000}
+                classNames="fade"
+                unmountOnExit
+            >
+                <div className={styles.successContainer}>
+                    <h3>Registrace proběhla úspěšně!</h3>
+                    <UploadProfilePhoto userId={newUserId} />
+                </div>
+            </CSSTransition>
+        </div>
     );
 };
 

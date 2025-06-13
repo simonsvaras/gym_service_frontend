@@ -1,4 +1,9 @@
-/* src/components/RegistrationForm.module.css */
+/* Kontejner pro oba stavy (registrace a úspěšná registrace) */
+.registrationContainer {
+    position: relative;
+}
+
+/* Registrační formulář */
 .registrationForm {
     max-width: 30%;
     min-width: 30%;
@@ -47,7 +52,7 @@
 .message {
     text-align: center;
     margin-bottom: 1rem;
-    color: #4caf50; /* Zelená pro úspěch, můžeš dynamicky měnit podle typu zprávy */
+    color: #4caf50; /* Zelená pro úspěch, lze dynamicky měnit */
 }
 
 button {
@@ -64,4 +69,33 @@ button {
 
 button:hover {
     background-color: #535bf2;
+}
+
+/* Kontejner pro úspěšnou registraci + upload fotografie */
+.successContainer {
+    max-width: 30%;
+    min-width: 30%;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Přechodové animace pro CSSTransition */
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+.fade-exit {
+    opacity: 1;
+}
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
 }
