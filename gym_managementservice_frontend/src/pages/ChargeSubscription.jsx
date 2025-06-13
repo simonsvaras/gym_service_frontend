@@ -106,11 +106,13 @@ function ChargeSubscription() {
         // (A) Dobití subscription
         if (modalAction === 'subscription' && selectedPlan) {
             try {
+                const toIsoDate = d => d.toISOString().slice(0, 10);
+
                 const now = new Date();
-                const startDate = formatDate(now);
-                const end = new Date(now);
-                end.setMonth(end.getMonth() + selectedPlan.durationMonths);
-                const endDate = formatDate(end);
+                const startDate = toIsoDate(now);
+                const endDateObj = new Date(now);
+                endDateObj.setMonth(endDateObj.getMonth() + selectedPlan.durationMonths);
+                const endDate = toIsoDate(endDateObj);
 
                 await api.post('/user-subscriptions', {
                     userID: userId,
