@@ -16,12 +16,19 @@ h2 {
 .actions {
     margin-top: 1.5rem;
     display: flex;
+    flex-direction: column;
     gap: 1rem;
     align-items: center;
-    justify-content: center;
 }
 
-.actions input[type="date"] {
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+}
+
+.inputGroup input {
     padding: 0.5rem;
     border-radius: 4px;
     border: 1px solid #ccc;

@@ -23,6 +23,7 @@ function ManualCharge() {
     } = useChargeSubscription(userId);
 
     const [customEndDate, setCustomEndDate] = useState('');
+    const [customPrice, setCustomPrice] = useState(0);
 
     // Notify about loading errors
     useEffect(() => {
@@ -37,6 +38,11 @@ function ManualCharge() {
             return;
         }
 
+        if (customPrice < 0) {
+            toast.warn('Cena nemůže být záporná.');
+            return;
+        }
+
         try {
             const today = new Date().toISOString().slice(0, 10);
             await api.post('/user-subscriptions', {
@@ -45,7 +51,8 @@ function ManualCharge() {
                 startDate: today,
                 endDate: customEndDate,
                 isActive: true,
-                customEndDate
+                customEndDate,
+                customPrice
             });
             toast.success('Předplatné úspěšně dobito.');
         } catch (err) {
@@ -84,14 +91,24 @@ function ManualCharge() {
             )}
 
             <div className={styles.actions}>
-                <label>
-                    Datum konce:
+                <div className={styles.inputGroup}>
+                    <label>Datum konce:</label>
                     <input
                         type="date"
                         value={customEndDate}
                         onChange={(e) => setCustomEndDate(e.target.value)}
                     />
-                </label>
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>Cena:</label>
+                    <input
+                        type="number"
+                        value={customPrice}
+                        min="0"
+                        step="1"
+                        onChange={(e) => setCustomPrice(Number(e.target.value))}
+                    />
+                </div>
                 <SimpleButton text="Potvrdit" onClick={handleConfirm} />
             </div>
         </div>
