@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './pages/HomePage';
 import RegisterUser from './pages/RegisterUser';
 import ChargeSubscription from './pages/ChargeSubscription';
+import ManualCharge from './pages/ManualCharge';
 
 import Header from './components/Header';
 import styles from './App.module.css';
@@ -45,7 +46,10 @@ function App() {
                     <Route path="/searchUser" element={<SearchUser />} />
                     <Route path="/closure" element={<ClosurePage />} />
                     <Route path="/users/allUsers" element={<AllUsers />} />
+                    <Route path="/manualCharge" element={<ManualCharge />} />
                     {/* ...další cesty... */}
+
+                    <Route path="/page6" element={<ManualCharge />} />
 
                     <Route path="/users/:id" element={<UserDetail />} />
                     <Route path="/users/:id/history" element={<ShowHistoryPage />} />
