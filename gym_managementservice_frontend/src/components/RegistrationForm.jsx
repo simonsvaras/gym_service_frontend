@@ -7,10 +7,11 @@ import styles from './RegistrationForm.module.css';
 import SimpleButton from './SimpleButton';
 import api from "../services/api.js";
 import UploadProfilePhoto from './UploadProfilePhoto';
+import UploadUserCard from './UploadUserCard.jsx';
 
 const RegistrationForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [step, setStep] = useState(1); // 1=form, 2=photo, 3=card
     const [newUserId, setNewUserId] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +20,7 @@ const RegistrationForm = () => {
         try {
             const response = await api.post('/users', data);
             setNewUserId(response.data.id);
-            setRegistrationSuccess(true);
+            setStep(2);
             toast.success('Registrace úspěšná!');
         } catch (error) {
             toast.error(`Chyba při registraci: ${error.response?.data?.error || 'Došlo k chybě při registraci.'}`);
@@ -33,7 +34,7 @@ const RegistrationForm = () => {
         <div className={styles.registrationContainer}>
             {/* Registrační formulář */}
             <CSSTransition
-                in={!registrationSuccess}
+                in={step === 1}
                 timeout={300}
                 classNames="fade"
                 unmountOnExit
@@ -98,16 +99,28 @@ const RegistrationForm = () => {
                 </form>
             </CSSTransition>
 
-            {/* Úspěšná registrace + nahrání profilové fotografie */}
+            {/* Krok 2: nahrání profilové fotky */}
             <CSSTransition
-                in={registrationSuccess}
-                timeout={3000}
+                in={step === 2}
+                timeout={300}
                 classNames="fade"
                 unmountOnExit
             >
                 <div className={styles.successContainer}>
                     <h3>Registrace proběhla úspěšně!</h3>
-                    <UploadProfilePhoto userId={newUserId} />
+                    <UploadProfilePhoto userId={newUserId} onSuccess={() => setStep(3)} />
+                </div>
+            </CSSTransition>
+
+            {/* Krok 3: přiřazení členské karty */}
+            <CSSTransition
+                in={step === 3}
+                timeout={300}
+                classNames="fade"
+                unmountOnExit
+            >
+                <div className={styles.successContainer}>
+                    <UploadUserCard userId={newUserId} />
                 </div>
             </CSSTransition>
         </div>

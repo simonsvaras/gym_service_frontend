@@ -12,8 +12,9 @@ import SimpleButton from './SimpleButton';
  * @component
  * @param {Object} props - Vlastnosti komponenty.
  * @param {number} props.userId - ID uživatele, jehož profilová fotografie se nahrává.
- */
-const UploadProfilePhoto = ({ userId }) => {
+ * @param {function} [props.onSuccess] - Callback vyvolaný po úspěšném nahrání.
+*/
+const UploadProfilePhoto = ({ userId, onSuccess }) => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +76,9 @@ const UploadProfilePhoto = ({ userId }) => {
                 toast.warning(response.data.warning);
             } else {
                 toast.success('Fotka úspěšně nahrána!');
+            }
+            if (onSuccess) {
+                onSuccess();
             }
         } catch (error) {
             toast.error('Nahrání fotky se nezdařilo: ' + (error.response?.data?.error || error.message));
