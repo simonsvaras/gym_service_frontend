@@ -46,6 +46,7 @@ function App() {
                     <Route path="/searchUser" element={<SearchUser />} />
                     <Route path="/closure" element={<ClosurePage />} />
                     <Route path="/users/allUsers" element={<AllUsers />} />
+                    <Route path="/manualCharge" element={<ManualCharge />} />
                     {/* ...další cesty... */}
 
                     <Route path="/page6" element={<ManualCharge />} />

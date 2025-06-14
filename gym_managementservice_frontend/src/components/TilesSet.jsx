@@ -51,7 +51,7 @@ function TilesSet() {
             />
             <Tile
                 title="Dobít ručně"
-                link="/page6"
+                link="/manualCharge"
                 className={styles.tile6}
             />
 
