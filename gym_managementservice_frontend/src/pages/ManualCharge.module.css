@@ -1,0 +1,30 @@
+.chargeContainer {
+    width: 70%;
+    min-width: 600px;
+    margin: 7rem auto 0;
+    padding: 1.5rem;
+    color: #fff;
+    background-color: var(--main-content-background);
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions input[type="date"] {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: var(--component-background);
+    color: #fff;
+}
