@@ -1,167 +1,113 @@
-/**
- * @file UserDetail.jsx
- * Stránka s detailem uživatele: zobrazuje informace, transakce a historii vstupů.
- */
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';  // Použijeme pro chybové hlášky
-import PropTypes from 'prop-types';
-import styles from './UserDetail.module.css';
+import {useNavigate, useParams} from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import useUserData from '../hooks/useUserData';
+import useOneTimeEntries from '../hooks/useOneTimeEntries';
 import useUserTransactions from '../hooks/useUserTransactions';
 import useEntryHistory from '../hooks/useEntryHistory';
-// Nový import:
-import useOneTimeEntries from '../hooks/useOneTimeEntries.js';
-
-import { formatDate } from '../utils/dateUtils';
 
 import UserInfoBox from '../components/UserInfoBox';
-import TransactionHistoryTable from '../components/TransactionHistoryTable';
-import EntryHistoryTable from '../components/EntryHistoryTable';
 import SimpleButton from '../components/SimpleButton';
 
-function UserDetail() {
+import styles from './UserDetail.module.css';
+import AnimatedButton from "../components/AnimatedButton.jsx";
+
+export default function UserDetail() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
-    // 1) Data o uživateli
-    const {
-        user,
-        loading: loadingUser,
-        error: errorUser
-    } = useUserData(id);
+    // Data
+    const { user, loading: lu, error: eu } = useUserData(id);
+    const { oneTimeCount, loading: lo, error: eo } = useOneTimeEntries(id);
+    const { transactions, loading: lt, error: et } = useUserTransactions(id);
+    const { checkInHistory, loading: le, error: ee } = useEntryHistory(id);
 
-    // 2) Transakce
-    const {
-        transactions,
-        loading: loadingTransactions,
-        error: errorTransactions
-    } = useUserTransactions(id);
+    const loading = lu || lo || lt || le;
+    const error = eu || eo || et || ee;
+    useEffect(() => { if (error) toast.error(error); }, [error]);
 
-    // 3) Historie vstupů
-    const {
-        checkInHistory,
-        loading: loadingEntries,
-        error: errorEntries
-    } = useEntryHistory(id);
+    if (loading) return <p>Načítám...</p>;
+    if (!user) return null;
 
-    // 4) Jednorázové vstupy
-    const {
-        entries: oneTimeEntries,   // celé pole dat (pokud bys ho potřeboval)
-        oneTimeCount,              // počet nevyužitých jednorázových vstupů
-        loading: loadingOneTime,
-        error: errorOneTime
-    } = useOneTimeEntries(id);
+    // Poslední vstup + transakce
+    const fmt = (iso) =>
+        new Date(iso).toLocaleString('cs-CZ', {
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    const lastEntryDate = checkInHistory.length
+        ? fmt(checkInHistory[checkInHistory.length - 1].entryDate)
+        : 'Žádné vstupy';
+    const lastTxDate = transactions.length
+        ? fmt(transactions[transactions.length - 1].transactionDate)
+        : 'Žádné transakce';
 
-    // Sloučíme loading a error stavy do jedné proměnné
-    const loading = loadingUser || loadingTransactions || loadingEntries || loadingOneTime;
-    const error = errorUser || errorTransactions || errorEntries || errorOneTime;
-
-    // Když se objeví error, zobrazíme toastify notifikaci
-    useEffect(() => {
-        if (error) {
-            toast.error(error);
-        }
-    }, [error]);
-
-    // Pokud se načítá, ukážeme "Načítám..."
-    if (loading) {
-        return <p className={styles.loadingText}>Načítám uživatele...</p>;
-    }
-
-    // Pokud máme error, můžeme vrátit prázdný fragment (toast je již zobrazen)
-    if (error) {
-        return null;
-    }
-
-    // Pokud chybí uživatel, nic nezobrazujeme (fallback)
-    if (!user) {
-        return null;
-    }
-
-    // Logika ohledně subscription (mock z props user)
-    const hasActiveSubscription = user.activeSubscription;
-    const latestSubscription = user.latestSubscription || null;
-    const isExpiredSubscription =
-        latestSubscription && new Date(latestSubscription.endDate) < new Date();
-
-    // Poslední vstup / transakce
-    const lastEntryDate = (checkInHistory?.length > 0)
-        ? formatDate(checkInHistory[checkInHistory.length - 1].entryDate)
-        : 'Nenalezeno';
-
-    const lastTransactionDate = (transactions?.length > 0)
-        ? formatDate(transactions[transactions.length - 1].transactionDate)
-        : 'Nenalezeno';
-
-    const profilePhoto = user.profilePhoto || null;
+    // Handlery
+    const handleShowHistory = () => {
+        navigate(`/users/${id}/history`);
+    };
+    const handleCharge       = () => { /* ... */ };
+    const handleAssignCard   = () => { /* ... */ };
 
     return (
         <div className={styles.userDetailContainer}>
+            {/* LEVÁ STRANA */}
             <div className={styles.leftSide}>
                 <UserInfoBox
-                    id={parseInt(id, 10)}
+                    id={+id}
                     firstname={user.firstname}
                     lastname={user.lastname}
                     email={user.email}
                     birthdate={user.birthdate}
-                    profilePhoto={profilePhoto}
-                    hasActiveSubscription={hasActiveSubscription}
-                    latestSubscription={latestSubscription}
-                    isExpiredSubscription={isExpiredSubscription}
-                    // Nově přidáváme počet nevyužitých jednorázových vstupů
+                    profilePhoto={user.profilePhoto}
+                    hasActiveSubscription={!!user.activeSubscription}
+                    latestSubscription={user.latestSubscription}
+                    isExpiredSubscription={
+                        user.latestSubscription && new Date(user.latestSubscription.endDate) < new Date()
+                    }
                     oneTimeCount={oneTimeCount}
                 />
+                {/* SPODNÍ ŘÁDEK – STATISTIKY */}
+                <div className={styles.statsContainer}>
+                    <div className={styles.statCard}>
+                        <h4>Poslední vstup</h4>
+                        <p>{lastEntryDate}</p>
+                    </div>
+                    <div className={styles.statCard}>
+                        <h4>Poslední transakce</h4>
+                        <p>{lastTxDate}</p>
+                    </div>
+                </div>
+            </div>
 
-                <div className={styles.additionalInfo}>
-                    <SimpleButton
-                        text="Přiřadit kartu"
-                        onClick={() => {}}
+            <div className={styles.rightSide} >
+                {/* PRAVÁ STRANA – AKCE */}
+                <div className={styles.actionsContainer}>
+                    <AnimatedButton
+                        text="Zobrazit historii"
+                        onClick={handleShowHistory}
+                        ariaLabel="Zobrazit historii uživatele"
                     />
-                    <div className={styles.infoItem}>
-                        <strong>Poslední vstup:</strong> {lastEntryDate}
-                    </div>
-                    <div className={styles.infoItem}>
-                        <strong>Poslední transakce:</strong> {lastTransactionDate}
-                    </div>
+                    <AnimatedButton
+                        text="Dobít"
+                        onClick={handleCharge}
+                        ariaLabel="Dobít předplatné"
+                    />
+                    <AnimatedButton
+                        text="Přiřadit kartu"
+                        onClick={handleAssignCard}
+                        ariaLabel="Přiřadit kartu uživateli"
+                    />
+                    <AnimatedButton
+                        text="Nahrát novou fotografii"
+                        onClick={handleAssignCard}
+                        ariaLabel="Nahrát uživateli novou profilovou fotku"
+                    />
                 </div>
             </div>
 
-            <div className={styles.rightSide}>
-                {/* Tabulka vstupů */}
-                <div className={styles.entryTable}>
-                    {(checkInHistory && checkInHistory.length > 0) ? (
-                        <EntryHistoryTable
-                            entries={checkInHistory}
-                            formatDate={formatDate}
-                            columns={['date']}
-                            showTotal={true}
-                        />
-                    ) : (
-                        <p className={styles.noData}>Žádné záznamy o vstupech.</p>
-                    )}
-                </div>
 
-                {/* Tabulka transakcí */}
-                <div className={styles.transactionTable}>
-                    {(transactions && transactions.length > 0) ? (
-                        <TransactionHistoryTable
-                            transactions={transactions}
-                            formatDate={formatDate}
-                            columns={['date', 'purchaseType', 'amount']}
-                            showTotal={true}
-                        />
-                    ) : (
-                        <p className={styles.noData}>Žádné transakce.</p>
-                    )}
-                </div>
-            </div>
         </div>
     );
 }
-
-UserDetail.propTypes = {
-    // sem doplňte propTypes dle potřeby
-};
-
-export default UserDetail;

@@ -1,0 +1,50 @@
+/* src/pages/ShowHistoryPage.module.css */
+.container {
+    width: 80%;
+    margin: 4rem auto;
+    background: var(--component-background);
+    padding: 2rem;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.quickFilters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.quickFilters .button {
+    flex: 1;
+}
+.quickFilters .active {
+    background-color: var(--button-active-background);
+    color: var(--button-background);
+}
+
+.filter {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.btnFetch {
+    padding: 0.6rem 1.2rem;
+}
+
+.summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tables {
+    display: flex;
+    gap: 2rem;
+}
+
+.tableWrapper {
+    flex: 1;
+    min-width: 0;
+}

@@ -14,6 +14,7 @@ import SearchUser from "./pages/SearchUser.jsx";
 import UserDetail from "./pages/UserDetail.jsx";
 import ClosurePage from "./pages/ClosurePage.jsx";
 import AllUsers from "./pages/AllUsers.jsx";
+import ShowHistoryPage from "./pages/ShowUserHistoryPage.jsx";
 
 function App() {
     return (
@@ -47,6 +48,7 @@ function App() {
                     {/* ...další cesty... */}
 
                     <Route path="/users/:id" element={<UserDetail />} />
+                    <Route path="/users/:id/history" element={<ShowHistoryPage />} />
                 </Routes>
             </div>
         </Router>
