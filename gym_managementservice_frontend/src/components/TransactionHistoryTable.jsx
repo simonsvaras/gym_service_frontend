@@ -48,14 +48,14 @@ const COLUMN_DEFINITIONS = {
          */
         render: (tx) => `${tx.amount} Kč`,
     },
-    note: {
+    description: {
         header: 'Popis (poznámka)',
         /**
          * Renderuje poznámku k transakci nebo "-" pokud není k dispozici.
          * @param {Object} tx - Objekt transakce.
          * @returns {string} Poznámka k transakci.
          */
-        render: (tx) => tx.note || '-',
+        render: (tx) => tx.description || '-',
     },
 };
 
@@ -73,7 +73,7 @@ const COLUMN_DEFINITIONS = {
 function TransactionHistoryTable({
     transactions,
     formatDate,
-    columns = ['date', 'userName', 'purchaseType', 'amount'],
+    columns = ['date', 'userName', 'purchaseType', 'amount','description'],
     showTotal = true,
 }) {
     /**
