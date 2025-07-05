@@ -191,6 +191,7 @@ export default function ShowHistoryPage() {
                     <TransactionHistoryTable
                         transactions={transactions}
                         formatDate={fmt}
+                        columns={['date', 'note', 'amount']}
                     />
                 </div>
             </div>

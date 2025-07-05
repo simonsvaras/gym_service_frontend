@@ -49,7 +49,7 @@ const COLUMN_DEFINITIONS = {
         render: (tx) => `${tx.amount} Kč`,
     },
     note: {
-        header: 'Poznámka',
+        header: 'Popis (poznámka)',
         /**
          * Renderuje poznámku k transakci nebo "-" pokud není k dispozici.
          * @param {Object} tx - Objekt transakce.
