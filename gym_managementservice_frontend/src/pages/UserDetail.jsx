@@ -11,10 +11,12 @@ import UserIdentifier from '../components/UserIdentifier';
 
 import styles from './UserDetail.module.css';
 import AnimatedButton from "../components/AnimatedButton.jsx";
+import UploadUserCard from "../components/UploadUserCard.jsx";
 
 export default function UserDetail() {
     const { id: urlId } = useParams();
     const [userId, setUserId] = useState(urlId || null);
+    const [showAssignCard, setShowAssignCard] = useState(false);
     const navigate = useNavigate();
 
     // Data
@@ -59,7 +61,9 @@ export default function UserDetail() {
         navigate(`/users/${userId}/history`);
     };
     const handleCharge       = () => { /* ... */ };
-    const handleAssignCard   = () => { /* ... */ };
+    const handleAssignCard   = () => {
+        setShowAssignCard(prev => !prev);
+    };
 
     return (
         <div className={styles.userDetailContainer}>
@@ -115,6 +119,9 @@ export default function UserDetail() {
                         onClick={handleAssignCard}
                         ariaLabel="Nahrát uživateli novou profilovou fotku"
                     />
+                    {showAssignCard && (
+                        <UploadUserCard userId={+userId} />
+                    )}
                 </div>
             </div>
 
