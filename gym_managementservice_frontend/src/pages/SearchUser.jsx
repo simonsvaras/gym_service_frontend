@@ -46,7 +46,7 @@ function SearchUser() {
     };
 
     const findByCard = () => {
-        navigate('/find-by-card');
+        navigate('/users/');
     };
 
     return (

@@ -14,10 +14,11 @@ import SimpleButton from '../components/SimpleButton';
 import SimpleModal from '../components/SimpleModal';
 import UserInfoBox from '../components/UserInfoBox';
 import SubscriptionSection from '../components/SubscriptionSection';
+import UserIdentifier from '../components/UserIdentifier';
 
 function ChargeSubscription() {
-    // ID uživatele - pro ukázku natvrdo
-    const userId = 1;
+    // ID uživatele bude získáno z modálního okna
+    const [userId, setUserId] = useState(null);
 
     // Custom hook, který stáhne vše potřebné
     const {
@@ -159,6 +160,11 @@ function ChargeSubscription() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    // Nejprve požádáme o číslo karty, dokud nemáme userId
+    if (!userId) {
+        return <UserIdentifier onUserFound={setUserId} />;
+    }
 
     // Render
     if (loading) {
