@@ -52,6 +52,7 @@ function App() {
                     <Route path="/page6" element={<ManualCharge />} />
 
                     <Route path="/users/:id" element={<UserDetail />} />
+                    <Route path="/users/" element={<UserDetail />} />
                     <Route path="/users/:id/history" element={<ShowHistoryPage />} />
                 </Routes>
             </div>
