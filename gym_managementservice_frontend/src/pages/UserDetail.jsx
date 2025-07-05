@@ -2,13 +2,11 @@ import React, { useEffect } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import useUserData from '../hooks/useUserData';
-import useOneTimeEntries from '../hooks/useOneTimeEntries';
+import useChargeSubscription from '../hooks/useChargeSubscription';
 import useUserTransactions from '../hooks/useUserTransactions';
 import useEntryHistory from '../hooks/useEntryHistory';
 
 import UserInfoBox from '../components/UserInfoBox';
-import SimpleButton from '../components/SimpleButton';
 
 import styles from './UserDetail.module.css';
 import AnimatedButton from "../components/AnimatedButton.jsx";
@@ -18,13 +16,19 @@ export default function UserDetail() {
     const navigate = useNavigate();
 
     // Data
-    const { user, loading: lu, error: eu } = useUserData(id);
-    const { oneTimeCount, loading: lo, error: eo } = useOneTimeEntries(id);
+    const {
+        user,
+        hasActiveSubscription,
+        latestSubscription,
+        oneTimeCount,
+        loading: lcs,
+        error: ecs
+    } = useChargeSubscription(id);
     const { transactions, loading: lt, error: et } = useUserTransactions(id);
     const { checkInHistory, loading: le, error: ee } = useEntryHistory(id);
 
-    const loading = lu || lo || lt || le;
-    const error = eu || eo || et || ee;
+    const loading = lcs || lt || le;
+    const error = ecs || et || ee;
     useEffect(() => { if (error) toast.error(error); }, [error]);
 
     if (loading) return <p>Načítám...</p>;
@@ -61,10 +65,10 @@ export default function UserDetail() {
                     email={user.email}
                     birthdate={user.birthdate}
                     profilePhoto={user.profilePhoto}
-                    hasActiveSubscription={!!user.activeSubscription}
-                    latestSubscription={user.latestSubscription}
+                    hasActiveSubscription={hasActiveSubscription}
+                    latestSubscription={latestSubscription}
                     isExpiredSubscription={
-                        user.latestSubscription && new Date(user.latestSubscription.endDate) < new Date()
+                        latestSubscription && new Date(latestSubscription.endDate) < new Date()
                     }
                     oneTimeCount={oneTimeCount}
                 />
