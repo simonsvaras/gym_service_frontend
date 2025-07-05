@@ -74,6 +74,7 @@ export default function ShowHistoryPage() {
                 eRes = await api.get(`/entry-history/user/${id}`);
                 tRes = await api.get(`/transaction-history/user/${id}`);
 
+
                 // uložíme první a poslední vstup jednou
                 if (!firstEntryDateStatic && eRes.data.length > 0) {
                     setFirstEntryDateStatic(fmt(eRes.data[0].entryDate || eRes.data[0].date));
@@ -88,6 +89,9 @@ export default function ShowHistoryPage() {
                     params: { userId: id, start: startIso, end: endIso }
                 });
             }
+            // tady si to vypíšeš do konzole
+            console.log('eRes:', eRes);
+            console.log('tRes:', tRes);
             setEntries(eRes.data);
             setTransactions(tRes.data);
         } finally {
@@ -191,6 +195,7 @@ export default function ShowHistoryPage() {
                     <TransactionHistoryTable
                         transactions={transactions}
                         formatDate={fmt}
+                        columns={['date', 'description', 'amount']}
                     />
                 </div>
             </div>
