@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import useChargeSubscription from '../hooks/useChargeSubscription';
@@ -7,12 +7,14 @@ import useUserTransactions from '../hooks/useUserTransactions';
 import useEntryHistory from '../hooks/useEntryHistory';
 
 import UserInfoBox from '../components/UserInfoBox';
+import UserIdentifier from '../components/UserIdentifier';
 
 import styles from './UserDetail.module.css';
 import AnimatedButton from "../components/AnimatedButton.jsx";
 
 export default function UserDetail() {
-    const { id } = useParams();
+    const { id: urlId } = useParams();
+    const [userId, setUserId] = useState(urlId || null);
     const navigate = useNavigate();
 
     // Data
@@ -23,13 +25,18 @@ export default function UserDetail() {
         oneTimeCount,
         loading: lcs,
         error: ecs
-    } = useChargeSubscription(id);
-    const { transactions, loading: lt, error: et } = useUserTransactions(id);
-    const { checkInHistory, loading: le, error: ee } = useEntryHistory(id);
+    } = useChargeSubscription(userId);
+    const { transactions, loading: lt, error: et } = useUserTransactions(userId);
+    const { checkInHistory, loading: le, error: ee } = useEntryHistory(userId);
 
     const loading = lcs || lt || le;
     const error = ecs || et || ee;
     useEffect(() => { if (error) toast.error(error); }, [error]);
+
+    // Pokud není k dispozici userId, vyžádáme ho pomocí modálu
+    if (!userId) {
+        return <UserIdentifier onUserFound={setUserId} />;
+    }
 
     if (loading) return <p>Načítám...</p>;
     if (!user) return null;
@@ -49,7 +56,7 @@ export default function UserDetail() {
 
     // Handlery
     const handleShowHistory = () => {
-        navigate(`/users/${id}/history`);
+        navigate(`/users/${userId}/history`);
     };
     const handleCharge       = () => { /* ... */ };
     const handleAssignCard   = () => { /* ... */ };
@@ -59,7 +66,7 @@ export default function UserDetail() {
             {/* LEVÁ STRANA */}
             <div className={styles.leftSide}>
                 <UserInfoBox
-                    id={+id}
+                    id={+userId}
                     firstname={user.firstname}
                     lastname={user.lastname}
                     email={user.email}
