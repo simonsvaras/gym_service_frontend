@@ -70,7 +70,12 @@ const COLUMN_DEFINITIONS = {
  * @param {boolean} [props.showTotal=true] - Určuje, zda se má zobrazit součet všech transakcí.
  * @returns {JSX.Element} Tabulka s historií transakcí.
  */
-function TransactionHistoryTable({ transactions, formatDate, columns, showTotal }) {
+function TransactionHistoryTable({
+    transactions,
+    formatDate,
+    columns = ['date', 'userName', 'purchaseType', 'amount'],
+    showTotal = true,
+}) {
     /**
      * Vypočítá celkovou cenu ze všech transakcí.
      * @type {number}
@@ -126,9 +131,5 @@ TransactionHistoryTable.propTypes = {
     showTotal: PropTypes.bool,
 };
 
-TransactionHistoryTable.defaultProps = {
-    columns: ['date', 'userName', 'purchaseType', 'amount'],
-    showTotal: true,
-};
 
 export default TransactionHistoryTable;

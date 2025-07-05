@@ -52,7 +52,12 @@ const COLUMN_DEFINITIONS = {
  * @param {boolean} [props.showTotal=true] - Určuje, zda se má zobrazit celkový počet vstupů v zápatí.
  * @returns {JSX.Element} Tabulka s historií vstupů.
  */
-function EntryHistoryTable({ entries, formatDate, columns, showTotal }) {
+function EntryHistoryTable({
+    entries,
+    formatDate,
+    columns = ['date', 'userName', 'subscriptionType'],
+    showTotal = true,
+}) {
     /**
      * Vypočítá celkový počet vstupů.
      * @type {number}
@@ -109,9 +114,5 @@ EntryHistoryTable.propTypes = {
     showTotal: PropTypes.bool,
 };
 
-EntryHistoryTable.defaultProps = {
-    columns: ['date', 'userName', 'subscriptionType'],
-    showTotal: true,
-};
 
 export default EntryHistoryTable;

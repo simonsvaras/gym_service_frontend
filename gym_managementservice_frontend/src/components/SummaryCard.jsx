@@ -8,7 +8,7 @@ import styles from './SummaryCard.module.css';
  * SummaryCard zobrazí stručnou metrickou kartu s ikonou, názvem a hodnotou.
  * @param {{ title: string, value: string | number, icon: React.ComponentType }} props
  */
-export default function SummaryCard({ title, value, icon: Icon }) {
+export default function SummaryCard({ title, value, icon: Icon = null }) {
     return (
         <motion.div
             className={styles.card}
@@ -31,6 +31,3 @@ SummaryCard.propTypes = {
     icon: PropTypes.elementType,
 };
 
-SummaryCard.defaultProps = {
-    icon: null,
-};
