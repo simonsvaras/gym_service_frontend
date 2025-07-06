@@ -8,6 +8,8 @@ import HomePage from './pages/HomePage';
 import RegisterUser from './pages/RegisterUser';
 import ChargeSubscription from './pages/ChargeSubscription';
 import ManualCharge from './pages/ManualCharge';
+import ChargeOneTimeEntry from './pages/ChargeOneTimeEntry';
+import ChargeOneTimeEntryStudent from './pages/ChargeOneTimeEntryStudent';
 
 import Header from './components/Header';
 import styles from './App.module.css';
@@ -50,6 +52,8 @@ function App() {
                     {/* ...další cesty... */}
 
                     <Route path="/page6" element={<ManualCharge />} />
+                    <Route path="/page7" element={<ChargeOneTimeEntry />} />
+                    <Route path="/page5" element={<ChargeOneTimeEntryStudent />} />
 
                     <Route path="/users/:id" element={<UserDetail />} />
                     <Route path="/users/" element={<UserDetail />} />
