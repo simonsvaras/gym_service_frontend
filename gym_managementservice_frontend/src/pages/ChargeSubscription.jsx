@@ -133,7 +133,7 @@ function ChargeSubscription() {
             // (B) Dobití jednorázových vstupů
         } else if (modalAction === 'onetimes' && selectedOneTimeEntry) {
             try {
-                const purchaseDate = formatDate(new Date());
+                const purchaseDate = new Date().toISOString().split('T')[0];
                 await api.post(
                     '/user-one-time-entries',
                     {

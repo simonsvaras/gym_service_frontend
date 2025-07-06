@@ -29,7 +29,7 @@ export default function ChargeOneTimeEntryStudent() {
 
         const chargeEntry = async () => {
             try {
-                const purchaseDate = formatDate(new Date());
+                const purchaseDate = new Date().toISOString().split('T')[0];
                 await api.post(
                     '/user-one-time-entries',
                     {
