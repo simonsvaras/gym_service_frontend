@@ -10,6 +10,7 @@ import ChargeSubscription from './pages/ChargeSubscription';
 import ManualCharge from './pages/ManualCharge';
 import ChargeOneTimeEntry from './pages/ChargeOneTimeEntry';
 import ChargeOneTimeEntryStudent from './pages/ChargeOneTimeEntryStudent';
+import AdminPage from './pages/AdminPage';
 
 import Header from './components/Header';
 import styles from './App.module.css';
@@ -49,6 +50,7 @@ function App() {
                     <Route path="/closure" element={<ClosurePage />} />
                     <Route path="/users/allUsers" element={<AllUsers />} />
                     <Route path="/manualCharge" element={<ManualCharge />} />
+                    <Route path="/admin" element={<AdminPage />} />
                     {/* ...další cesty... */}
 
                     <Route path="/page6" element={<ManualCharge />} />
