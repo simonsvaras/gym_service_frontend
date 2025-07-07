@@ -8,13 +8,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-import api from '../services/api';
-import { formatDate } from '../utils/dateUtils';
+import { chargeOneTimeEntry, STANDARD_ENTRY_ID } from '../utils/oneTimeEntryUtils';
 import UserIdentifier from '../components/UserIdentifier';
 
-/** ID definice standardního jednorázového vstupu na backendu. */
-const STANDARD_ENTRY_ID = 1;
 
 /**
  * Renders only the {@link UserIdentifier} modal. Once the user is found
@@ -29,17 +25,7 @@ export default function ChargeOneTimeEntry() {
 
         const chargeEntry = async () => {
             try {
-                const purchaseDate = new Date().toISOString().split('T')[0];
-                await api.post(
-                    '/user-one-time-entries',
-                    {
-                        userID: userId,
-                        oneTimeEntryID: STANDARD_ENTRY_ID,
-                        purchaseDate,
-                        isUsed: false
-                    },
-                    { params: { count: 1 } }
-                );
+                await chargeOneTimeEntry(userId, STANDARD_ENTRY_ID, 1);
                 toast.success('Jednorázový vstup úspěšně dobit.');
             } catch (err) {
                 console.error(err);

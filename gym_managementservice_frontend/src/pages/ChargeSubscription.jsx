@@ -9,6 +9,7 @@ import styles from './ChargeSubscription.module.css';
 import api from '../services/api';
 import useChargeSubscription from '../hooks/useChargeSubscription';
 import { formatDate } from '../utils/dateUtils';
+import { chargeOneTimeEntry } from '../utils/oneTimeEntryUtils';
 
 import SimpleButton from '../components/SimpleButton';
 import SimpleModal from '../components/SimpleModal';
@@ -133,19 +134,10 @@ function ChargeSubscription() {
             // (B) Dobití jednorázových vstupů
         } else if (modalAction === 'onetimes' && selectedOneTimeEntry) {
             try {
-                const purchaseDate = new Date().toISOString().split('T')[0];
-                await api.post(
-                    '/user-one-time-entries',
-                    {
-                        userID: userId,
-                        oneTimeEntryID: selectedOneTimeEntry.oneTimeEntryID,
-                        purchaseDate,
-                        isUsed: false
-                    },
-                    {
-                        // count = kolikrát se má dokoupit
-                        params: { count: oneTimeToAdd }
-                    }
+                await chargeOneTimeEntry(
+                    userId,
+                    selectedOneTimeEntry.oneTimeEntryID,
+                    oneTimeToAdd
                 );
                 toast.success(`Dobito ${oneTimeToAdd} vstupů, cena: ${modalPrice} Kč`);
                 setOneTimeToAdd(1); // Vrátíme na 1
