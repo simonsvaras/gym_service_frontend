@@ -4,6 +4,7 @@ import styles from './ManualCharge.module.css';
 
 import api from '../services/api';
 import useChargeSubscription from '../hooks/useChargeSubscription';
+import { chargeOneTimeEntry, MANUAL_ENTRY_ID } from '../utils/oneTimeEntryUtils';
 
 import UserInfoBox from '../components/UserInfoBox';
 import SimpleButton from '../components/SimpleButton';
@@ -21,6 +22,8 @@ function ManualCharge() {
 
     const [customEndDate, setCustomEndDate] = useState('');
     const [customPrice, setCustomPrice] = useState(0);
+    const [manualEntryCount, setManualEntryCount] = useState(0);
+    const [manualEntryPrice, setManualEntryPrice] = useState(0);
 
     useEffect(() => {
         if (error) toast.error(error);
@@ -35,6 +38,10 @@ function ManualCharge() {
             toast.warn('Cena nemůže být záporná.');
             return;
         }
+        if (manualEntryPrice < 0 || manualEntryCount < 0) {
+            toast.warn('Počet ani cena manuálních vstupů nemůže být záporná.');
+            return;
+        }
         try {
             const today = new Date().toISOString().slice(0, 10);
             await api.post('/user-subscriptions', {
@@ -46,6 +53,16 @@ function ManualCharge() {
                 customEndDate,
                 customPrice
             });
+
+            if (manualEntryCount > 0) {
+                await chargeOneTimeEntry(
+                    userId,
+                    MANUAL_ENTRY_ID,
+                    manualEntryCount,
+                    manualEntryPrice
+                );
+            }
+
             toast.success('Předplatné úspěšně dobito.');
         } catch (err) {
             console.error(err);
@@ -104,6 +121,28 @@ function ManualCharge() {
                             min="0"
                             step="1"
                             onChange={(e) => setCustomPrice(Number(e.target.value))}
+                        />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="manualCount">Počet manuálních vstupů:</label>
+                        <input
+                            id="manualCount"
+                            type="number"
+                            value={manualEntryCount}
+                            min="0"
+                            step="1"
+                            onChange={(e) => setManualEntryCount(Number(e.target.value))}
+                        />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="manualPrice">Cena manuálního vstupu (Kč):</label>
+                        <input
+                            id="manualPrice"
+                            type="number"
+                            value={manualEntryPrice}
+                            min="0"
+                            step="1"
+                            onChange={(e) => setManualEntryPrice(Number(e.target.value))}
                         />
                     </div>
                     <SimpleButton text="Potvrdit" onClick={handleConfirm} />
