@@ -28,7 +28,7 @@ function AdminPage() {
             return;
         }
         try {
-            const resp = await api.get(`/validateEntryByUserID/${selectedUser}`);
+            const resp = await api.get(`entry-validation/validateEntryByUserID/${selectedUser}`);
             toast.success(resp.data?.message || 'Vstup povolen.');
         } catch (err) {
             const msg = err.response?.data?.message || 'Vstup odepřen.';
@@ -43,7 +43,7 @@ function AdminPage() {
             return;
         }
         try {
-            const resp = await api.get(`/validateEntryByCardNumber/${cardNumber}`);
+            const resp = await api.get(`entry-validation/validateEntryByCardNumber/${cardNumber}`);
             toast.success(resp.data?.message || 'Vstup povolen.');
         } catch (err) {
             const msg = err.response?.data?.message || 'Vstup odepřen.';

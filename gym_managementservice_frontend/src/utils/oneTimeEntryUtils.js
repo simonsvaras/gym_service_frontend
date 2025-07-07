@@ -10,15 +10,20 @@ export async function chargeOneTimeEntry(
     customPrice = 0
 ) {
     const purchaseDate = new Date().toISOString().split('T')[0];
+
+    // Sestavíme tělo požadavku dynamicky
+    const payload = {
+        userID,
+        oneTimeEntryID,
+        purchaseDate,
+        isUsed: false,
+        // přidá customPrice pouze pokud ID je MANUAL_ENTRY_ID
+        ...(oneTimeEntryID === MANUAL_ENTRY_ID && { customPrice }),
+    };
+
     await api.post(
         '/user-one-time-entries',
-        {
-            userID,
-            oneTimeEntryID,
-            purchaseDate,
-            isUsed: false,
-            customPrice
-        },
+        payload,
         { params: { count } }
     );
 }
