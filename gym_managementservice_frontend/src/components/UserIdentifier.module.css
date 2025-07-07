@@ -29,3 +29,9 @@
     background-color: #2a2a2a;
     color: #fff;
 }
+
+.modalButtons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
