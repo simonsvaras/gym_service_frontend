@@ -2,12 +2,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { osloveni } from 'osloveni';
+import { vocative } from 'czech-vocative'
 import styles from './EntryStatusPage.module.css';
+
 
 function EntryStatusPage() {
     const clientRef = useRef(null);
     const [message, setMessage] = useState(null);
+
 
     useEffect(() => {
         const socketUrl = `${import.meta.env.VITE_BACKEND_URL}/ws-entry`;
@@ -36,7 +38,7 @@ function EntryStatusPage() {
 
     useEffect(() => {
         if (!message) return;
-        const timer = setTimeout(() => setMessage(null), 5000);
+        const timer = setTimeout(() => setMessage(null), 8000);
         return () => clearTimeout(timer);
     }, [message]);
 
@@ -50,7 +52,8 @@ function EntryStatusPage() {
             );
         }
 
-        const name = osloveni(message.firstname || '');
+        const rawVocative = vocative(message.firstname || '')
+        const name = capitalize(rawVocative)
 
         switch (message.status) {
         case 'OK_SUBSCRIPTION':
@@ -83,6 +86,16 @@ function EntryStatusPage() {
     };
 
     return <div className={styles.container}>{renderContent()}</div>;
+}
+
+/**
+ * Vrátí řetězec s velkým prvním písmenem (nebo prázdný řetězec, pokud je input prázdný)
+ * @param {string} s
+ * @returns {string}
+ */
+function capitalize(s) {
+    if (!s) return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default EntryStatusPage;
