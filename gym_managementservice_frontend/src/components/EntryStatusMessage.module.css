@@ -1,0 +1,29 @@
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.messageContainer h1 {
+    font-size: 5vw;
+    margin: 0;
+}
+
+.messageContainer h2 {
+    font-size: 3vw;
+    margin: 0;
+}
+
+.messageContainer p {
+    font-size: 2vw;
+    margin: 1rem 0 0;
+}
+
+.chill {
+    font-size: 8vw;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+}
