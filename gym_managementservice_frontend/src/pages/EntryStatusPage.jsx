@@ -11,7 +11,7 @@ function EntryStatusPage() {
     const [expiryDate, setExpiryDate] = useState(null);
 
     useEffect(() => {
-        const socketUrl = `${import.meta.env.VITE_BACKEND_URL.replace('http', 'ws')}/ws-entry`;
+        const socketUrl = `${import.meta.env.VITE_BACKEND_URL}/ws-entry`;
         const client = new Client({
             webSocketFactory: () => new SockJS(socketUrl),
             onConnect: () => {
