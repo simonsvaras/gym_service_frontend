@@ -7,3 +7,9 @@
     min-height: 100vh;
     text-align: center;
 }
+
+.chill {
+    font-size: 8vw;
+    font-weight: bold;
+    line-height: 1.1;
+}
