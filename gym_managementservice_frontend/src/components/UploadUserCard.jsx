@@ -5,7 +5,7 @@ import api from '../services/api.js';
 import SimpleButton from './SimpleButton.jsx';
 import styles from './UploadUserCard.module.css';
 
-function UploadUserCard({ userId }) {
+function UploadUserCard({ userId, onSuccess }) {
     const [cardNumber, setCardNumber] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -20,6 +20,7 @@ function UploadUserCard({ userId }) {
             await api.post(`/users/${userId}/assignCard`, { cardNumber });
             toast.success('Karta úspěšně přiřazena!');
             setCardNumber('');
+            onSuccess();
         } catch (error) {
             toast.error('Nepodařilo se přiřadit kartu: ' + (error.response?.data?.error || error.message));
         } finally {
@@ -50,7 +51,8 @@ function UploadUserCard({ userId }) {
 }
 
 UploadUserCard.propTypes = {
-    userId: PropTypes.number.isRequired
+    userId: PropTypes.number.isRequired,
+    onSuccess: PropTypes.func.isRequired,
 };
 
 export default UploadUserCard;

@@ -1,6 +1,31 @@
-/* Kontejner pro oba stavy (registrace a úspěšná registrace) */
+/* RegistrationForm.module.css */
+
+/* Kontejner pro všechny stavy (registrace a úspěšná registrace) */
 .registrationContainer {
     position: relative;
+}
+
+/* Kontejner pro Stepper */
+.stepperContainer {
+    max-width: 30%;
+    margin: 0 auto 2rem;    /* vycentrování + spodní odsazení */
+    padding: 1rem 0;         /* prostor nahoře i dole */
+}
+
+/* Přebarvení linek mezi kroky JOY UI Stepper */
+.stepperContainer .MuiStepConnector-line {
+    border-color: #444;      /* tmavší odstín pro dark-mode */
+}
+
+/* Přizpůsobení textů v jednotlivých krocích */
+.stepperContainer .MuiTypography-title-sm {
+    color: #ccc;             /* světlejší šedá pro neutrální stav */
+}
+
+/* Aktivní a dokončené kroky bílým textem */
+.stepperContainer .MuiStep-root.Mui-active .MuiTypography-title-sm,
+.stepperContainer .MuiStep-root.Mui-completed .MuiTypography-title-sm {
+    color: #fff;
 }
 
 /* Registrační formulář */
@@ -49,12 +74,14 @@
     margin-top: 0.25rem;
 }
 
+/* Zpráva o úspěchu */
 .message {
     text-align: center;
     margin-bottom: 1rem;
-    color: #4caf50; /* Zelená pro úspěch, lze dynamicky měnit */
+    color: #4caf50; /* zelená pro úspěch */
 }
 
+/* Tlačítka */
 button {
     width: 100%;
     padding: 0.75rem;
@@ -71,7 +98,7 @@ button:hover {
     background-color: #535bf2;
 }
 
-/* Kontejner pro úspěšnou registraci + upload fotografie */
+/* Kontejner pro úspěšnou registraci + upload */
 .successContainer {
     max-width: 30%;
     min-width: 30%;
@@ -84,7 +111,7 @@ button:hover {
     text-align: center;
 }
 
-/* Přechodové animace pro CSSTransition */
+/* Přechodové animace CSSTransition */
 .fade-enter {
     opacity: 0;
 }
