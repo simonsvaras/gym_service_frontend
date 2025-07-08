@@ -30,7 +30,8 @@
     "react-toastify": "^11.0.3",
     "react-transition-group": "^4.4.5",
     "@stomp/stompjs": "^7.1.1",
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "osloveni": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
