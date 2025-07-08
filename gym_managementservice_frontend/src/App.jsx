@@ -19,6 +19,7 @@ import UserDetail from "./pages/UserDetail.jsx";
 import ClosurePage from "./pages/ClosurePage.jsx";
 import AllUsers from "./pages/AllUsers.jsx";
 import ShowHistoryPage from "./pages/ShowUserHistoryPage.jsx";
+import EntryStatusPage from "./pages/EntryStatusPage.jsx";
 
 function App() {
     return (
@@ -60,6 +61,7 @@ function App() {
                     <Route path="/users/:id" element={<UserDetail />} />
                     <Route path="/users/" element={<UserDetail />} />
                     <Route path="/users/:id/history" element={<ShowHistoryPage />} />
+                    <Route path="/entry-status" element={<EntryStatusPage />} />
                 </Routes>
             </div>
         </Router>
