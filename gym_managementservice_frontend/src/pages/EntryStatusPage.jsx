@@ -6,6 +6,8 @@ import styles from './EntryStatusPage.module.css';
 import EntryStatusMessage from '../components/EntryStatusMessage.jsx';
 
 
+const MESSAGE_TIMEOUT = 8000; // how long to show the message in ms
+
 function EntryStatusPage() {
     const clientRef = useRef(null);
     const [message, setMessage] = useState(null);
@@ -38,13 +40,13 @@ function EntryStatusPage() {
 
     useEffect(() => {
         if (!message) return;
-        const timer = setTimeout(() => setMessage(null), 8000);
+        const timer = setTimeout(() => setMessage(null), MESSAGE_TIMEOUT);
         return () => clearTimeout(timer);
     }, [message]);
 
     return (
         <div className={styles.container}>
-            <EntryStatusMessage message={message} />
+            <EntryStatusMessage message={message} timeout={MESSAGE_TIMEOUT} />
         </div>
     );
 }
