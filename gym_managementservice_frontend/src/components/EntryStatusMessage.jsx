@@ -2,7 +2,7 @@ import React from 'react';
 import { vocative } from 'czech-vocative';
 import styles from './EntryStatusMessage.module.css';
 
-function EntryStatusMessage({ message }) {
+function EntryStatusMessage({ message, timeout = 8000 }) {
     if (!message) {
         return (
             <h1 className={styles.chill}>
@@ -48,7 +48,17 @@ function EntryStatusMessage({ message }) {
         content = null;
     }
 
-    return <div className={styles.messageContainer}>{content}</div>;
+    return (
+        <div
+            className={styles.messageContainer}
+            style={{ '--duration': `${timeout}ms` }}
+        >
+            {content}
+            <div className={styles.progressBarContainer}>
+                <div className={styles.progressBar} />
+            </div>
+        </div>
+    );
 }
 
 function capitalize(s) {
