@@ -23,6 +23,8 @@ export default function ChargeOneTimeEntry() {
     const handleResult = ({ status, userID }) => {
         if (status === 'ASSIGNED' && userID != null) {
             setUserId(userID);
+        } else if (status === 'NOT_REGISTERED' || status === 'UNASSIGNED') {
+            setUserId(-1);
         } else {
             navigate(-1);
         }
