@@ -33,7 +33,7 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
                     toast.error('Neznámá odpověď serveru.');
                 }
 
-                onUserFound({ status, userID });
+                onUserFound({ status, userID, cardNumber });
             } else {
                 switch (status) {
                     case 'NOT_REGISTERED':

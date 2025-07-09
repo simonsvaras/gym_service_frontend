@@ -21,7 +21,7 @@ export default function ChargeOneTimeEntryStudent() {
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
-    const handleResult = ({ status, userID }) => {
+    const handleResult = ({ status, userID, cardNumber }) => {
         if (status === 'ASSIGNED' && userID != null) {
             setUserId(userID);
         } else if (status === 'NOT_REGISTERED' || status === 'UNASSIGNED') {
