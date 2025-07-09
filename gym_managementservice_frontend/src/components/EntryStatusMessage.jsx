@@ -21,7 +21,7 @@ function EntryStatusMessage({ message, timeout = 8000 }) {
         content = (
             <>
                 <h1>Vítejte {name},</h1>
-                <h2>pěkně si zacvičte</h2>
+                <h2>{message.text}</h2>
                 <p>Vaše předplatné je aktivní do: {message.expiryDate}</p>
             </>
         );
@@ -30,7 +30,7 @@ function EntryStatusMessage({ message, timeout = 8000 }) {
         content = (
             <>
                 <h1>Vítejte {name},</h1>
-                <h2>pěkně si zacvičte</h2>
+                <h2>{message.text}</h2>
                 <p>Počet zbývajících vstupů: {message.remainingEntries}</p>
             </>
         );

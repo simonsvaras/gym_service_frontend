@@ -20,13 +20,24 @@ function UserIdentifier({ onUserFound }) {
         setLoading(true);
         try {
             const response = await api.get(`/users/byCardNumber/${cardNumber}`);
-            const data = response.data;
-            if (data.warning) {
-                toast.warn(data.warning);
-            } else if (data.userID) {
-                onUserFound(data.userID);
-            } else {
-                toast.error('Neznámá odpověď serveru.');
+            const { status, userID } = response.data;
+
+            switch (status) {
+                case 'NOT_REGISTERED':
+                    toast.warn('Karta ještě nebyla nikdy použita.');
+                    break;
+                case 'UNASSIGNED':
+                    toast.warn('Tato karta není přiřazena žádnému uživateli.');
+                    break;
+                case 'ASSIGNED':
+                    if (userID != null) {
+                        onUserFound(userID);
+                    } else {
+                        toast.error('Neočekávaná odpověď: chybí ID uživatele.');
+                    }
+                    break;
+                default:
+                    toast.error('Neznámá odpověď serveru.');
             }
         } catch (err) {
             console.error(err);
@@ -68,7 +79,7 @@ function UserIdentifier({ onUserFound }) {
 }
 
 UserIdentifier.propTypes = {
-    onUserFound: PropTypes.func.isRequired
+    onUserFound: PropTypes.func.isRequired,
 };
 
 export default UserIdentifier;
