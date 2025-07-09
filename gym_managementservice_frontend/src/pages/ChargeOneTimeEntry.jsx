@@ -20,6 +20,14 @@ export default function ChargeOneTimeEntry() {
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
+    const handleResult = ({ status, userID }) => {
+        if (status === 'ASSIGNED' && userID != null) {
+            setUserId(userID);
+        } else {
+            navigate(-1);
+        }
+    };
+
     useEffect(() => {
         if (!userId) return;
 
@@ -38,5 +46,5 @@ export default function ChargeOneTimeEntry() {
         chargeEntry();
     }, [userId, navigate]);
 
-    return <UserIdentifier onUserFound={setUserId} />;
+    return <UserIdentifier onUserFound={handleResult} mode="single" />;
 }

@@ -6,7 +6,7 @@ import api from '../services/api';
 import SimpleButton from './SimpleButton';
 import styles from './UserIdentifier.module.css';
 
-function UserIdentifier({ onUserFound }) {
+function UserIdentifier({ onUserFound, mode = 'multiple' }) {
     const [cardNumber, setCardNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -22,22 +22,36 @@ function UserIdentifier({ onUserFound }) {
             const response = await api.get(`/users/byCardNumber/${cardNumber}`);
             const { status, userID } = response.data;
 
-            switch (status) {
-                case 'NOT_REGISTERED':
+            if (mode === 'single') {
+                if (status === 'ASSIGNED' && userID != null) {
+                    toast.success('Uživatel nalezen.');
+                } else if (status === 'NOT_REGISTERED') {
                     toast.warn('Karta ještě nebyla nikdy použita.');
-                    break;
-                case 'UNASSIGNED':
+                } else if (status === 'UNASSIGNED') {
                     toast.warn('Tato karta není přiřazena žádnému uživateli.');
-                    break;
-                case 'ASSIGNED':
-                    if (userID != null) {
-                        onUserFound(userID);
-                    } else {
-                        toast.error('Neočekávaná odpověď: chybí ID uživatele.');
-                    }
-                    break;
-                default:
+                } else {
                     toast.error('Neznámá odpověď serveru.');
+                }
+
+                onUserFound({ status, userID });
+            } else {
+                switch (status) {
+                    case 'NOT_REGISTERED':
+                        toast.warn('Karta ještě nebyla nikdy použita.');
+                        break;
+                    case 'UNASSIGNED':
+                        toast.warn('Tato karta není přiřazena žádnému uživateli.');
+                        break;
+                    case 'ASSIGNED':
+                        if (userID != null) {
+                            onUserFound(userID);
+                        } else {
+                            toast.error('Neočekávaná odpověď: chybí ID uživatele.');
+                        }
+                        break;
+                    default:
+                        toast.error('Neznámá odpověď serveru.');
+                }
             }
         } catch (err) {
             console.error(err);
@@ -80,6 +94,7 @@ function UserIdentifier({ onUserFound }) {
 
 UserIdentifier.propTypes = {
     onUserFound: PropTypes.func.isRequired,
+    mode: PropTypes.oneOf(['multiple', 'single']),
 };
 
 export default UserIdentifier;
