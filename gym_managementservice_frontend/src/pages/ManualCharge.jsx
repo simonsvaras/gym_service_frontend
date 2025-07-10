@@ -8,9 +8,10 @@ import { chargeOneTimeEntry, MANUAL_ENTRY_ID } from '../utils/oneTimeEntryUtils'
 
 import UserInfoBox from '../components/UserInfoBox';
 import SimpleButton from '../components/SimpleButton';
+import UserIdentifier from '../components/UserIdentifier';
 
 function ManualCharge() {
-    const userId = 1;
+    const [userId, setUserId] = useState(null);
     const {
         user,
         hasActiveSubscription,
@@ -28,6 +29,10 @@ function ManualCharge() {
     useEffect(() => {
         if (error) toast.error(error);
     }, [error]);
+
+    if (!userId) {
+        return <UserIdentifier onUserFound={setUserId} mode="multiple" />;
+    }
 
     const handleConfirm = async () => {
         if (!customEndDate) {
