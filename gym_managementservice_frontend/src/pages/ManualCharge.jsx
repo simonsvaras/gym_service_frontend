@@ -22,9 +22,9 @@ function ManualCharge() {
     } = useChargeSubscription(userId);
 
     const [customEndDate, setCustomEndDate] = useState('');
-    const [customPrice, setCustomPrice] = useState(0);
-    const [manualEntryCount, setManualEntryCount] = useState(0);
-    const [manualEntryPrice, setManualEntryPrice] = useState(0);
+    const [customPrice, setCustomPrice] = useState('');
+    const [manualEntryCount, setManualEntryCount] = useState('');
+    const [manualEntryPrice, setManualEntryPrice] = useState('');
 
     useEffect(() => {
         if (error) toast.error(error);
@@ -53,11 +53,16 @@ function ManualCharge() {
             toast.warn('Zadejte datum konce.');
             return;
         }
-        if (customPrice < 0) {
+
+        const priceNumber = Number(customPrice) || 0;
+        const entryCountNumber = Number(manualEntryCount) || 0;
+        const entryPriceNumber = Number(manualEntryPrice) || 0;
+
+        if (priceNumber < 0) {
             toast.warn('Cena nemůže být záporná.');
             return;
         }
-        if (manualEntryPrice < 0 || manualEntryCount < 0) {
+        if (entryPriceNumber < 0 || entryCountNumber < 0) {
             toast.warn('Počet ani cena manuálních vstupů nemůže být záporná.');
             return;
         }
@@ -70,15 +75,15 @@ function ManualCharge() {
                 endDate: customEndDate,
                 isActive: true,
                 customEndDate,
-                customPrice
+                customPrice: priceNumber
             });
 
-            if (manualEntryCount > 0) {
+            if (entryCountNumber > 0) {
                 await chargeOneTimeEntry(
                     userId,
                     MANUAL_ENTRY_ID,
-                    manualEntryCount,
-                    manualEntryPrice
+                    entryCountNumber,
+                    entryPriceNumber
                 );
             }
 
@@ -126,7 +131,7 @@ function ManualCharge() {
                             value={customPrice}
                             min="0"
                             step="1"
-                            onChange={(e) => setCustomPrice(Number(e.target.value))}
+                            onChange={(e) => setCustomPrice(e.target.value)}
                         />
                     </div>
                     <div className={styles.inputGroup}>
@@ -137,7 +142,7 @@ function ManualCharge() {
                             value={manualEntryCount}
                             min="0"
                             step="1"
-                            onChange={(e) => setManualEntryCount(Number(e.target.value))}
+                            onChange={(e) => setManualEntryCount(e.target.value)}
                         />
                     </div>
                     <div className={styles.inputGroup}>
@@ -148,7 +153,7 @@ function ManualCharge() {
                             value={manualEntryPrice}
                             min="0"
                             step="1"
-                            onChange={(e) => setManualEntryPrice(Number(e.target.value))}
+                            onChange={(e) => setManualEntryPrice(e.target.value)}
                         />
                     </div>
                     <SimpleButton text="Potvrdit" onClick={handleConfirm} />
