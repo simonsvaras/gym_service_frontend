@@ -1,8 +1,8 @@
 .chargeContainer {
-    width: 80%;
-    max-width: 900px;
+    width: 90%;
+    max-width: 1200px;
     margin: 6rem auto;
-    padding: 2rem;
+    padding: 2.5rem;
     background-color: var(--main-content-background);
     border-radius: 8px;
     color: #fff;
@@ -11,11 +11,12 @@
 h2 {
     text-align: center;
     margin-bottom: 2rem;
+    font-size: 2rem;
 }
 
 .columns {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     align-items: flex-start;
 }
 
@@ -39,6 +40,10 @@ h2 {
     border-radius: 8px;
 }
 
+.formColumn button {
+    font-size: 1.1rem;
+}
+
 /* Form Group */
 .inputGroup {
     display: flex;
@@ -48,6 +53,7 @@ h2 {
 .inputGroup label {
     margin-bottom: 0.5rem;
     font-weight: 500;
+    font-size: 1.1rem;
 }
 
 .inputGroup input {
@@ -56,6 +62,7 @@ h2 {
     border: 1px solid #646cff;
     background-color: #2a2a2a;
     color: #fff;
+    font-size: 1.1rem;
 }
 
 .inputGroup input:focus {

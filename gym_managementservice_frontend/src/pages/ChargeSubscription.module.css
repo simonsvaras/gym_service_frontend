@@ -1,10 +1,10 @@
 /* src/pages/ChargeSubscription.module.css */
 
 .chargeContainer {
-    width: 70%;
-    min-width: 600px;
-    margin: 7rem auto 0; /* Horizontální centrování */
-    padding: 1.5rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 5rem auto 0; /* Horizontální centrování */
+    padding: 2rem;
     color: #fff;
     background-color: var(--main-content-background);
     border-radius: 8px;
@@ -13,6 +13,7 @@
 h2 {
     text-align: center;
     margin-bottom: 2rem;
+    font-size: 2rem;
 }
 
 .error {
@@ -25,7 +26,7 @@ h2 {
 .mainContent {
     display: flex;
     flex-direction: row;
-    gap: 5rem;
+    gap: 3rem;
     align-items: flex-start;
     align-content: space-around;
     justify-content: space-evenly
@@ -102,7 +103,7 @@ h2 {
 
 /* Text vedle slideru */
 .labelText {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #fff;
 }
 
@@ -111,7 +112,11 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    width: 45%;
+    width: 50%;
+}
+
+.actionsColumn button {
+    font-size: 1.1rem;
 }
 
 /* Styl pro jednotlivé sekce akcí */
