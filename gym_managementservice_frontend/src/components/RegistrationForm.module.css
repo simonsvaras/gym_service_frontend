@@ -63,6 +63,25 @@
     color: #fff;
 }
 
+.birthdateInputs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.birthdateInputs select {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+.birthdateInputs select:focus {
+    border-color: #646cff;
+    outline: none;
+}
+
 .formGroup input:focus {
     border-color: #646cff;
     outline: none;
