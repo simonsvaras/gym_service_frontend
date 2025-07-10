@@ -26,6 +26,9 @@ function ManualCharge() {
     const [manualEntryCount, setManualEntryCount] = useState('');
     const [manualEntryPrice, setManualEntryPrice] = useState('');
 
+    const [isSubmittingSubscription, setIsSubmittingSubscription] = useState(false);
+    const [isSubmittingEntry, setIsSubmittingEntry] = useState(false);
+
     useEffect(() => {
         if (error) toast.error(error);
     }, [error]);
@@ -48,25 +51,26 @@ function ManualCharge() {
         points: user.points,
     } : null;
 
-    const handleConfirm = async () => {
+    const handleSubscriptionConfirm = async (e) => {
+        e.preventDefault();
+
         if (!customEndDate) {
             toast.warn('Zadejte datum konce.');
             return;
         }
+        if (customPrice === '') {
+            toast.warn('Zadejte cenu předplatného.');
+            return;
+        }
 
-        const priceNumber = Number(customPrice) || 0;
-        const entryCountNumber = Number(manualEntryCount) || 0;
-        const entryPriceNumber = Number(manualEntryPrice) || 0;
-
+        const priceNumber = Number(customPrice);
         if (priceNumber < 0) {
             toast.warn('Cena nemůže být záporná.');
             return;
         }
-        if (entryPriceNumber < 0 || entryCountNumber < 0) {
-            toast.warn('Počet ani cena manuálních vstupů nemůže být záporná.');
-            return;
-        }
+
         try {
+            setIsSubmittingSubscription(true);
             const today = new Date().toISOString().slice(0, 10);
             await api.post('/user-subscriptions', {
                 userID: userId,
@@ -78,19 +82,57 @@ function ManualCharge() {
                 customPrice: priceNumber
             });
 
-            if (entryCountNumber > 0) {
-                await chargeOneTimeEntry(
-                    userId,
-                    MANUAL_ENTRY_ID,
-                    entryCountNumber,
-                    entryPriceNumber
-                );
-            }
-
             toast.success('Předplatné úspěšně dobito.');
+            window.location.reload();
         } catch (err) {
             console.error(err);
-            toast.error('Nepodařilo se provést dobití.');
+            toast.error('Nepodařilo se provést dobití předplatného.');
+        } finally {
+            setIsSubmittingSubscription(false);
+        }
+    };
+
+    const handleEntryConfirm = async (e) => {
+        e.preventDefault();
+
+        if (manualEntryCount === '') {
+            toast.warn('Zadejte počet manuálních vstupů.');
+            return;
+        }
+        if (manualEntryPrice === '') {
+            toast.warn('Zadejte cenu manuálního vstupu.');
+            return;
+        }
+
+        const countNumber = Number(manualEntryCount);
+        const priceNumber = Number(manualEntryPrice);
+
+        if (countNumber <= 0) {
+            toast.warn('Počet musí být větší než 0.');
+            return;
+        }
+        if (priceNumber < 0) {
+            toast.warn('Cena nemůže být záporná.');
+            return;
+        }
+
+        try {
+            setIsSubmittingEntry(true);
+            await chargeOneTimeEntry(
+                userId,
+                MANUAL_ENTRY_ID,
+                countNumber,
+                null,
+                priceNumber
+            );
+
+            toast.success('Vstupy úspěšně dobity.');
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+            toast.error('Nepodařilo se provést dobití vstupů.');
+        } finally {
+            setIsSubmittingEntry(false);
         }
     };
 
@@ -114,49 +156,63 @@ function ManualCharge() {
                 )}
 
                 <div className={styles.formColumn}>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="endDate">Datum konce:</label>
-                        <input
-                            id="endDate"
-                            type="date"
-                            value={customEndDate}
-                            onChange={(e) => setCustomEndDate(e.target.value)}
+                    <form className={styles.formSection} onSubmit={handleSubscriptionConfirm}>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="endDate">Datum konce:</label>
+                            <input
+                                id="endDate"
+                                type="date"
+                                value={customEndDate}
+                                onChange={(e) => setCustomEndDate(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="price">Cena (Kč):</label>
+                            <input
+                                id="price"
+                                type="number"
+                                value={customPrice}
+                                min="0"
+                                step="1"
+                                onChange={(e) => setCustomPrice(e.target.value)}
+                            />
+                        </div>
+                        <SimpleButton
+                            type="submit"
+                            text={isSubmittingSubscription ? 'Načítám...' : 'Potvrdit'}
+                            disabled={isSubmittingSubscription}
                         />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="price">Cena (Kč):</label>
-                        <input
-                            id="price"
-                            type="number"
-                            value={customPrice}
-                            min="0"
-                            step="1"
-                            onChange={(e) => setCustomPrice(e.target.value)}
+                    </form>
+
+                    <form className={styles.formSection} onSubmit={handleEntryConfirm}>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="manualCount">Počet manuálních vstupů:</label>
+                            <input
+                                id="manualCount"
+                                type="number"
+                                value={manualEntryCount}
+                                min="0"
+                                step="1"
+                                onChange={(e) => setManualEntryCount(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="manualPrice">Cena manuálního vstupu (Kč):</label>
+                            <input
+                                id="manualPrice"
+                                type="number"
+                                value={manualEntryPrice}
+                                min="0"
+                                step="1"
+                                onChange={(e) => setManualEntryPrice(e.target.value)}
+                            />
+                        </div>
+                        <SimpleButton
+                            type="submit"
+                            text={isSubmittingEntry ? 'Načítám...' : 'Potvrdit'}
+                            disabled={isSubmittingEntry}
                         />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="manualCount">Počet manuálních vstupů:</label>
-                        <input
-                            id="manualCount"
-                            type="number"
-                            value={manualEntryCount}
-                            min="0"
-                            step="1"
-                            onChange={(e) => setManualEntryCount(e.target.value)}
-                        />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="manualPrice">Cena manuálního vstupu (Kč):</label>
-                        <input
-                            id="manualPrice"
-                            type="number"
-                            value={manualEntryPrice}
-                            min="0"
-                            step="1"
-                            onChange={(e) => setManualEntryPrice(e.target.value)}
-                        />
-                    </div>
-                    <SimpleButton text="Potvrdit" onClick={handleConfirm} />
+                    </form>
                 </div>
             </div>
         </div>
