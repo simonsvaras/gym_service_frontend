@@ -82,6 +82,7 @@ export default function UserDetail() {
                         latestSubscription && new Date(latestSubscription.endDate) < new Date()
                     }
                     oneTimeCount={oneTimeCount}
+                    points={user.points}
                 />
                 {/* SPODNÍ ŘÁDEK – STATISTIKY */}
                 <div className={styles.statsContainer}>

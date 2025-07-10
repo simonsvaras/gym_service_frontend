@@ -11,7 +11,8 @@ function UserInfoBox({
                          hasActiveSubscription,
                          latestSubscription,
                          isExpiredSubscription,
-                         oneTimeCount, // Přidán nový prop
+                         oneTimeCount,
+                        points,
                      }) {
     const formatDate = (dateObj) => {
         if (!dateObj) return '-';
@@ -66,6 +67,7 @@ function UserInfoBox({
                 <p className={styles.oneTimeCount}>
                     Počet jednorázovcýh vstupů: {oneTimeCount}
                 </p>
+                <p><strong>Body: </strong>{points}</p>
             </div>
         </div>
     );
