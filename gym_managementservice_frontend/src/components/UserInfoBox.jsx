@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './UserInfoBox.module.css';
+import InfoBox from './InfoBox';
 
 function UserInfoBox({ info }) {
     const {
@@ -64,11 +65,10 @@ function UserInfoBox({ info }) {
                     <p className={styles.noSubscription}><strong>Žádné aktivní předplatné.</strong></p>
                 )}
 
-                {/* Nový údaj o jednorázových vstupů */}
-                <p className={styles.oneTimeCount}>
-                    Počet jednorázovcýh vstupů: {oneTimeCount}
-                </p>
-                <p><strong>Body: </strong>{points}</p>
+                <div className={styles.statsContainer}>
+                    <InfoBox label="Vstupy" value={oneTimeCount ?? 0} />
+                    <InfoBox label="Body" value={points ?? 0} />
+                </div>
             </div>
         </div>
     );
