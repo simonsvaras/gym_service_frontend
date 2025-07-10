@@ -21,15 +21,22 @@ import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 
 export default function RegistrationForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: currentYear - 1940 + 1 }, (_, i) => 1940 + i);
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const [step, setStep] = useState(1); // 1=data, 2=photo, 3=card, 4=done
     const [newUserId, setNewUserId] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
+        const { birthDay, birthMonth, birthYear, ...rest } = data;
+        const birthdate = `${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`;
+        const requestData = { ...rest, birthdate };
         setLoading(true);
         try {
-            const response = await api.post('/users', data);
+            const response = await api.post('/users', requestData);
             setNewUserId(response.data.id);
             setStep(2);
             toast.success('Registrace úspěšná!');
@@ -181,12 +188,29 @@ export default function RegistrationForm() {
 
                     <div className={styles.formGroup}>
                         <label htmlFor="birthdate">Datum narození</label>
-                        <input
-                            id="birthdate"
-                            type="date"
-                            {...register('birthdate', { required: 'Datum narození je povinné' })}
-                        />
-                        {errors.birthdate && <p className={styles.error}>{errors.birthdate.message}</p>}
+                        <div className={styles.birthdateInputs}>
+                            <select id="birthDay" defaultValue="" {...register('birthDay', { required: 'Datum narození je povinné' })}>
+                                <option value="" disabled>Den</option>
+                                {days.map((day) => (
+                                    <option key={day} value={day}>{day}</option>
+                                ))}
+                            </select>
+                            <select id="birthMonth" defaultValue="" {...register('birthMonth', { required: 'Datum narození je povinné' })}>
+                                <option value="" disabled>Měsíc</option>
+                                {months.map((month) => (
+                                    <option key={month} value={month}>{month}</option>
+                                ))}
+                            </select>
+                            <select id="birthYear" defaultValue="" {...register('birthYear', { required: 'Datum narození je povinné' })}>
+                                <option value="" disabled>Rok</option>
+                                {years.map((year) => (
+                                    <option key={year} value={year}>{year}</option>
+                                ))}
+                            </select>
+                        </div>
+                        {(errors.birthDay || errors.birthMonth || errors.birthYear) && (
+                            <p className={styles.error}>Datum narození je povinné</p>
+                        )}
                     </div>
 
                     <SimpleButton
