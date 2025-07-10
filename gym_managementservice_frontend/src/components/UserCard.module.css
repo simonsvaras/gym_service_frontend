@@ -108,6 +108,14 @@
     font-size: 0.9rem;
 }
 
+/* Statistické údaje */
+.stats {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1rem;
+}
+
 /* Hover efekt u data posledního vstupu */
 .lastEntry:hover {
     color: var(--backgroud-color);

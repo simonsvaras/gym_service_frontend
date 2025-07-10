@@ -27,7 +27,9 @@ function UserCard({ user }) {
         lastname,
         profilePhotoPath,
         subscriptions = [],
-        lastEntryDate
+        lastEntryDate,
+        oneTimeCount,
+        points
     } = user;
 
     const navigate = useNavigate();
@@ -142,6 +144,11 @@ function UserCard({ user }) {
                 <p className={styles.lastEntry}>
                     Poslední vstup: <strong>{lastEntryDate ? formatDate(lastEntryDate) : 'Žádný vstup'}</strong>
                 </p>
+
+                <div className={styles.stats}>
+                    <p>Vstupy: <strong>{oneTimeCount ?? '-'}</strong></p>
+                    <p>Body: <strong>{points ?? '-'}</strong></p>
+                </div>
             </div>
         </div>
     );
@@ -156,6 +163,8 @@ UserCard.propTypes = {
         profilePhotoPath: PropTypes.string,
         subscriptions: PropTypes.array,
         lastEntryDate: PropTypes.string,
+        oneTimeCount: PropTypes.number,
+        points: PropTypes.number,
     }).isRequired,
 };
 

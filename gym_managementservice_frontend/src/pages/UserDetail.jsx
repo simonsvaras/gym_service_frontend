@@ -65,25 +65,25 @@ export default function UserDetail() {
         setShowAssignCard(prev => !prev);
     };
 
+    const userInfo = {
+        id: +userId,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        birthdate: user.birthdate,
+        profilePhoto: user.profilePhoto,
+        hasActiveSubscription,
+        latestSubscription,
+        isExpiredSubscription: latestSubscription && new Date(latestSubscription.endDate) < new Date(),
+        oneTimeCount,
+        points: user.points,
+    };
+
     return (
         <div className={styles.userDetailContainer}>
             {/* LEVÁ STRANA */}
             <div className={styles.leftSide}>
-                <UserInfoBox
-                    id={+userId}
-                    firstname={user.firstname}
-                    lastname={user.lastname}
-                    email={user.email}
-                    birthdate={user.birthdate}
-                    profilePhoto={user.profilePhoto}
-                    hasActiveSubscription={hasActiveSubscription}
-                    latestSubscription={latestSubscription}
-                    isExpiredSubscription={
-                        latestSubscription && new Date(latestSubscription.endDate) < new Date()
-                    }
-                    oneTimeCount={oneTimeCount}
-                    points={user.points}
-                />
+                <UserInfoBox info={userInfo} />
                 {/* SPODNÍ ŘÁDEK – STATISTIKY */}
                 <div className={styles.statsContainer}>
                     <div className={styles.statCard}>
