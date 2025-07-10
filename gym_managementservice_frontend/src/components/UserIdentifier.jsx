@@ -23,13 +23,7 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
             const { status, userID } = response.data;
 
             if (mode === 'single') {
-                if (status === 'ASSIGNED' && userID != null) {
-                    toast.success('Uživatel nalezen.');
-                } else if (status === 'NOT_REGISTERED') {
-                    toast.warn('Karta ještě nebyla nikdy použita.');
-                } else if (status === 'UNASSIGNED') {
-                    toast.warn('Tato karta není přiřazena žádnému uživateli.');
-                } else {
+                if (status !== 'ASSIGNED' || status !== 'NOT_REGISTERED' || status !== 'UNASSIGNED' || userID != null) {
                     toast.error('Neznámá odpověď serveru.');
                 }
 
