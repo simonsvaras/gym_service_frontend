@@ -1,19 +1,20 @@
 import React from 'react';
 import styles from './UserInfoBox.module.css';
 
-function UserInfoBox({
-                         id,
-                         firstname,
-                         lastname,
-                         email,
-                         birthdate,
-                         profilePhoto,
-                         hasActiveSubscription,
-                         latestSubscription,
-                         isExpiredSubscription,
-                         oneTimeCount,
-                        points,
-                     }) {
+function UserInfoBox({ info }) {
+    const {
+        id,
+        firstname,
+        lastname,
+        email,
+        birthdate,
+        profilePhoto,
+        hasActiveSubscription,
+        latestSubscription,
+        isExpiredSubscription,
+        oneTimeCount,
+        points,
+    } = info || {};
     const formatDate = (dateObj) => {
         if (!dateObj) return '-';
         return dateObj.toLocaleDateString('cs-CZ', {

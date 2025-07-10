@@ -62,3 +62,8 @@
     color: #ff6b6b; /* červená */
     margin-top: 0.5rem;
 }
+
+.oneTimeCount,
+.points {
+    margin-top: 0.5rem;
+}

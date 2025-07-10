@@ -34,6 +34,20 @@ function ManualCharge() {
         return <UserIdentifier onUserFound={setUserId} mode="multiple" />;
     }
 
+    const userInfo = user ? {
+        id: userId,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        birthdate: user.birthdate,
+        profilePhoto: user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null,
+        hasActiveSubscription,
+        latestSubscription,
+        isExpiredSubscription: latestSubscription && new Date(latestSubscription.endDate) < new Date(),
+        oneTimeCount,
+        points: user.points,
+    } : null;
+
     const handleConfirm = async () => {
         if (!customEndDate) {
             toast.warn('Zadejte datum konce.');
@@ -90,20 +104,7 @@ function ManualCharge() {
             <div className={styles.columns}>
                 {user && (
                     <div className={styles.infoColumn}>
-                        <UserInfoBox
-                            id={userId}
-                            firstname={user.firstname}
-                            lastname={user.lastname}
-                            email={user.email}
-                            birthdate={user.birthdate}
-                            profilePhoto={user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null}
-                            hasActiveSubscription={hasActiveSubscription}
-                            latestSubscription={latestSubscription}
-                            isExpiredSubscription={
-                                latestSubscription && new Date(latestSubscription.endDate) < new Date()
-                            }
-                            oneTimeCount={oneTimeCount}
-                        />
+                        <UserInfoBox info={userInfo} />
                     </div>
                 )}
 

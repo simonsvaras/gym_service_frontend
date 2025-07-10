@@ -153,6 +153,20 @@ function ChargeSubscription() {
         setIsModalOpen(false);
     };
 
+    const userInfo = user ? {
+        id: userId,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        birthdate: user.birthdate,
+        profilePhoto: user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null,
+        hasActiveSubscription,
+        latestSubscription,
+        isExpiredSubscription: latestSubscription && new Date(latestSubscription.endDate) < new Date(),
+        oneTimeCount,
+        points: user.points,
+    } : null;
+
     // Nejprve požádáme o číslo karty, dokud nemáme userId
     if (!userId) {
         return <UserIdentifier onUserFound={setUserId} />;
@@ -180,20 +194,7 @@ function ChargeSubscription() {
                 <div className={styles.mainContent}>
                     {/* Levý sloupec: info o uživateli */}
                     <div className={styles.leftColumn}>
-                        <UserInfoBox
-                            id={userId}
-                            firstname={user.firstname}
-                            lastname={user.lastname}
-                            email={user.email}
-                            birthdate={user.birthdate}
-                            profilePhoto={user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null}
-                            hasActiveSubscription={hasActiveSubscription}
-                            latestSubscription={latestSubscription}
-                            isExpiredSubscription={
-                                latestSubscription && new Date(latestSubscription.endDate) < new Date()
-                            }
-                            oneTimeCount={oneTimeCount}
-                        />
+                        <UserInfoBox info={userInfo} />
 
                         {/* Checkbox "Je student?" */}
                         <div className={styles.studentCheckboxContainer}>
