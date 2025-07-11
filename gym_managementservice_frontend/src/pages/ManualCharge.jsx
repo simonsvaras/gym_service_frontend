@@ -11,7 +11,10 @@ import SimpleButton from '../components/SimpleButton';
 import UserIdentifier from '../components/UserIdentifier';
 
 function ManualCharge() {
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState(() => {
+        const stored = localStorage.getItem('manualChargeUserId');
+        return stored ? Number(stored) : null;
+    });
     const {
         user,
         hasActiveSubscription,
@@ -32,6 +35,12 @@ function ManualCharge() {
     useEffect(() => {
         if (error) toast.error(error);
     }, [error]);
+
+    useEffect(() => {
+        if (userId !== null) {
+            localStorage.setItem('manualChargeUserId', String(userId));
+        }
+    }, [userId]);
 
     if (!userId) {
         return <UserIdentifier onUserFound={setUserId} mode="multiple" />;
