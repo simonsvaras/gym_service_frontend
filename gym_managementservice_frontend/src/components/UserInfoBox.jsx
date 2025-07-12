@@ -31,10 +31,11 @@ function UserInfoBox({ info }) {
     // Sestavení URL pro profilovou fotku v nejvyšší kvalitě
     const [photoUrl, setPhotoUrl] = useState(() =>
         buildProfilePhotoUrl(
-            profilePhotoPath || `/api/users/${id}/profilePhoto`,
+            profilePhotoPath,
             ProfilePhotoQuality.HIGH
         )
     );
+    console.log(profilePhotoUrl);
 
     const [showUpload, setShowUpload] = useState(false);
 

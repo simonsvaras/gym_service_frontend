@@ -11,7 +11,7 @@ export const ProfilePhotoQuality = {
  * @returns {string|null} Full URL or null if path is not provided.
  */
 export function buildProfilePhotoUrl(profilePhotoPath, quality = ProfilePhotoQuality.HIGH) {
-    if (!profilePhotoPath) return null;
+    if (!profilePhotoPath) return '/src/assets/basic_avatar2.png';
     const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
     const separator = profilePhotoPath.includes('?') ? '&' : '?';
     return `${baseUrl}${profilePhotoPath}${separator}quality=${quality}`;
