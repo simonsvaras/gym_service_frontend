@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './UserInfoBox.module.css';
 import InfoBox from './InfoBox';
+import { buildProfilePhotoUrl, ProfilePhotoQuality } from '../utils/photoUtils.js';
 
 function UserInfoBox({ info }) {
     const {
@@ -9,7 +10,7 @@ function UserInfoBox({ info }) {
         lastname,
         email,
         birthdate,
-        profilePhoto,
+        profilePhotoPath,
         hasActiveSubscription,
         latestSubscription,
         isExpiredSubscription,
@@ -25,15 +26,16 @@ function UserInfoBox({ info }) {
         });
     };
 
-    // Sestavení URL pro profilovou fotku pomocí .env proměnné
-    const profilePhotoUrl = profilePhoto
-        ? `http://localhost:8080/api/users/${id}/profilePhoto`
-        : null;
+    // Sestavení URL pro profilovou fotku v nejvyšší kvalitě
+    const profilePhotoUrl = buildProfilePhotoUrl(
+        profilePhotoPath || `/api/users/${id}/profilePhoto`,
+        ProfilePhotoQuality.HIGH
+    );
 
     return (
         <div className={styles.userInfoBox}>
             <div className={styles.photoContainer}>
-                {profilePhoto ? (
+                {profilePhotoUrl ? (
                     <img
                         src={profilePhotoUrl}
                         alt={`${firstname} ${lastname}`}

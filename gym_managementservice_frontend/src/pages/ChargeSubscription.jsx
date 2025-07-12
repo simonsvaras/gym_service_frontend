@@ -159,7 +159,7 @@ function ChargeSubscription() {
         lastname: user.lastname,
         email: user.email,
         birthdate: user.birthdate,
-        profilePhoto: user.profilePhoto ? `/profile-photos/${user.profilePhoto}` : null,
+        profilePhotoPath: user.profilePhoto ? `/api/users/${userId}/profilePhoto` : null,
         hasActiveSubscription,
         latestSubscription,
         isExpiredSubscription: latestSubscription && new Date(latestSubscription.endDate) < new Date(),
