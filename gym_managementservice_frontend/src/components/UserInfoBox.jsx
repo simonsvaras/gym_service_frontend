@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './UserInfoBox.module.css';
 import InfoBox from './InfoBox';
+import SimpleButton from './SimpleButton';
+import UploadProfilePhoto from './UploadProfilePhoto';
 import { buildProfilePhotoUrl, ProfilePhotoQuality } from '../utils/photoUtils.js';
 
 function UserInfoBox({ info }) {
@@ -27,17 +29,30 @@ function UserInfoBox({ info }) {
     };
 
     // Sestavení URL pro profilovou fotku v nejvyšší kvalitě
-    const profilePhotoUrl = buildProfilePhotoUrl(
-        profilePhotoPath || `/api/users/${id}/profilePhoto`,
-        ProfilePhotoQuality.HIGH
+    const [photoUrl, setPhotoUrl] = useState(() =>
+        buildProfilePhotoUrl(
+            profilePhotoPath || `/api/users/${id}/profilePhoto`,
+            ProfilePhotoQuality.HIGH
+        )
     );
+
+    const [showUpload, setShowUpload] = useState(false);
+
+    const handleUploadSuccess = () => {
+        const newUrl = buildProfilePhotoUrl(
+            profilePhotoPath || `/api/users/${id}/profilePhoto`,
+            ProfilePhotoQuality.HIGH
+        ) + `?t=${Date.now()}`;
+        setPhotoUrl(newUrl);
+        setShowUpload(false);
+    };
 
     return (
         <div className={styles.userInfoBox}>
             <div className={styles.photoContainer}>
-                {profilePhotoUrl ? (
+                {photoUrl ? (
                     <img
-                        src={profilePhotoUrl}
+                        src={photoUrl}
                         alt={`${firstname} ${lastname}`}
                         className={styles.profilePhoto}
                         onError={(e) => {
@@ -50,6 +65,14 @@ function UserInfoBox({ info }) {
                     <div className={styles.placeholderPhoto}>Bez fotky</div>
                 )}
             </div>
+            {showUpload ? (
+                <UploadProfilePhoto userId={id} onSuccess={handleUploadSuccess} />
+            ) : (
+                <SimpleButton
+                    text="Nahrát novou fotografii"
+                    onClick={() => setShowUpload(true)}
+                />
+            )}
 
             <div className={styles.infoContainer}>
                 <h3>
