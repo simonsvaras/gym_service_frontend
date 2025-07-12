@@ -1,13 +1,12 @@
 // src/components/UserCard.jsx
-import React, {useMemo, useCallback, useEffect, useRef, useState} from 'react';
+import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import styles from './UserCard.module.css';
 import { getActiveSubscription } from '../utils/subscriptionUtils.js';
 import { formatDate } from '../utils/dateUtils.js';
+import { buildProfilePhotoUrl, ProfilePhotoQuality } from '../utils/photoUtils.js';
 
-// Základní URL získaná z environmentální proměnné (Vite) nebo fallback hodnota.
-const BASE_API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
 /**
  * Komponenta UserCard
@@ -58,9 +57,10 @@ function UserCard({ user }) {
     }, [activeSubscription]);
 
     /**
-     * Sestavení URL pro načtení profilové fotografie.
+     * Sestavení URL pro načtení profilové fotografie s nižší kvalitou,
+     * aby byl seznam uživatelů načítán rychleji.
      */
-    const photoUrl = profilePhotoPath ? `${BASE_API_URL}${profilePhotoPath}` : null;
+    const photoUrl = buildProfilePhotoUrl(profilePhotoPath, ProfilePhotoQuality.LOW);
 
 
     // Ref a stav pro sledování viditelnosti karty
