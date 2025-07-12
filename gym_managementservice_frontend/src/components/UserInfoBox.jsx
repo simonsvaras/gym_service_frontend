@@ -35,15 +35,14 @@ function UserInfoBox({ info }) {
             ProfilePhotoQuality.HIGH
         )
     );
-    console.log(profilePhotoUrl);
 
     const [showUpload, setShowUpload] = useState(false);
 
     const handleUploadSuccess = () => {
         const newUrl = buildProfilePhotoUrl(
-            profilePhotoPath || `/api/users/${id}/profilePhoto`,
+            profilePhotoPath,
             ProfilePhotoQuality.HIGH
-        ) + `?t=${Date.now()}`;
+        );
         setPhotoUrl(newUrl);
         setShowUpload(false);
     };
