@@ -10,10 +10,15 @@
     border-radius: 8px;
     width: 100%;
 }
+.leftSide{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 
 .photoContainer {
-    width: 10rem;
-    height: 10rem;
+    width: 12rem;
+    height: 12rem;
     position: relative;
 }
 

@@ -49,31 +49,34 @@ function UserInfoBox({ info }) {
 
     return (
         <div className={styles.userInfoBox}>
-            <div className={styles.photoContainer}>
-                {photoUrl ? (
-                    <img
-                        src={photoUrl}
-                        alt={`${firstname} ${lastname}`}
-                        className={styles.profilePhoto}
-                        onError={(e) => {
-                            // Při chybě načtení obrázku nastaví fallback obrázek
-                            e.target.onerror = null;
-                            e.target.src = '/src/assets/basic_avatar2.png';
-                        }}
-                    />
-                ) : (
-                    <div className={styles.placeholderPhoto}>Bez fotky</div>
-                )}
+            <div className={styles.leftSide}>
+                <div className={styles.photoContainer}>
+                    {photoUrl ? (
+                        <img
+                            src={photoUrl}
+                            alt={`${firstname} ${lastname}`}
+                            className={styles.profilePhoto}
+                            onError={(e) => {
+                                // Při chybě načtení obrázku nastaví fallback obrázek
+                                e.target.onerror = null;
+                                e.target.src = '/src/assets/basic_avatar2.png';
+                            }}
+                        />
+                    ) : (
+                        <div className={styles.placeholderPhoto}>Bez fotky</div>
+                    )}
+                </div>
+                <div className={styles.uploadPhoto}>
+                    {showUpload ? (
+                        <UploadProfilePhoto userId={id} onSuccess={handleUploadSuccess} />
+                    ) : (
+                        <SimpleButton
+                            text="Nahrát novou fotografii"
+                            onClick={() => setShowUpload(true)}
+                        />
+                    )}
+                </div>
             </div>
-            {showUpload ? (
-                <UploadProfilePhoto userId={id} onSuccess={handleUploadSuccess} />
-            ) : (
-                <SimpleButton
-                    text="Nahrát novou fotografii"
-                    onClick={() => setShowUpload(true)}
-                />
-            )}
-
             <div className={styles.infoContainer}>
                 <h3>
                     {firstname} {lastname}
