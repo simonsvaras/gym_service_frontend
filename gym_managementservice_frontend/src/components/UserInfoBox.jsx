@@ -68,7 +68,12 @@ function UserInfoBox({ info }) {
                 </div>
                 <div className={styles.uploadPhoto}>
                     {showUpload ? (
-                        <UploadProfilePhoto userId={id} onSuccess={handleUploadSuccess} />
+                        <UploadProfilePhoto
+                            userId={id}
+                            onSuccess={handleUploadSuccess}
+                            showCancel
+                            onCancel={() => setShowUpload(false)}
+                        />
                     ) : (
                         <SimpleButton
                             text="Nahrát novou fotografii"
