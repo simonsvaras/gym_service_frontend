@@ -15,8 +15,10 @@ import SimpleButton from './SimpleButton';
  * @param {Object} props - Vlastnosti komponenty.
  * @param {number} props.userId - ID uživatele, jehož profilová fotografie se nahrává.
  * @param {function} [props.onSuccess] - Callback vyvolaný po úspěšném nahrání.
+ * @param {boolean} [props.showCancel=false] - Zda zobrazit tlačítko pro zrušení nahrávání.
+ * @param {function} [props.onCancel] - Callback vyvolaný po kliknutí na "Zrušit".
 */
-const UploadProfilePhoto = ({ userId, onSuccess }) => {
+const UploadProfilePhoto = ({ userId, onSuccess, showCancel = false, onCancel }) => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -236,6 +238,13 @@ const UploadProfilePhoto = ({ userId, onSuccess }) => {
                 type="button"
                 disabled={isLoading} // Zabránění vícenásobnému kliknutí během nahrávání
             />
+            {showCancel && (
+                <SimpleButton
+                    text="Zrušit"
+                    onClick={onCancel}
+                    type="button"
+                />
+            )}
         </div>
     );
 };
