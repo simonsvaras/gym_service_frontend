@@ -11,17 +11,16 @@ import SimpleButton from '../components/SimpleButton';
 import UserIdentifier from '../components/UserIdentifier';
 
 function ManualCharge() {
-    const [userId, setUserId] = useState(() => {
-        const stored = localStorage.getItem('manualChargeUserId');
-        return stored ? Number(stored) : null;
-    });
+    const [userId, setUserId] = useState(null);
+    // Přidáme refresh funkci z hooku
     const {
         user,
         hasActiveSubscription,
         latestSubscription,
         oneTimeCount,
         loading,
-        error
+        error,
+        refreshData
     } = useChargeSubscription(userId);
 
     const [customEndDate, setCustomEndDate] = useState('');
@@ -35,12 +34,6 @@ function ManualCharge() {
     useEffect(() => {
         if (error) toast.error(error);
     }, [error]);
-
-    useEffect(() => {
-        if (userId !== null) {
-            localStorage.setItem('manualChargeUserId', String(userId));
-        }
-    }, [userId]);
 
     if (!userId) {
         return <UserIdentifier onUserFound={setUserId} mode="multiple" />;
@@ -92,7 +85,8 @@ function ManualCharge() {
             });
 
             toast.success('Předplatné úspěšně dobito.');
-            window.location.reload();
+            // Místo reloadu pouze aktualizujeme data
+            refreshData();
         } catch (err) {
             console.error(err);
             toast.error('Nepodařilo se provést dobití předplatného.');
@@ -136,7 +130,8 @@ function ManualCharge() {
             );
 
             toast.success('Vstupy úspěšně dobity.');
-            window.location.reload();
+            // Místo reloadu obnovíme data
+            refreshData();
         } catch (err) {
             console.error(err);
             toast.error('Nepodařilo se provést dobití vstupů.');

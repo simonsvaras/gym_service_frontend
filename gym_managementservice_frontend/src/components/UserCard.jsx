@@ -60,7 +60,7 @@ function UserCard({ user }) {
      * Sestavení URL pro načtení profilové fotografie s nižší kvalitou,
      * aby byl seznam uživatelů načítán rychleji.
      */
-    const photoUrl = buildProfilePhotoUrl(profilePhotoPath, ProfilePhotoQuality.LOW);
+    const photoUrl = buildProfilePhotoUrl(profilePhotoPath, ProfilePhotoQuality.MEDIUM);
 
 
     // Ref a stav pro sledování viditelnosti karty
@@ -110,7 +110,7 @@ function UserCard({ user }) {
                         onError={(e) => {
                             // Při chybě načtení obrázku nastaví fallback obrázek
                             e.target.onerror = null;
-                            e.target.src = '/default-profile.png';
+                            e.target.src = '/src/assets/basic_avatar2.png';
                         }}
                     />
                 ) : (

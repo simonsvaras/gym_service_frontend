@@ -40,6 +40,11 @@ function UserInfoBox({ info }) {
                         src={profilePhotoUrl}
                         alt={`${firstname} ${lastname}`}
                         className={styles.profilePhoto}
+                        onError={(e) => {
+                            // Při chybě načtení obrázku nastaví fallback obrázek
+                            e.target.onerror = null;
+                            e.target.src = '/src/assets/basic_avatar2.png';
+                        }}
                     />
                 ) : (
                     <div className={styles.placeholderPhoto}>Bez fotky</div>
