@@ -1,0 +1,40 @@
+.hookSimContainer {
+    background-color: var(--main-content-background);
+    padding: 2rem;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.controls select,
+.controls input {
+    padding: 0.6rem;
+    border-radius: 4px;
+    border: 1px solid #646cff;
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+.controls button {
+    padding: 0.6rem 1rem;
+    background-color: var(--button-background);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.controls button:hover {
+    background-color: var(--button-background-hover);
+}
+
+.result {
+    white-space: pre-wrap;
+    background-color: #1e1e1e;
+    padding: 1rem;
+    border-radius: 6px;
+}
