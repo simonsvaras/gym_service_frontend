@@ -28,9 +28,10 @@ function UserInfoBox({ info }) {
 
     // Sestavení URL pro profilovou fotku v nejvyšší kvalitě
     const profilePhotoUrl = buildProfilePhotoUrl(
-        profilePhotoPath || `/api/users/${id}/profilePhoto`,
+        profilePhotoPath,
         ProfilePhotoQuality.HIGH
     );
+    console.log(profilePhotoUrl);
 
     return (
         <div className={styles.userInfoBox}>
