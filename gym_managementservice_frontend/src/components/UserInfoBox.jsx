@@ -32,6 +32,7 @@ function UserInfoBox({ info }) {
     const [photoUrl, setPhotoUrl] = useState(() =>
         buildProfilePhotoUrl(
             profilePhotoPath,
+            id,
             ProfilePhotoQuality.HIGH
         )
     );
@@ -41,6 +42,7 @@ function UserInfoBox({ info }) {
     const handleUploadSuccess = () => {
         const newUrl = buildProfilePhotoUrl(
             profilePhotoPath,
+            {id},
             ProfilePhotoQuality.HIGH
         );
         setPhotoUrl(newUrl);
