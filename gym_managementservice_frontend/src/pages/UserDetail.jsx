@@ -60,7 +60,9 @@ export default function UserDetail() {
     const handleShowHistory = () => {
         navigate(`/users/${userId}/history`);
     };
-    const handleCharge       = () => { /* ... */ };
+    const handleCharge       = () => {
+        navigate(`/ChargeUser/${userId}`);
+    };
     const handleAssignCard   = () => {
         setShowAssignCard(prev => !prev);
     };
@@ -114,11 +116,6 @@ export default function UserDetail() {
                         text="Přiřadit kartu"
                         onClick={handleAssignCard}
                         ariaLabel="Přiřadit kartu uživateli"
-                    />
-                    <AnimatedButton
-                        text="Nahrát novou fotografii"
-                        onClick={handleAssignCard}
-                        ariaLabel="Nahrát uživateli novou profilovou fotku"
                     />
                     {showAssignCard && (
                         <UploadUserCard userId={+userId} />

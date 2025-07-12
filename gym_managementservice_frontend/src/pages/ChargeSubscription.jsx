@@ -3,6 +3,7 @@
  * Stránka pro dobití předplatného a jednorázových vstupů uživatele.
  */
 import React, { useEffect, useState, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from './ChargeSubscription.module.css';
 
@@ -18,8 +19,9 @@ import SubscriptionSection from '../components/SubscriptionSection';
 import UserIdentifier from '../components/UserIdentifier';
 
 function ChargeSubscription() {
-    // ID uživatele bude získáno z modálního okna
-    const [userId, setUserId] = useState(null);
+    const { id } = useParams();
+    // ID uživatele bude získáno z URL nebo z modálního okna
+    const [userId, setUserId] = useState(id || null);
 
     // Custom hook, který stáhne vše potřebné
     const {

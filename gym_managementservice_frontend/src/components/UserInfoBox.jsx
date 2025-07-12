@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './UserInfoBox.module.css';
 import InfoBox from './InfoBox';
+import SimpleButton from './SimpleButton';
+import UploadProfilePhoto from './UploadProfilePhoto';
 import { buildProfilePhotoUrl, ProfilePhotoQuality } from '../utils/photoUtils.js';
 
 function UserInfoBox({ info }) {
@@ -27,31 +29,55 @@ function UserInfoBox({ info }) {
     };
 
     // Sestavení URL pro profilovou fotku v nejvyšší kvalitě
-    const profilePhotoUrl = buildProfilePhotoUrl(
-        profilePhotoPath,
-        ProfilePhotoQuality.HIGH
+    const [photoUrl, setPhotoUrl] = useState(() =>
+        buildProfilePhotoUrl(
+            profilePhotoPath,
+            ProfilePhotoQuality.HIGH
+        )
     );
     console.log(profilePhotoUrl);
 
+    const [showUpload, setShowUpload] = useState(false);
+
+    const handleUploadSuccess = () => {
+        const newUrl = buildProfilePhotoUrl(
+            profilePhotoPath || `/api/users/${id}/profilePhoto`,
+            ProfilePhotoQuality.HIGH
+        ) + `?t=${Date.now()}`;
+        setPhotoUrl(newUrl);
+        setShowUpload(false);
+    };
+
     return (
         <div className={styles.userInfoBox}>
-            <div className={styles.photoContainer}>
-                {profilePhotoUrl ? (
-                    <img
-                        src={profilePhotoUrl}
-                        alt={`${firstname} ${lastname}`}
-                        className={styles.profilePhoto}
-                        onError={(e) => {
-                            // Při chybě načtení obrázku nastaví fallback obrázek
-                            e.target.onerror = null;
-                            e.target.src = '/src/assets/basic_avatar2.png';
-                        }}
-                    />
-                ) : (
-                    <div className={styles.placeholderPhoto}>Bez fotky</div>
-                )}
+            <div className={styles.leftSide}>
+                <div className={styles.photoContainer}>
+                    {photoUrl ? (
+                        <img
+                            src={photoUrl}
+                            alt={`${firstname} ${lastname}`}
+                            className={styles.profilePhoto}
+                            onError={(e) => {
+                                // Při chybě načtení obrázku nastaví fallback obrázek
+                                e.target.onerror = null;
+                                e.target.src = '/src/assets/basic_avatar2.png';
+                            }}
+                        />
+                    ) : (
+                        <div className={styles.placeholderPhoto}>Bez fotky</div>
+                    )}
+                </div>
+                <div className={styles.uploadPhoto}>
+                    {showUpload ? (
+                        <UploadProfilePhoto userId={id} onSuccess={handleUploadSuccess} />
+                    ) : (
+                        <SimpleButton
+                            text="Nahrát novou fotografii"
+                            onClick={() => setShowUpload(true)}
+                        />
+                    )}
+                </div>
             </div>
-
             <div className={styles.infoContainer}>
                 <h3>
                     {firstname} {lastname}

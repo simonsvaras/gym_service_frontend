@@ -47,6 +47,7 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/RegisterUser" element={<RegisterUser />} />
                     <Route path="/ChargeUser" element={<ChargeSubscription />} />
+                    <Route path="/ChargeUser/:id" element={<ChargeSubscription />} />
                     <Route path="/searchUser" element={<SearchUser />} />
                     <Route path="/closure" element={<ClosurePage />} />
                     <Route path="/users/allUsers" element={<AllUsers />} />
