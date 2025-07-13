@@ -5,7 +5,7 @@ import api from '../services/api.js';
 import SimpleButton from './SimpleButton.jsx';
 import styles from './UploadUserCard.module.css';
 
-function UploadUserCard({ userId, onSuccess }) {
+function UploadUserCard({ userId, onSuccess, showCancel = false, onCancel }) {
     const [cardNumber, setCardNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const wsRef = useRef(null);
@@ -87,6 +87,13 @@ function UploadUserCard({ userId, onSuccess }) {
                 onClick={() => handleAssign()}
                 disabled={loading}
             />
+            {showCancel && (
+                <SimpleButton
+                    text="Zrušit"
+                    onClick={onCancel}
+                    type="button"
+                />
+            )}
         </div>
     );
 }
@@ -94,6 +101,8 @@ function UploadUserCard({ userId, onSuccess }) {
 UploadUserCard.propTypes = {
     userId: PropTypes.number.isRequired,
     onSuccess: PropTypes.func.isRequired,
+    showCancel: PropTypes.bool,
+    onCancel: PropTypes.func,
 };
 
 export default UploadUserCard;
