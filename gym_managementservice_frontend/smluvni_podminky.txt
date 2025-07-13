@@ -1,0 +1,78 @@
+1. Smluvní strany
+1.1 Provozovatel:
+• Obchodní firma: __________________________
+• Sídlo: ___________________________________
+• IČO: ___________________________________
+• Zastoupený: _____________________________
+
+1.2 Uživatel: fyzická osoba, která se zaregistruje prostřednictvím Služby a souhlasí s těmito podmínkami.
+
+2. Definice pojmů
+2.1 Služba – elektronický systém pro ovládání vstupu do posilovny pomocí turniketů a správy uživatelských účtů.
+2.2 Uživatel – registrovaná fyzická osoba, která využívá Službu.
+2.3 Osobní údaje – jméno, příjmení, datum narození, e-mailová adresa a profilová fotografie.
+2.4 Správa účtu – vytváření, úprava a zrušení uživatelského účtu v Službě.
+
+3. Předmět smlouvy
+3.1 Provozovatel poskytuje uživateli přístup ke Službě umožňující vstup do prostor posilovny prostřednictvím turniketového systému.
+3.2 Uživatel se zavazuje využívat Službu v souladu s těmito smluvními podmínkami.
+
+4. Registrace a uživatelský účet
+4.1 Pro registraci je nutné vyplnit osobní údaje: jméno, příjmení, datum narození, e-mail a nahrát profilovou fotografii.
+4.2 Uživatel je povinen uvádět pravdivé a aktuální údaje.
+4.3 Uživatel obdrží přihlašovací údaje (e-mail a heslo), za jejichž důvěrnost nese odpovědnost.
+
+5. Zpracování osobních údajů
+5.1 Správce údajů: Provozovatel.
+5.2 Účel zpracování:
+• ověření totožnosti uživatele a jeho vstupu do posilovny,
+• zasílání oznámení souvisejících s využíváním Služby,
+• plnění právních povinností provozovatele.
+5.3 Právní základ: plnění smlouvy a oprávněný zájem provozovatele (čl. 6 odst. 1 písm. b) a f) GDPR).
+5.4 Doba uchování: osobní údaje budou uchovávány po dobu trvání smluvního vztahu a následně po dobu stanovenou zákonem (min. 3 roky pro daňové doklady).
+5.5 Práva subjektu údajů: právo na přístup, opravu, výmaz („být zapomenut“), omezení zpracování, přenositelnost údajů a námitku proti zpracování. Uplatnění práv prostřednictvím e-mailu: ________@______.cz.
+5.6 Předání údajů třetím stranám: údaje nebudou předávány jiným správcům, vyjma případů vyžádaných právními předpisy (policie, finanční úřad apod.).
+
+6. Práva a povinnosti uživatele
+6.1 Uživatel je povinen:
+• zachovávat bezpečnost přihlašovacích údajů,
+• nešířit obsah Služby třetím osobám,
+• nezasahovat do provozu Služby neoprávněně.
+6.2 Uživatel má právo:
+• Službu využívat po dobu platnosti svého účtu,
+• kdykoli si prohlédnout a aktualizovat své osobní údaje,
+• ukončit své členství (vymazat účet) dle bodu 9.
+
+7. Práva a povinnosti provozovatele
+7.1 Provozovatel je povinen:
+• zajistit provozuschopnost Služby s přiměřenou dostupností (min. 98 % měsíčně),
+• chránit osobní údaje uživatele odpovídajícími technickými a organizačními opatřeními.
+7.2 Provozovatel má právo:
+• pozastavit či zrušit účet v případě porušení podmínek uživatelem,
+• provádět údržbu Služby a přerušit ji pro řádnou údržbu po předchozím oznámení (min. 24 h dopředu).
+
+8. Odpovědnost a náhrada škody
+8.1 Provozovatel odpovídá za škody způsobené úmyslně nebo z hrubé nedbalosti.
+8.2 Uživatel odpovídá za škody způsobené neoprávněným přístupem nebo zneužitím svého účtu.
+8.3 Celková odpovědnost provozovatele je omezena výší ročního poplatku zaplaceného uživatelem za Službu.
+
+9. Ukončení smluvního vztahu
+9.1 Uživatel může smluvní vztah ukončit:
+• vymazáním účtu v nastavení Služby,
+• písemnou výpovědí zaslanou na e-mail provozovatele.
+9.2 Provozovatel může ukončit smluvní vztah s okamžitou platností při závažném porušení podmínek uživatelem.
+9.3 Ukončením smluvního vztahu dojde k deaktivaci účtu a vymazání osobních údajů dle bodu 5.4.
+
+10. Duševní vlastnictví
+10.1 Veškeré softwarové prvky, značení a design Služby jsou majetkem provozovatele.
+10.2 Uživatel nesmí kopírovat, upravovat ani dále šířit software nebo dokumentaci Služby bez písemného souhlasu provozovatele.
+
+11. Platnost a změna podmínek
+11.1 Tyto podmínky nabývají platnosti dnem jejich zveřejnění u provozovatele.
+11.2 Provozovatel je oprávněn podmínky měnit. O každé významné změně bude uživatel informován e-mailem nejméně 30 dní před účinností.
+
+12. Rozhodné právo a řešení sporů
+12.1 Smluvní vztahy se řídí právním řádem České republiky a nařízeními EU (včetně GDPR).
+12.2 Případné spory budou řešeny před příslušným soudem v ČR podle sídla provozovatele.
+
+Potvrzením registrace a souhlasem s těmito podmínkami uživatel prohlašuje, že si podmínky přečetl, porozuměl jim a souhlasí s nimi v plném rozsahu.
