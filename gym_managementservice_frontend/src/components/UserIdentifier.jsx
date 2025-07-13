@@ -13,34 +13,35 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
     const wsRef = useRef(null);
 
     useEffect(() => {
-        const wsUrl = import.meta.env.VITE_CARD_READER_WS_URL;
-        if (!wsUrl) {
-            toast.error('Chybí konfigurace čtečky karet.');
-            return;
-        }
+        const wsUrl = import.meta.env.VITE_CARD_READER_WS_URL || 'ws://192.168.55.205:81/';
+        const socket = new WebSocket(wsUrl);
+        wsRef.current = socket;
 
-        const ws = new WebSocket(wsUrl);
-        wsRef.current = ws;
+        socket.onopen = () => {
+            console.log('WS otevřený');
+            socket.send('START');
+        };
 
-        ws.addEventListener('open', () => {
-            ws.send('START');
-        });
-
-        ws.addEventListener('message', (event) => {
-            const uid = event.data.trim();
+        socket.onmessage = (e) => {
+            console.log('UID:', e.data);
+            const uid = e.data.trim();
             if (uid) {
                 setCardNumber(uid);
                 handleSubmit(uid);
             }
-        });
+        };
 
-        ws.addEventListener('error', (e) => {
-            console.error('WebSocket error:', e);
+        socket.onclose = () => {
+            console.log('WS zavřený');
+        };
+
+        socket.onerror = (err) => {
+            console.error('WS chyba', err);
             toast.error('Chyba spojení s čtečkou.');
-        });
+        };
 
         return () => {
-            ws.close();
+            socket.close();
         };
     }, []);
 
@@ -56,7 +57,8 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
             const { status, userID } = response.data;
 
             if (mode === 'single') {
-                if (status !== 'ASSIGNED' || status !== 'NOT_REGISTERED' || status !== 'UNASSIGNED' || userID != null) {
+                const validStatuses = ['ASSIGNED', 'NOT_REGISTERED', 'UNASSIGNED'];
+                if (!validStatuses.includes(status) || (status === 'ASSIGNED' && userID == null)) {
                     toast.error('Neznámá odpověď serveru.');
                 }
 
