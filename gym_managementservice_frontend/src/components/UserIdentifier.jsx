@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -10,16 +10,49 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
     const [cardNumber, setCardNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const wsRef = useRef(null);
 
-    const handleSubmit = async () => {
-        if (!cardNumber) {
+    useEffect(() => {
+        const wsUrl = import.meta.env.VITE_CARD_READER_WS_URL;
+        if (!wsUrl) {
+            toast.error('Chybí konfigurace čtečky karet.');
+            return;
+        }
+
+        const ws = new WebSocket(wsUrl);
+        wsRef.current = ws;
+
+        ws.addEventListener('open', () => {
+            ws.send('START');
+        });
+
+        ws.addEventListener('message', (event) => {
+            const uid = event.data.trim();
+            if (uid) {
+                setCardNumber(uid);
+                handleSubmit(uid);
+            }
+        });
+
+        ws.addEventListener('error', (e) => {
+            console.error('WebSocket error:', e);
+            toast.error('Chyba spojení s čtečkou.');
+        });
+
+        return () => {
+            ws.close();
+        };
+    }, []);
+
+    const handleSubmit = async (num = cardNumber) => {
+        if (!num) {
             toast.warn('Nejdříve zadejte číslo karty.');
             return;
         }
 
         setLoading(true);
         try {
-            const response = await api.get(`/users/byCardNumber/${cardNumber}`);
+            const response = await api.get(`/users/byCardNumber/${num}`);
             const { status, userID } = response.data;
 
             if (mode === 'single') {
@@ -27,7 +60,7 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
                     toast.error('Neznámá odpověď serveru.');
                 }
 
-                onUserFound({ status, userID, cardNumber });
+                onUserFound({ status, userID, cardNumber: num });
             } else {
                 switch (status) {
                     case 'NOT_REGISTERED':
@@ -62,20 +95,10 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-                <h3>Zadejte číslo karty</h3>
-                <input
-                    type="text"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
-                    placeholder="Číslo karty"
-                    className={styles.input}
-                />
+                <h3>Přiložte kartu ke čtečce</h3>
+                {loading && <p>Hledám...</p>}
+                {cardNumber && <p>{cardNumber}</p>}
                 <div className={styles.modalButtons}>
-                    <SimpleButton
-                        text={loading ? 'Hledám...' : 'Odeslat'}
-                        onClick={handleSubmit}
-                        disabled={loading}
-                    />
                     <SimpleButton
                         text="Zrušit"
                         onClick={handleCancel}
