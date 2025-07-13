@@ -1,11 +1,12 @@
 .uploadCardContainer {
-    margin-top: 2rem;
+    margin: 2rem auto 0;
     padding: 1rem;
     background: #1a1a1a;
     border-radius: 8px;
     color: #fff;
     width: 100%;
     max-width: 400px;
+    text-align: center;
 }
 
 .formGroup {
@@ -24,6 +25,10 @@
     border-radius: 4px;
     background-color: #2a2a2a;
     color: #fff;
+}
+
+.cardNumber {
+    margin: 1rem 0;
 }
 
 /* Přechodové animace pro CSSTransition (pokud je komponenta použitá s nimi) */
