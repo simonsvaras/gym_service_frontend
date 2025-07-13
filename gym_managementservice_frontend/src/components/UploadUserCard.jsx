@@ -72,27 +72,11 @@ function UploadUserCard({ userId, onSuccess, showCancel = false, onCancel }) {
     return (
         <div className={styles.uploadCardContainer}>
             <h3>Přilož členskou kartu ke čtečce</h3>
-            <div className={styles.formGroup}>
-                <label htmlFor="cardNumber">Číslo karty</label>
-                <input
-                    id="cardNumber"
-                    type="text"
-                    placeholder="Naskenuj nebo zadej číslo"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
-                />
-            </div>
-            <SimpleButton
-                text={loading ? 'Ukládám...' : 'Přiřadit'}
-                onClick={() => handleAssign()}
-                disabled={loading}
-            />
+            <p className={styles.cardNumber}>
+                {cardNumber ? `Načteno číslo karty: ${cardNumber}` : 'Čekám na kartu...'}
+            </p>
             {showCancel && (
-                <SimpleButton
-                    text="Zrušit"
-                    onClick={onCancel}
-                    type="button"
-                />
+                <SimpleButton text="Zrušit" onClick={onCancel} type="button" />
             )}
         </div>
     );
