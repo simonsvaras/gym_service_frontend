@@ -9,8 +9,14 @@ import styles from './UserIdentifier.module.css';
 function UserIdentifier({ onUserFound, mode = 'multiple' }) {
     const [cardNumber, setCardNumber] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const wsRef = useRef(null);
+    const loadingRef = useRef(false);
+    const navigate = useNavigate();
+
+    // Keep loadingRef in sync so onmessage handler can read latest value
+    useEffect(() => {
+        loadingRef.current = loading;
+    }, [loading]);
 
     useEffect(() => {
         const wsUrl = import.meta.env.VITE_CARD_READER_WS_URL || 'ws://192.168.55.205:81/';
@@ -18,80 +24,74 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
         wsRef.current = socket;
 
         socket.onopen = () => {
-            console.log('WS otevřený');
+            console.log('WebSocket opened');
             socket.send('START');
         };
 
-        socket.onmessage = (e) => {
-            console.log('UID:', e.data);
-            const uid = e.data.trim();
-            if (uid) {
-                setCardNumber(uid);
-                handleSubmit(uid);
-            }
-        };
+        socket.onmessage = async (e) => {
+            if (loadingRef.current) return;             // ignore if a request is in flight
+            const uid = e.data?.trim();
+            if (!uid) return;
 
-        socket.onclose = () => {
-            console.log('WS zavřený');
+            setCardNumber(uid);
+            setLoading(true);
+            try {
+                const cardNum = parseInt(uid, 10);
+                if (Number.isNaN(cardNum)) throw new Error('Invalid card number');
+
+                const response = await api.get(`/users/byCardNumber/${cardNum}`);
+                const { status, userID } = response.data;
+
+                if (mode === 'single') {
+                    const valid = ['ASSIGNED', 'NOT_REGISTERED', 'UNASSIGNED'];
+                    if (!valid.includes(status) || (status === 'ASSIGNED' && userID == null)) {
+                        toast.error('Neznámá odpověď serveru.');
+                    } else {
+                        onUserFound({ status, userID, cardNumber: uid });
+                    }
+                } else {
+                    switch (status) {
+                        case 'NOT_REGISTERED':
+                            toast.warn('Karta ještě nebyla nikdy použita.');
+                            break;
+                        case 'UNASSIGNED':
+                            toast.warn('Tato karta není přiřazena žádnému uživateli.');
+                            break;
+                        case 'ASSIGNED':
+                            if (userID != null) {
+                                onUserFound(userID);
+                            } else {
+                                toast.error('Neočekávaná odpověď: chybí ID uživatele.');
+                            }
+                            break;
+                        default:
+                            toast.error('Neznámá odpověď serveru.');
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching user:', err);
+                toast.error('Chyba při hledání uživatele.');
+            } finally {
+                setLoading(false);
+            }
         };
 
         socket.onerror = (err) => {
-            console.error('WS chyba', err);
+            console.error('WebSocket error', err);
+            toast.error('Chyba WebSocket připojení.');
+        };
+
+        socket.onclose = () => {
+            console.log('WebSocket closed');
         };
 
         return () => {
-            socket.close();
+            if (wsRef.current?.readyState === WebSocket.OPEN) {
+                wsRef.current.send('STOP');
+            }
+            wsRef.current?.close();
         };
-    }, []);
-
-    const handleSubmit = async (num = cardNumber) => {
-        if (!num) {
-            toast.warn('Nejdříve zadejte číslo karty.');
-            return;
-        }
-
-        setLoading(true);
-        try {
-            const cardNumInt = parseInt(num, 10);
-            if (Number.isNaN(cardNumInt)) {
-                throw new Error('Invalid card number');
-            }
-            const response = await api.get(`/users/byCardNumber/${cardNumInt}`);
-            const { status, userID } = response.data;
-
-            if (mode === 'single') {
-                const validStatuses = ['ASSIGNED', 'NOT_REGISTERED', 'UNASSIGNED'];
-                if (!validStatuses.includes(status) || (status === 'ASSIGNED' && userID == null)) {
-                    toast.error('Neznámá odpověď serveru.');
-                }
-
-                onUserFound({ status, userID, cardNumber: num });
-            } else {
-                switch (status) {
-                    case 'NOT_REGISTERED':
-                        toast.warn('Karta ještě nebyla nikdy použita.');
-                        break;
-                    case 'UNASSIGNED':
-                        toast.warn('Tato karta není přiřazena žádnému uživateli.');
-                        break;
-                    case 'ASSIGNED':
-                        if (userID != null) {
-                            onUserFound(userID);
-                        } else {
-                            toast.error('Neočekávaná odpověď: chybí ID uživatele.');
-                        }
-                        break;
-                    default:
-                        toast.error('Neznámá odpověď serveru.');
-                }
-            }
-        } catch (err) {
-            console.error(err);
-            toast.error('Chyba při hledání uživatele.');
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [mode, onUserFound]);
 
     const handleCancel = () => {
         navigate(-1);
@@ -101,13 +101,10 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
                 <h3>Přiložte kartu ke čtečce</h3>
-                {loading && <p>Hledám...</p>}
-                {cardNumber && <p>{cardNumber}</p>}
+                {loading && <p>Hledám…</p>}
+                {!loading && cardNumber && <p>UID: {cardNumber}</p>}
                 <div className={styles.modalButtons}>
-                    <SimpleButton
-                        text="Zrušit"
-                        onClick={handleCancel}
-                    />
+                    <SimpleButton text="Zrušit" onClick={handleCancel} />
                 </div>
             </div>
         </div>
