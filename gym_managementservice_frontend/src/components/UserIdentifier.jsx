@@ -37,7 +37,6 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
 
         socket.onerror = (err) => {
             console.error('WS chyba', err);
-            toast.error('Chyba spojení s čtečkou.');
         };
 
         return () => {
@@ -53,7 +52,11 @@ function UserIdentifier({ onUserFound, mode = 'multiple' }) {
 
         setLoading(true);
         try {
-            const response = await api.get(`/users/byCardNumber/${num}`);
+            const cardNumInt = parseInt(num, 10);
+            if (Number.isNaN(cardNumInt)) {
+                throw new Error('Invalid card number');
+            }
+            const response = await api.get(`/users/byCardNumber/${cardNumInt}`);
             const { status, userID } = response.data;
 
             if (mode === 'single') {
