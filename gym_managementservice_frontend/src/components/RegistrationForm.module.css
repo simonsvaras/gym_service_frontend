@@ -87,6 +87,17 @@
     outline: none;
 }
 
+/* Skupina pro zaškrtávací políčko s podmínkami */
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkboxLabel input {
+    margin: 0;
+}
+
 .error {
     color: #ff6b6b;
     font-size: 0.875rem;
