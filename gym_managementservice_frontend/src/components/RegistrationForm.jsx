@@ -213,6 +213,25 @@ export default function RegistrationForm() {
                         )}
                     </div>
 
+                    <div className={styles.formGroup}>
+                        <label htmlFor="terms" className={styles.checkboxLabel}>
+                            <input
+                                id="terms"
+                                type="checkbox"
+                                {...register('terms', {
+                                    required: 'Musíte souhlasit se zpracováním osobních údajů a smluvními podmínkami'
+                                })}
+                            />
+                            <span>
+                                Souhlasím se zpracováním osobních údajů a{' '}
+                                <a href="/smluvni_podminky.txt" target="_blank" rel="noopener noreferrer">
+                                    smluvními podmínkami
+                                </a>
+                            </span>
+                        </label>
+                        {errors.terms && <p className={styles.error}>{errors.terms.message}</p>}
+                    </div>
+
                     <SimpleButton
                         text={loading ? 'Probíhá registrace...' : 'Registrovat'}
                         type="submit"
