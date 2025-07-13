@@ -186,7 +186,7 @@ const UploadProfilePhoto = ({ userId, onSuccess, showCancel = false, onCancel })
             <h3>Nahraj svou profilovou fotografii</h3>
 
             <div className={styles.formGroup}>
-                <label htmlFor="photoUpload">Vyber fotku:</label>
+                <label htmlFor="photoUpload">Vyfoťte se:</label>
                 <input
                     id="photoUpload"
                     type="file"

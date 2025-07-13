@@ -233,7 +233,12 @@ export default function RegistrationForm() {
             <CSSTransition in={step === 3} timeout={300} classNames="fade" unmountOnExit>
                 <div className={styles.successContainer}>
                     <h3 className={styles.message}>Karta přiřazena!</h3>
-                    <UploadUserCard userId={newUserId} onSuccess={() => setStep(4)} />
+                    <UploadUserCard
+                        userId={newUserId}
+                        onSuccess={() => setStep(4)}
+                        showCancel
+                        onCancel={() => setStep(4)}
+                    />
                 </div>
             </CSSTransition>
 

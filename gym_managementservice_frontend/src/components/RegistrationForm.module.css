@@ -7,7 +7,7 @@
 
 /* Kontejner pro Stepper */
 .stepperContainer {
-    max-width: 30%;
+    max-width: 40%;
     margin: 0 auto 2rem;    /* vycentrování + spodní odsazení */
     padding: 1rem 0;         /* prostor nahoře i dole */
 }
@@ -30,8 +30,8 @@
 
 /* Registrační formulář */
 .registrationForm {
-    max-width: 30%;
-    min-width: 30%;
+    max-width: 40%;
+    min-width: 40%;
     margin: 0 auto;
     padding: 2rem;
     background-color: #1a1a1a;
@@ -56,7 +56,7 @@
 
 .formGroup input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #2a2a2a;
@@ -70,7 +70,7 @@
 
 .birthdateInputs select {
     flex: 1;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #2a2a2a;
@@ -119,8 +119,8 @@ button:hover {
 
 /* Kontejner pro úspěšnou registraci + upload */
 .successContainer {
-    max-width: 30%;
-    min-width: 30%;
+    max-width: 40%;
+    min-width: 40%;
     margin: 0 auto;
     padding: 2rem;
     background-color: #1a1a1a;
