@@ -63,6 +63,9 @@ export default function UserDetail() {
     const handleCharge       = () => {
         navigate(`/ChargeUser/${userId}`);
     };
+    const handleManualCharge = () => {
+        navigate(`/manualCharge/${userId}`);
+    };
     const handleAssignCard   = () => {
         setShowAssignCard(prev => !prev);
     };
@@ -111,6 +114,11 @@ export default function UserDetail() {
                         text="Dobít"
                         onClick={handleCharge}
                         ariaLabel="Dobít předplatné"
+                    />
+                    <AnimatedButton
+                        text="Manuální dobití"
+                        onClick={handleManualCharge}
+                        ariaLabel="Manuální dobití uživatele"
                     />
                     <AnimatedButton
                         text="Přiřadit kartu"

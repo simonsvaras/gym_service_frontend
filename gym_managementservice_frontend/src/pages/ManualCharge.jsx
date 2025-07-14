@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from './ManualCharge.module.css';
 
@@ -11,7 +12,8 @@ import SimpleButton from '../components/SimpleButton';
 import UserIdentifier from '../components/UserIdentifier';
 
 function ManualCharge() {
-    const [userId, setUserId] = useState(null);
+    const { id: urlId } = useParams();
+    const [userId, setUserId] = useState(urlId || null);
     // Přidáme refresh funkci z hooku
     const {
         user,

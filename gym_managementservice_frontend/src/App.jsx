@@ -52,6 +52,7 @@ function App() {
                     <Route path="/closure" element={<ClosurePage />} />
                     <Route path="/users/allUsers" element={<AllUsers />} />
                     <Route path="/manualCharge" element={<ManualCharge />} />
+                    <Route path="/manualCharge/:id" element={<ManualCharge />} />
                     <Route path="/admin" element={<AdminPage />} />
                     {/* ...další cesty... */}
 
