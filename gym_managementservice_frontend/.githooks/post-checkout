@@ -13,9 +13,9 @@ case "$branch" in
       echo "[hook] Upozornění: .env.dev nenalezen"
     fi
     ;;
-  master)
-    if [ -f .env.master ]; then
-      cp .env.master .env
+  main)
+    if [ -f .env.main ]; then
+      cp .env.main .env
       echo "[hook] Načítám produkční proměnné (.env.master → .env)"
     else
       echo "[hook] Upozornění: .env.master nenalezen"
