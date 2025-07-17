@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Spustí se po každém `git checkout`
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+case "$branch" in
+  dev)
+    if [ -f .env.dev ]; then
+      cp .env.dev .env
+      echo "[hook] Načítám vývojové proměnné (.env.dev → .env)"
+    else
+      echo "[hook] Upozornění: .env.dev nenalezen"
+    fi
+    ;;
+  master)
+    if [ -f .env.master ]; then
+      cp .env.master .env
+      echo "[hook] Načítám produkční proměnné (.env.master → .env)"
+    else
+      echo "[hook] Upozornění: .env.master nenalezen"
+    fi
+    ;;
+  *)
+    if [ -f .env.default ]; then
+      cp .env.default .env
+      echo "[hook] Načítám defaultní proměnné (.env.default → .env)"
+    else
+      echo "[hook] Žádný .env soubor pro větev '$branch'"
+    fi
+    ;;
+esac
